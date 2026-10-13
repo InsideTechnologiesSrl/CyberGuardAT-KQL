@@ -4,9 +4,11 @@ description: |
   Surfaces successful Remote Desktop logons originating from public IPs not in the approved whitelist (VPN, jump hosts) — one of the most common ransomware entry vectors (T1021.001 — Remote Desktop Protocol).
 group: active-directory
 tactics:
-  - InitialAccess
   - LateralMovement
-relevantTechniques: []
+  - InitialAccess
+relevantTechniques:
+  - T1021.001
+  - T1133
 tags:
   - Hunting
 version: 1.0.0

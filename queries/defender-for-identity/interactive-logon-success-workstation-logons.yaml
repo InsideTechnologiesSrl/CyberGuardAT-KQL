@@ -5,6 +5,7 @@ description: |
 group: defender-for-identity
 tactics: []
 relevantTechniques: []
+mitreNotApplicable: 'Generic interactive logon inventory with no threat filter'
 tags:
   - Authentication
   - Investigation

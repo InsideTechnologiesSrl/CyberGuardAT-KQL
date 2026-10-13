@@ -4,8 +4,11 @@ description: |
   Executables or scripts uploaded to SharePoint — potential internal malware distribution via shared links or automated workflows (T1105 — Ingress Tool Transfer).
 group: sharepoint-onedrive
 tactics:
-  - Execution
-relevantTechniques: []
+  - CommandAndControl
+  - LateralMovement
+relevantTechniques:
+  - T1105
+  - T1080
 tags:
   - Hunting
 version: 1.0.0

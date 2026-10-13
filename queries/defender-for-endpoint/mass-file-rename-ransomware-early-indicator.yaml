@@ -5,7 +5,8 @@ description: |
 group: defender-for-endpoint
 tactics:
   - Impact
-relevantTechniques: []
+relevantTechniques:
+  - T1486
 tags:
   - Ransomware
   - Hunting

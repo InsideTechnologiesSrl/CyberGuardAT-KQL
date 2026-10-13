@@ -4,9 +4,11 @@ description: |
   Modifications to critical system files (lsass.exe, svchost.exe, hosts, ntoskrnl.exe) in System32/SysWOW64 — tampering technique for persistence or network redirection (T1565.001 — Stored Data Manipulation).
 group: defender-for-endpoint
 tactics:
-  - Persistence
-  - DefenseEvasion
-relevantTechniques: []
+  - Impact
+  - Stealth
+relevantTechniques:
+  - T1565.001
+  - T1036.005
 tags:
   - Hunting
 version: 1.0.0

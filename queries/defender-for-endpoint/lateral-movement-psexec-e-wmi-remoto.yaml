@@ -5,7 +5,12 @@ description: |
 group: defender-for-endpoint
 tactics:
   - LateralMovement
-relevantTechniques: []
+  - Execution
+relevantTechniques:
+  - T1021.002
+  - T1021.006
+  - T1047
+  - T1569.002
 tags:
   - Investigation
 version: 1.0.0

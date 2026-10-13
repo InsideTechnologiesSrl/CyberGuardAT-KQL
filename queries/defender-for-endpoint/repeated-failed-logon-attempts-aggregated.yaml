@@ -5,7 +5,8 @@ description: |
 group: defender-for-endpoint
 tactics:
   - CredentialAccess
-relevantTechniques: []
+relevantTechniques:
+  - T1110
 tags:
   - BruteForce
   - Hunting

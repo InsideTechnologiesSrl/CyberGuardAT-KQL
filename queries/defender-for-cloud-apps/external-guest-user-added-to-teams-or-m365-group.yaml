@@ -4,8 +4,11 @@ description: |
   B2B guest accounts added to internal groups may expose documents and channels to unverified third parties — particularly risky when groups contain sensitive project data (T1136.003 — Cloud Account).
 group: defender-for-cloud-apps
 tactics:
-  - Exfiltration
-relevantTechniques: []
+  - Persistence
+  - PrivilegeEscalation
+relevantTechniques:
+  - T1098
+  - T1136.003
 tags:
   - Hunting
 version: 1.0.0

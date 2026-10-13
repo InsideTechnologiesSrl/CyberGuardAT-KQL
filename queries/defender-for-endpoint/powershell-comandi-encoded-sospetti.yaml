@@ -4,9 +4,11 @@ description: |
   Detects PowerShell executions using the -EncodedCommand flag or equivalent abbreviations, commonly used to obfuscate malicious payloads and bypass keyword-based detection rules.
 group: defender-for-endpoint
 tactics:
-  - DefenseEvasion
   - Execution
-relevantTechniques: []
+  - Stealth
+relevantTechniques:
+  - T1059.001
+  - T1027.010
 tags:
   - Hunting
 version: 1.0.0

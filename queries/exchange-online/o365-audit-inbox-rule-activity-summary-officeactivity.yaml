@@ -4,8 +4,11 @@ description: |
   Aggregates inbox rule modification operations grouped by user, operation type, and source IP.
 group: exchange-online
 tactics:
-  - Exfiltration
-relevantTechniques: []
+  - Collection
+  - Stealth
+relevantTechniques:
+  - T1114.003
+  - T1564.008
 tags:
   - Investigation
 version: 1.0.0

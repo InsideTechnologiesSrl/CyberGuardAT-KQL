@@ -4,9 +4,11 @@ description: |
   certutil.exe invoked with download flags (-urlcache, -f, -split) and HTTP URLs — Living-off-the-Land Binary abuse to fetch payloads while bypassing proxy and AV controls (T1140 — Deobfuscate/Decode).
 group: defender-for-endpoint
 tactics:
-  - Execution
-  - DefenseEvasion
-relevantTechniques: []
+  - CommandAndControl
+  - Stealth
+relevantTechniques:
+  - T1105
+  - T1140
 tags:
   - Hunting
 version: 1.0.0

@@ -5,7 +5,10 @@ description: |
 group: defender-for-endpoint
 tactics:
   - Persistence
-relevantTechniques: []
+  - Execution
+relevantTechniques:
+  - T1053.005
+  - T1059
 tags:
   - Hunting
 version: 1.0.0

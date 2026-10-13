@@ -4,9 +4,10 @@ description: |
   Surfaces Defender for Cloud AI agent alerts where the access originates from an IP address flagged by Microsoft threat intelligence as suspicious. High severity. Preview signal. Correlate with identity telemetry (Entra SigninLogs) to determine whether the IP is associated with a known threat actor, VPN abuse, or compromised infrastructure.
 group: copilot-ai
 tactics:
-  - Execution
   - InitialAccess
-relevantTechniques: []
+relevantTechniques:
+  - T1078.004
+  - T1190
 tags:
   - Hunting
 version: 1.0.0

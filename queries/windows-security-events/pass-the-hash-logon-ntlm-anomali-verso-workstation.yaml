@@ -5,8 +5,8 @@ description: |
 group: windows-security-events
 tactics:
   - LateralMovement
-  - CredentialAccess
-relevantTechniques: []
+relevantTechniques:
+  - T1550.002
 tags:
   - Hunting
 version: 1.0.0

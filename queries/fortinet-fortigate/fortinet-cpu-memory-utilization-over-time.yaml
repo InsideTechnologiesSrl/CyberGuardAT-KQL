@@ -5,6 +5,7 @@ description: |
 group: fortinet-fortigate
 tactics: []
 relevantTechniques: []
+mitreNotApplicable: 'Operational performance monitoring'
 tags:
   - Performance
   - Investigation

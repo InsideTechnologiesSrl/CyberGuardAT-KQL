@@ -5,7 +5,9 @@ description: |
 group: network-dns
 tactics:
   - CommandAndControl
-relevantTechniques: []
+relevantTechniques:
+  - T1071
+  - T1571
 tags:
   - Hunting
 version: 1.0.0

@@ -5,7 +5,10 @@ description: |
 group: defender-for-identity
 tactics:
   - Persistence
-relevantTechniques: []
+  - Stealth
+relevantTechniques:
+  - T1136.002
+  - T1036.005
 tags:
   - Hunting
 version: 1.0.0

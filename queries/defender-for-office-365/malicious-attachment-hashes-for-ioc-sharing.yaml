@@ -3,8 +3,10 @@ name: 'Malicious Attachment Hashes for IOC Sharing'
 description: |
   Extracts SHA256 hashes and filenames from malicious email attachments — ready to share as IOCs with other platforms or load into a Sentinel Watchlist.
 group: defender-for-office-365
-tactics: []
-relevantTechniques: []
+tactics:
+  - InitialAccess
+relevantTechniques:
+  - T1566.001
 tags:
   - Phishing
   - ThreatIntel

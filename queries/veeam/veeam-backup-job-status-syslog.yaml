@@ -5,6 +5,7 @@ description: |
 group: veeam
 tactics: []
 relevantTechniques: []
+mitreNotApplicable: 'Backup job availability monitoring'
 tags:
   - Availability
   - Investigation

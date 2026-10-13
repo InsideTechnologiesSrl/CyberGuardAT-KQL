@@ -5,6 +5,7 @@ description: |
 group: fortinet-fortigate
 tactics: []
 relevantTechniques: []
+mitreNotApplicable: 'Raw firewall event exploration'
 tags:
   - Investigation
 version: 1.0.0

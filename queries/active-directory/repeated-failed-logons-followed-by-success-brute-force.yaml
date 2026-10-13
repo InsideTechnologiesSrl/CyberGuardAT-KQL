@@ -6,7 +6,9 @@ group: active-directory
 tactics:
   - CredentialAccess
   - InitialAccess
-relevantTechniques: []
+relevantTechniques:
+  - T1110.001
+  - T1078
 tags:
   - Hunting
 version: 1.0.0

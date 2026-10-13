@@ -4,9 +4,11 @@ description: |
   RDP sessions lasting more than 8 hours — potential persistent access by an external actor maintaining a foothold or using the session as a tunnel (T1021.001 — Remote Desktop Protocol).
 group: active-directory
 tactics:
-  - Persistence
   - LateralMovement
-relevantTechniques: []
+  - Persistence
+relevantTechniques:
+  - T1021.001
+  - T1078
 tags:
   - Hunting
 version: 1.0.0

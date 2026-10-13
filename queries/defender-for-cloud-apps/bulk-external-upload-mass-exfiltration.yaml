@@ -5,7 +5,9 @@ description: |
 group: defender-for-cloud-apps
 tactics:
   - Exfiltration
-relevantTechniques: []
+relevantTechniques:
+  - T1567.002
+  - T1030
 tags:
   - DataLoss
   - Hunting

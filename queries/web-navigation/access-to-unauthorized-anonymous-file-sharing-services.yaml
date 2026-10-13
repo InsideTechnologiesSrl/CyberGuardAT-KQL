@@ -5,7 +5,9 @@ description: |
 group: web-navigation
 tactics:
   - Exfiltration
-relevantTechniques: []
+relevantTechniques:
+  - T1567
+  - T1567.002
 tags:
   - Hunting
 version: 1.0.0

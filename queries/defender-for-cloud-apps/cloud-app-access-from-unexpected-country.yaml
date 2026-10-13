@@ -6,7 +6,9 @@ group: defender-for-cloud-apps
 tactics:
   - InitialAccess
   - Exfiltration
-relevantTechniques: []
+relevantTechniques:
+  - T1078.004
+  - T1567.002
 tags:
   - Hunting
 version: 1.0.0

@@ -6,7 +6,9 @@ group: defender-for-office-365
 tactics:
   - InitialAccess
   - Execution
-relevantTechniques: []
+relevantTechniques:
+  - T1566.001
+  - T1204.002
 tags:
   - Phishing
 version: 1.0.0

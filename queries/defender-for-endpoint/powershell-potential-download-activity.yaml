@@ -5,8 +5,10 @@ description: |
 group: defender-for-endpoint
 tactics:
   - Execution
-  - DefenseEvasion
-relevantTechniques: []
+  - CommandAndControl
+relevantTechniques:
+  - T1059.001
+  - T1105
 tags:
   - Hunting
 version: 1.0.0

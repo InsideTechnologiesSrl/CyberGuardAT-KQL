@@ -3,8 +3,12 @@ name: 'Typosquatting — Lookalike Sender Domains'
 description: |
   Emails from domains typosquatting your organization's domain — advanced BEC using character substitution to impersonate internal senders (T1566 — Phishing). Update the domain and regex.
 group: defender-for-office-365
-tactics: []
-relevantTechniques: []
+tactics:
+  - InitialAccess
+  - ResourceDevelopment
+relevantTechniques:
+  - T1566
+  - T1583.001
 tags:
   - Phishing
   - BEC

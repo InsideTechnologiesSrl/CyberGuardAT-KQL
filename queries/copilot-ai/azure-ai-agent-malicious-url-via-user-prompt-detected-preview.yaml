@@ -4,10 +4,13 @@ description: |
   Identifies Defender for Cloud AI agent alerts where a phishing or malicious URL was provided to an AI agent through a user prompt. High severity. The agent may follow the URL as part of tool use, enabling data exfiltration or redirection attacks. Preview signal. Review Entities for the user and resource involved and block the actor if confirmed malicious.
 group: copilot-ai
 tactics:
-  - Collection
-  - Exfiltration
   - InitialAccess
-relevantTechniques: []
+  - Execution
+  - Exfiltration
+relevantTechniques:
+  - T1566.002
+  - T1204.001
+  - T1567
 tags: []
 version: 1.0.0
 added: 2026-06-15

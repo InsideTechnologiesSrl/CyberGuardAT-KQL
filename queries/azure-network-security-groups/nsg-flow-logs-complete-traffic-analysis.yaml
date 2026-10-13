@@ -5,6 +5,7 @@ description: |
 group: azure-network-security-groups
 tactics: []
 relevantTechniques: []
+mitreNotApplicable: 'Generic NSG flow log traffic analysis'
 tags:
   - Investigation
 version: 1.0.0

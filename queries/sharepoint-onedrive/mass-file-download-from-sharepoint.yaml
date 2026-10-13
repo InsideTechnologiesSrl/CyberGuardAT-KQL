@@ -4,8 +4,10 @@ description: |
   More than 100 file downloads from SharePoint/OneDrive in one hour — typical of an insider threat or compromised account bulk-collecting documents before exfiltration (T1530 — Data from Cloud Storage).
 group: sharepoint-onedrive
 tactics:
-  - Exfiltration
-relevantTechniques: []
+  - Collection
+relevantTechniques:
+  - T1530
+  - T1213.002
 tags:
   - Hunting
 version: 1.0.0

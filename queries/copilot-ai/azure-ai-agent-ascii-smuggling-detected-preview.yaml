@@ -4,10 +4,11 @@ description: |
   Surfaces Defender for Cloud AI agent alerts indicating ASCII smuggling attempts, a technique where hidden or obfuscated characters are embedded in prompts to bypass content filters or covertly exfiltrate data. High severity. Preview signal — may fire at lower volume until the detection matures. Investigate Entities and ExtendedProperties for the affected resource and actor context.
 group: copilot-ai
 tactics:
-  - Impact
-  - DefenseEvasion
+  - Stealth
   - Exfiltration
-relevantTechniques: []
+relevantTechniques:
+  - T1027
+  - T1567
 tags: []
 version: 1.0.0
 added: 2026-06-15

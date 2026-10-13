@@ -4,9 +4,9 @@ description: |
   Produces a structured export of M365 Copilot activity combining user identity, source IP, application context, and accessed resources — suitable as the evidence foundation for a case file. Captures metadata from the CopilotActivity table. Note: audit logs are metadata-first and do not contain the actual text of prompts or responses. When content-level evidence is required (what was asked / what was returned), pivot to Microsoft Purview eDiscovery or DSPM for AI.
 group: copilot-ai
 tactics:
-  - Exfiltration
   - Collection
-relevantTechniques: []
+relevantTechniques:
+  - T1213
 tags:
   - Investigation
 version: 1.0.0

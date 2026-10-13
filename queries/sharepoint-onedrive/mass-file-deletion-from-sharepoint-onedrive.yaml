@@ -5,7 +5,8 @@ description: |
 group: sharepoint-onedrive
 tactics:
   - Impact
-relevantTechniques: []
+relevantTechniques:
+  - T1485
 tags:
   - Ransomware
   - Hunting

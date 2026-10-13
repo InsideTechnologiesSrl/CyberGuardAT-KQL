@@ -5,6 +5,7 @@ description: |
 group: file-server
 tactics: []
 relevantTechniques: []
+mitreNotApplicable: 'Generic file server activity view'
 tags:
   - DataLoss
   - Investigation

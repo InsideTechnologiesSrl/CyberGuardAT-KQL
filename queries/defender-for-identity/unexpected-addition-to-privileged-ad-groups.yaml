@@ -4,9 +4,10 @@ description: |
   Detects membership changes to critical Active Directory groups (Domain Admins, Enterprise Admins, etc.) — unauthorized escalation technique used by attackers to gain persistent privileged access (T1098 — Account Manipulation).
 group: defender-for-identity
 tactics:
-  - PrivilegeEscalation
   - Persistence
-relevantTechniques: []
+  - PrivilegeEscalation
+relevantTechniques:
+  - T1098.007
 tags:
   - Hunting
 version: 1.0.0

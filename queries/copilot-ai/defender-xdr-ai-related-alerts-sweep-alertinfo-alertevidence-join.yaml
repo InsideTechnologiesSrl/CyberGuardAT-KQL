@@ -4,10 +4,13 @@ description: |
   Broad sweep across Defender XDR alerts matching AI threat keywords: Jailbreak, prompt injection, credential theft. Returns alerts with associated evidence entities (users, IPs, resources) from AlertEvidence. Use this for a cross-product view of AI-related alerts rather than targeting a specific alert type. Review AttackTechniques for MITRE mapping. If the result set is large, narrow by Severity or ServiceSource to prioritize triage.
 group: copilot-ai
 tactics:
+  - InitialAccess
+  - Stealth
   - CredentialAccess
-  - PrivilegeEscalation
-  - DefenseEvasion
-relevantTechniques: []
+relevantTechniques:
+  - T1190
+  - T1211
+  - T1552
 tags:
   - Hunting
 version: 1.0.0

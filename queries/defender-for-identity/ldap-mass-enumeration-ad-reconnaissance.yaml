@@ -5,8 +5,9 @@ description: |
 group: defender-for-identity
 tactics:
   - Discovery
-  - Reconnaissance
-relevantTechniques: []
+relevantTechniques:
+  - T1087.002
+  - T1069.002
 tags:
   - Hunting
 version: 1.0.0

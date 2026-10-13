@@ -4,8 +4,12 @@ description: |
   Settings enabling Teams consumer federation or shared channels with external tenants — if unplanned, can open internal data to unauthorized organizations.
 group: defender-for-cloud-apps
 tactics:
+  - DefenseImpairment
+  - PrivilegeEscalation
   - Exfiltration
-relevantTechniques: []
+relevantTechniques:
+  - T1484.002
+  - T1537
 tags:
   - Hunting
 version: 1.0.0

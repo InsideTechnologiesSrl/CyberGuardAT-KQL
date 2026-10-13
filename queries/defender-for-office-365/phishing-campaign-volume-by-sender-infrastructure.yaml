@@ -3,8 +3,10 @@ name: 'Phishing Campaign Volume by Sender Infrastructure'
 description: |
   Groups phishing emails by sender domain and IPv4 to identify the most active campaigns — helps prioritize blocking and correlate domains/IPs from the same infrastructure.
 group: defender-for-office-365
-tactics: []
-relevantTechniques: []
+tactics:
+  - InitialAccess
+relevantTechniques:
+  - T1566
 tags:
   - Phishing
   - Investigation

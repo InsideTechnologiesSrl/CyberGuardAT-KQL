@@ -5,7 +5,9 @@ description: |
 group: azure-activity
 tactics:
   - PrivilegeEscalation
-relevantTechniques: []
+  - Persistence
+relevantTechniques:
+  - T1098.003
 tags:
   - Investigation
 version: 1.0.0

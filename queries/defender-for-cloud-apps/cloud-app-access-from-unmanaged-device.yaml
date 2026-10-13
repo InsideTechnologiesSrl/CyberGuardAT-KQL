@@ -3,8 +3,12 @@ name: 'Cloud App Access from Unmanaged Device'
 description: |
   Access to unapproved cloud services from a device not enrolled in Intune — high-risk combination: corporate data transiting outside IT-controlled infrastructure (T1078.004 — Valid Accounts: Cloud Accounts).
 group: defender-for-cloud-apps
-tactics: []
-relevantTechniques: []
+tactics:
+  - Exfiltration
+  - InitialAccess
+relevantTechniques:
+  - T1567.002
+  - T1078.004
 tags:
   - DataLoss
   - Hunting

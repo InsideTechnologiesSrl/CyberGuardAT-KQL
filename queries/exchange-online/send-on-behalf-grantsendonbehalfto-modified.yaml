@@ -5,7 +5,10 @@ description: |
 group: exchange-online
 tactics:
   - Persistence
-relevantTechniques: []
+  - Stealth
+relevantTechniques:
+  - T1098.002
+  - T1684.001
 tags:
   - BEC
   - Investigation

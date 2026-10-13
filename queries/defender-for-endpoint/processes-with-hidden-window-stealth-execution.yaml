@@ -4,9 +4,11 @@ description: |
   Processes launched with hidden window flags (-WindowStyle Hidden, -w hidden, CreateNoWindow) — stealth execution technique used by malware and malicious PowerShell scripts to avoid user awareness (T1564.003 — Hide Artifacts: Hidden Window).
 group: defender-for-endpoint
 tactics:
-  - DefenseEvasion
+  - Stealth
   - Execution
-relevantTechniques: []
+relevantTechniques:
+  - T1564.003
+  - T1059.001
 tags:
   - Hunting
 version: 1.0.0

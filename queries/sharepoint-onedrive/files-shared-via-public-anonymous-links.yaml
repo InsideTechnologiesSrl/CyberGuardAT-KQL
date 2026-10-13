@@ -5,7 +5,9 @@ description: |
 group: sharepoint-onedrive
 tactics:
   - Exfiltration
-relevantTechniques: []
+relevantTechniques:
+  - T1567.002
+  - T1537
 tags:
   - DataLoss
   - Hunting

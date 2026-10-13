@@ -3,8 +3,11 @@ name: 'All Emails Classified as Phishing by MDO'
 description: |
   Phishing emails detected by MDO — assess campaign volume, which users were targeted, and how many reached inboxes despite detection.
 group: defender-for-office-365
-tactics: []
-relevantTechniques: []
+tactics:
+  - InitialAccess
+relevantTechniques:
+  - T1566
+  - T1566.002
 tags:
   - Phishing
   - Investigation

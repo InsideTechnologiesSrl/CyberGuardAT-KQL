@@ -3,8 +3,11 @@ name: 'Malicious Emails Delivered to Inbox (Missed Detections)'
 description: |
   Malware, phishing, or spam that bypassed filters and reached user inboxes — requires MDO policy review and potential user remediation.
 group: defender-for-office-365
-tactics: []
-relevantTechniques: []
+tactics:
+  - InitialAccess
+relevantTechniques:
+  - T1566.001
+  - T1566.002
 tags:
   - Phishing
   - Malware

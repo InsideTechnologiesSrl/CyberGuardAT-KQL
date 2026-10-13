@@ -4,9 +4,9 @@ description: |
   An account authenticating via NTLM from many different devices in a short period is a strong indicator of Pass-the-Hash, where stolen hashes are replayed across multiple hosts (T1550.002).
 group: defender-for-identity
 tactics:
-  - CredentialAccess
   - LateralMovement
-relevantTechniques: []
+relevantTechniques:
+  - T1550.002
 tags:
   - Hunting
 version: 1.0.0

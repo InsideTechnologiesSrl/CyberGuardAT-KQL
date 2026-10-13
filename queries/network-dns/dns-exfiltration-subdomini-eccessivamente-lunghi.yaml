@@ -5,7 +5,11 @@ description: |
 group: network-dns
 tactics:
   - Exfiltration
-relevantTechniques: []
+  - CommandAndControl
+relevantTechniques:
+  - T1048
+  - T1071.004
+  - T1132
 tags:
   - Hunting
 version: 1.0.0

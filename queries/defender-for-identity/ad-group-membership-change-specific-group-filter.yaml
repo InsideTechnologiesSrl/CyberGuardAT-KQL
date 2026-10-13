@@ -5,7 +5,9 @@ description: |
 group: defender-for-identity
 tactics:
   - Persistence
-relevantTechniques: []
+  - PrivilegeEscalation
+relevantTechniques:
+  - T1098.007
 tags:
   - Investigation
 version: 1.0.0

@@ -4,9 +4,14 @@ description: |
   Detects the use of legitimate Windows binaries (certutil, mshta, wscript, regsvr32, rundll32) with arguments typical of remote download or execution, a classic technique to evade AV/EDR solutions.
 group: defender-for-endpoint
 tactics:
-  - DefenseEvasion
+  - Stealth
+  - CommandAndControl
   - Execution
-relevantTechniques: []
+relevantTechniques:
+  - T1218
+  - T1105
+  - T1059.005
+  - T1197
 tags:
   - Hunting
 version: 1.0.0

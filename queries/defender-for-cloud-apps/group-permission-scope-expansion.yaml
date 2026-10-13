@@ -4,9 +4,9 @@ description: |
   Modifications enabling external senders, auto-subscription, or public visibility on distribution or unified groups — potential data exfiltration channel.
 group: defender-for-cloud-apps
 tactics:
-  - Exfiltration
   - Persistence
-relevantTechniques: []
+relevantTechniques:
+  - T1098
 tags:
   - Hunting
 version: 1.0.0

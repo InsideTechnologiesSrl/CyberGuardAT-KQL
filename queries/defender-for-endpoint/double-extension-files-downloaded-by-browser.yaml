@@ -4,9 +4,13 @@ description: |
   Flags browser-downloaded files matching a double-extension pattern (e.g. invoice.pdf.exe) — a social engineering technique to disguise executables as harmless documents.
 group: defender-for-endpoint
 tactics:
+  - Stealth
+  - Execution
   - InitialAccess
-  - DefenseEvasion
-relevantTechniques: []
+relevantTechniques:
+  - T1036.007
+  - T1204.002
+  - T1566.002
 tags:
   - Hunting
 version: 1.0.0

@@ -5,7 +5,10 @@ description: |
 group: active-directory
 tactics:
   - InitialAccess
-relevantTechniques: []
+  - Persistence
+relevantTechniques:
+  - T1078.001
+  - T1078.003
 tags:
   - Hunting
 version: 1.0.0

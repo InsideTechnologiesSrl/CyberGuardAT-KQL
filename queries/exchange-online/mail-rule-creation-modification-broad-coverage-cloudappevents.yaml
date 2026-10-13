@@ -4,9 +4,13 @@ description: |
   Catch-all hunting query over all inbox and transport rule operations via CloudAppEvents. Useful to spot any rule manipulation activity.
 group: exchange-online
 tactics:
-  - Exfiltration
+  - Collection
+  - Stealth
   - Persistence
-relevantTechniques: []
+relevantTechniques:
+  - T1114.003
+  - T1564.008
+  - T1098.002
 tags:
   - Hunting
 version: 1.0.0

@@ -5,8 +5,8 @@ description: |
 group: sharepoint-onedrive
 tactics:
   - Impact
-  - DefenseEvasion
-relevantTechniques: []
+relevantTechniques:
+  - T1490
 tags:
   - Hunting
 version: 1.0.0

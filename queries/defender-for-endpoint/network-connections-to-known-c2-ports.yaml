@@ -5,8 +5,8 @@ description: |
 group: defender-for-endpoint
 tactics:
   - CommandAndControl
-  - Exfiltration
-relevantTechniques: []
+relevantTechniques:
+  - T1571
 tags:
   - Hunting
 version: 1.0.0

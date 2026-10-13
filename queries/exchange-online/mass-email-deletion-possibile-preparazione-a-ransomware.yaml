@@ -5,7 +5,10 @@ description: |
 group: exchange-online
 tactics:
   - Impact
-relevantTechniques: []
+  - Stealth
+relevantTechniques:
+  - T1485
+  - T1070.008
 tags:
   - Investigation
 version: 1.0.0

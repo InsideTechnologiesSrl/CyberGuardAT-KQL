@@ -61,6 +61,7 @@ tactics:                                   # MITRE ATT&CK tactics
   - InitialAccess
 relevantTechniques:                        # MITRE ATT&CK techniques (e.g. T1110.003)
   - T1110
+# mitreNotApplicable: 'reason'             # only for operational queries with no ATT&CK mapping
 tags:
   - BruteForce
 requiredDataConnectors: []                 # optional, Azure-Sentinel style
@@ -74,6 +75,15 @@ query: |
   | where TimeGenerated > ago(24h)
   ...
 ```
+
+## MITRE ATT&CK mapping
+
+Every query is mapped to the techniques it helps detect or investigate, and to the tactics those
+techniques belong to, using the current ATT&CK Enterprise release (tactic names as in ATT&CK v19,
+e.g. `Stealth` and `DefenseImpairment`). Validation rejects unknown, revoked or deprecated techniques
+and tactics not covered by the listed techniques. Purely operational queries carry a
+`mitreNotApplicable` reason instead. The reference in `tools/attack-enterprise.json` is refreshed
+from MITRE every month.
 
 ## Using the catalogue
 

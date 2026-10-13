@@ -5,7 +5,8 @@ description: |
 group: windows-security-events
 tactics:
   - CredentialAccess
-relevantTechniques: []
+relevantTechniques:
+  - T1558.003
 tags:
   - Hunting
 version: 1.0.0

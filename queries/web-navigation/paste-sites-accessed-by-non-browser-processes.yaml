@@ -5,8 +5,9 @@ description: |
 group: web-navigation
 tactics:
   - CommandAndControl
-  - Execution
-relevantTechniques: []
+relevantTechniques:
+  - T1102
+  - T1105
 tags:
   - Hunting
 version: 1.0.0

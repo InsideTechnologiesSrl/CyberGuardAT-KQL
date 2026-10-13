@@ -4,9 +4,10 @@ description: |
   Identifies users generating more than 50 M365 Copilot events in a single hour, flagging statistical outliers that may warrant investigation. High volume alone is not evidence of abuse — legitimate power users, automated workflows, or testing can produce similar patterns. Triage by examining AppHost and resource context to determine whether the volume reflects normal work or anomalous behavior. Adjust the threshold to match your organization's baseline usage.
 group: copilot-ai
 tactics:
-  - Impact
-  - Exfiltration
-relevantTechniques: []
+  - Collection
+relevantTechniques:
+  - T1119
+  - T1213
 tags:
   - Hunting
 version: 1.0.0

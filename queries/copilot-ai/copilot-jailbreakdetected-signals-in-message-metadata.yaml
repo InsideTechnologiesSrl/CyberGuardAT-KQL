@@ -4,9 +4,11 @@ description: |
   Surfaces M365 Copilot interactions where the built-in safety system flagged a user prompt as a potential jailbreak attempt (JailbreakDetected == true). This is a detection signal, not a confirmed attack — false positives occur. Evaluate in context: a single flagged event from a curious user differs from repeated attempts by the same actor across multiple AppHost values. Sustained or escalating patterns warrant correlation with Azure AI alert queries and potential escalation.
 group: copilot-ai
 tactics:
-  - PrivilegeEscalation
-  - DefenseEvasion
-relevantTechniques: []
+  - InitialAccess
+  - Stealth
+relevantTechniques:
+  - T1190
+  - T1211
 tags:
   - Hunting
 version: 1.0.0

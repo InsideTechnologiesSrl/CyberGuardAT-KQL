@@ -5,7 +5,9 @@ description: |
 group: defender-for-endpoint
 tactics:
   - CommandAndControl
-relevantTechniques: []
+relevantTechniques:
+  - T1071
+  - T1219
 tags:
   - Hunting
 version: 1.0.0

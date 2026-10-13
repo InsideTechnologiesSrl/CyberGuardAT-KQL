@@ -5,9 +5,8 @@ description: |
 group: web-navigation
 tactics:
   - CommandAndControl
-  - Exfiltration
-  - DefenseEvasion
-relevantTechniques: []
+relevantTechniques:
+  - T1090.003
 tags: []
 version: 1.0.0
 added: 2025-01-01

@@ -1,5 +1,6 @@
 {
   "schemaVersion": 1,
+  "attackVersion": "19.2",
   "count": 183,
   "groups": [
     {
@@ -105,9 +106,14 @@
       "description": "Identifies users logging into a device they have never used in the past 30 days — potential lateral movement or use of stolen credentials on an unfamiliar host.",
       "group": "active-directory",
       "tactics": [
-        "LateralMovement"
+        "LateralMovement",
+        "InitialAccess"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1078",
+        "T1021"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -127,9 +133,14 @@
       "description": "Tracks logins using shared or generic account names (administrator, admin, guest, test) that prevent individual accountability and hinder forensic investigations (T1078 — Valid Accounts).",
       "group": "active-directory",
       "tactics": [
-        "InitialAccess"
+        "InitialAccess",
+        "Persistence"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1078.001",
+        "T1078.003"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -149,10 +160,12 @@
       "description": "Same account authenticated from multiple countries within the same hour — strong indicator of credential compromise since physical travel is impossible (T1078 — Valid Accounts).",
       "group": "active-directory",
       "tactics": [
-        "CredentialAccess",
         "InitialAccess"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1078"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -175,7 +188,11 @@
         "InitialAccess",
         "CredentialAccess"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1078.004",
+        "T1110.003"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -197,7 +214,10 @@
       "tactics": [
         "InitialAccess"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1078"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -217,9 +237,14 @@
       "description": "Explicit use of runas.exe to execute processes as a privileged account from a standard user — potential unauthorized escalation attempt (T1548 — Abuse Elevation Control Mechanism).",
       "group": "active-directory",
       "tactics": [
-        "PrivilegeEscalation"
+        "PrivilegeEscalation",
+        "Stealth"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1134.002",
+        "T1078.002"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -239,10 +264,14 @@
       "description": "Surfaces successful Remote Desktop logons originating from public IPs not in the approved whitelist (VPN, jump hosts) — one of the most common ransomware entry vectors (T1021.001 — Remote Desktop Protocol).",
       "group": "active-directory",
       "tactics": [
-        "InitialAccess",
-        "LateralMovement"
+        "LateralMovement",
+        "InitialAccess"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1021.001",
+        "T1133"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -265,7 +294,11 @@
         "CredentialAccess",
         "InitialAccess"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1110.001",
+        "T1078"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -288,7 +321,10 @@
         "InitialAccess",
         "PrivilegeEscalation"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1078.002"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -308,10 +344,14 @@
       "description": "RDP sessions lasting more than 8 hours — potential persistent access by an external actor maintaining a foothold or using the session as a tunnel (T1021.001 — Remote Desktop Protocol).",
       "group": "active-directory",
       "tactics": [
-        "Persistence",
-        "LateralMovement"
+        "LateralMovement",
+        "Persistence"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1021.001",
+        "T1078"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -333,7 +373,10 @@
       "tactics": [
         "CredentialAccess"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1555.006"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Investigation"
       ],
@@ -353,9 +396,13 @@
       "description": "Detects the assignment of Owner or Contributor roles at the subscription or resource group level. This type of privilege escalation is a critical signal of a compromised account or misconfigured IAM.",
       "group": "azure-activity",
       "tactics": [
-        "PrivilegeEscalation"
+        "PrivilegeEscalation",
+        "Persistence"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1098.003"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Investigation"
       ],
@@ -377,7 +424,10 @@
       "tactics": [
         "Impact"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1485"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Investigation"
       ],
@@ -396,8 +446,15 @@
       "name": "WAF Firewall Events — Detailed by Client IP and URI",
       "description": "Aggregates Azure Application Gateway WAF firewall log entries by client IP, request URI, WAF action, site, and rule details. Useful for identifying blocked attacks and false positives per minute.",
       "group": "azure-application-gateway",
-      "tactics": [],
-      "relevantTechniques": [],
+      "tactics": [
+        "InitialAccess",
+        "Reconnaissance"
+      ],
+      "relevantTechniques": [
+        "T1190",
+        "T1595.002"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Investigation"
       ],
@@ -416,8 +473,15 @@
       "name": "WAF Firewall Events — Top Blocked Client IPs and URIs",
       "description": "Summarizes WAF events by client IP and requested URI to identify the most frequently triggered sources and endpoints. Helps prioritize IP blocking and WAF rule tuning.",
       "group": "azure-application-gateway",
-      "tactics": [],
-      "relevantTechniques": [],
+      "tactics": [
+        "InitialAccess",
+        "Reconnaissance"
+      ],
+      "relevantTechniques": [
+        "T1190",
+        "T1595.002"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Investigation"
       ],
@@ -438,6 +502,7 @@
       "group": "azure-network-security-groups",
       "tactics": [],
       "relevantTechniques": [],
+      "mitreNotApplicable": "Generic NSG flow log traffic analysis",
       "tags": [
         "Investigation"
       ],
@@ -458,6 +523,7 @@
       "group": "azure-network-security-groups",
       "tactics": [],
       "relevantTechniques": [],
+      "mitreNotApplicable": "Generic IOC pivot on a single IP",
       "tags": [
         "Investigation"
       ],
@@ -478,6 +544,7 @@
       "group": "azure-network-security-groups",
       "tactics": [],
       "relevantTechniques": [],
+      "mitreNotApplicable": "Generic inbound NSG traffic review",
       "tags": [
         "Investigation"
       ],
@@ -496,10 +563,9 @@
       "name": "Agent 365 — Active AI agent inventory",
       "description": "Lists the current inventory of active (non-deleted) agents registered through Agent 365. Use this as the baseline inventory before assessing agent risk posture. Review CreatorAccountUpn to understand who is building agents and whether agent creation aligns with organizational policy. Empty results indicate no Agent 365 agents are deployed — also a useful data point when auditing the agentic surface.",
       "group": "copilot-ai",
-      "tactics": [
-        "Persistence"
-      ],
+      "tactics": [],
       "relevantTechniques": [],
+      "mitreNotApplicable": "AI agent asset inventory baseline",
       "tags": [
         "Hunting",
         "Investigation"
@@ -519,11 +585,9 @@
       "name": "Agent 365 — Agents with MCP tool configured (expanded attack surface)",
       "description": "Identifies AI agents that have Model Context Protocol (MCP) tool configurations, which give them the ability to invoke external tool operations and expand their attack surface beyond standard agent interactions. Lists configured MCP tool names grouped by agent and creator. Review tool names and creator accounts to determine whether configurations are authorized. An unrecognized MCP tool warrants investigation into what it accesses and who approved its configuration.",
       "group": "copilot-ai",
-      "tactics": [
-        "Persistence",
-        "Execution"
-      ],
+      "tactics": [],
       "relevantTechniques": [],
+      "mitreNotApplicable": "AI agent configuration posture inventory",
       "tags": [
         "Hunting"
       ],
@@ -542,11 +606,9 @@
       "name": "Agent 365 — Agents without user authentication (security hygiene)",
       "description": "Finds agents with UserAuthenticationType == \"None\", meaning they accept interactions without authenticating the caller. Activity from these agents cannot be reliably attributed to a specific identity. Review creator and owner accounts to determine whether missing authentication is intentional (e.g., a public FAQ bot) or an oversight. For agents that handle sensitive data or perform actions on behalf of users, missing authentication is a risk to escalate to the agent owner for remediation.",
       "group": "copilot-ai",
-      "tactics": [
-        "Persistence",
-        "DefenseEvasion"
-      ],
+      "tactics": [],
       "relevantTechniques": [],
+      "mitreNotApplicable": "AI agent security hygiene posture check",
       "tags": [
         "Hunting"
       ],
@@ -566,11 +628,14 @@
       "description": "Identifies Defender for Cloud AI agent alerts where the access originates from an anonymizing network such as Tor. High severity. Preview signal. Access to AI agents from anonymizing networks is a strong indicator of intentional evasion. Investigate whether the actor is an authenticated user and escalate if access involved sensitive data or privileged agent operations.",
       "group": "copilot-ai",
       "tactics": [
-        "Execution",
-        "DefenseEvasion",
+        "CommandAndControl",
         "InitialAccess"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1090.003",
+        "T1078.004"
+      ],
+      "mitreNotApplicable": null,
       "tags": [],
       "requiredDataConnectors": [],
       "version": "1.0.0",
@@ -588,10 +653,13 @@
       "description": "Surfaces Defender for Cloud AI agent alerts where the access originates from an IP address flagged by Microsoft threat intelligence as suspicious. High severity. Preview signal. Correlate with identity telemetry (Entra SigninLogs) to determine whether the IP is associated with a known threat actor, VPN abuse, or compromised infrastructure.",
       "group": "copilot-ai",
       "tactics": [
-        "Execution",
         "InitialAccess"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1078.004",
+        "T1190"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -611,10 +679,14 @@
       "description": "Surfaces Defender for Cloud AI agent alerts where the HTTP user-agent string is suspicious — for example, automated tooling, scrapers, or known attack frameworks. High severity. Preview signal. Suspicious user agents accessing AI agents may indicate automated abuse, credential stuffing, or reconnaissance. Review ExtendedProperties for the raw user-agent string.",
       "group": "copilot-ai",
       "tactics": [
-        "Execution",
-        "DefenseEvasion"
+        "Reconnaissance",
+        "InitialAccess"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1595",
+        "T1190"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -634,11 +706,14 @@
       "description": "Surfaces Defender for Cloud AI agent alerts indicating ASCII smuggling attempts, a technique where hidden or obfuscated characters are embedded in prompts to bypass content filters or covertly exfiltrate data. High severity. Preview signal — may fire at lower volume until the detection matures. Investigate Entities and ExtendedProperties for the affected resource and actor context.",
       "group": "copilot-ai",
       "tactics": [
-        "Impact",
-        "DefenseEvasion",
+        "Stealth",
         "Exfiltration"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1027",
+        "T1567"
+      ],
+      "mitreNotApplicable": null,
       "tags": [],
       "requiredDataConnectors": [],
       "version": "1.0.0",
@@ -656,10 +731,14 @@
       "description": "Identifies Defender for Cloud AI agent alerts where Prompt Shields detected (but may not have blocked) a jailbreak attempt against an agentic workflow. Medium severity. Preview signal — distinct from the blocked-jailbreak variant in that the attempt was detected without necessarily being stopped. Correlate with the agent inventory queries (copilotai-9 through copilotai-11) to assess the agent's risk posture and authorization configuration.",
       "group": "copilot-ai",
       "tactics": [
-        "PrivilegeEscalation",
-        "DefenseEvasion"
+        "InitialAccess",
+        "Stealth"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1190",
+        "T1211"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -679,11 +758,16 @@
       "description": "Identifies Defender for Cloud AI agent alerts where a phishing or malicious URL was provided to an AI agent through a user prompt. High severity. The agent may follow the URL as part of tool use, enabling data exfiltration or redirection attacks. Preview signal. Review Entities for the user and resource involved and block the actor if confirmed malicious.",
       "group": "copilot-ai",
       "tactics": [
-        "Collection",
-        "Exfiltration",
-        "InitialAccess"
+        "InitialAccess",
+        "Execution",
+        "Exfiltration"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1566.002",
+        "T1204.001",
+        "T1567"
+      ],
+      "mitreNotApplicable": null,
       "tags": [],
       "requiredDataConnectors": [],
       "version": "1.0.0",
@@ -702,10 +786,15 @@
       "group": "copilot-ai",
       "tactics": [
         "CredentialAccess",
-        "Exfiltration",
-        "DefenseEvasion"
+        "InitialAccess",
+        "Stealth"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1552",
+        "T1190",
+        "T1211"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -726,10 +815,13 @@
       "group": "copilot-ai",
       "tactics": [
         "CredentialAccess",
-        "LateralMovement",
-        "Exfiltration"
+        "InitialAccess"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1552",
+        "T1078.004"
+      ],
+      "mitreNotApplicable": null,
       "tags": [],
       "requiredDataConnectors": [],
       "version": "1.0.0",
@@ -746,10 +838,9 @@
       "name": "Copilot — Baseline activity by user (Who / When / Where)",
       "description": "Returns a chronological view of all M365 Copilot activity for a specific user, including which application hosted the interaction and when it occurred. Use this as the starting point to establish the time window and application scope under investigation. Multiple AppHost values indicate usage spanning several workloads. Narrow the time range and pivot to resource-expansion queries to determine what Copilot accessed.",
       "group": "copilot-ai",
-      "tactics": [
-        "InitialAccess"
-      ],
+      "tactics": [],
       "relevantTechniques": [],
+      "mitreNotApplicable": "Per-user Copilot activity timeline for investigation scoping",
       "tags": [
         "Investigation",
         "Hunting"
@@ -770,10 +861,13 @@
       "description": "Expands the Contexts array inside LLMEventData to enumerate every resource M365 Copilot accessed during each interaction. Each row is a single resource (file, email, calendar item, etc.) with its identifier and type. Use this to determine the blast radius of an interaction: which data sources were referenced. Cross-reference resource identifiers with DLP or data classification systems to assess sensitivity.",
       "group": "copilot-ai",
       "tactics": [
-        "Collection",
-        "Exfiltration"
+        "Collection"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1213",
+        "T1530"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Investigation"
       ],
@@ -793,10 +887,13 @@
       "description": "Identifies users generating more than 50 M365 Copilot events in a single hour, flagging statistical outliers that may warrant investigation. High volume alone is not evidence of abuse — legitimate power users, automated workflows, or testing can produce similar patterns. Triage by examining AppHost and resource context to determine whether the volume reflects normal work or anomalous behavior. Adjust the threshold to match your organization's baseline usage.",
       "group": "copilot-ai",
       "tactics": [
-        "Impact",
-        "Exfiltration"
+        "Collection"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1119",
+        "T1213"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -816,10 +913,12 @@
       "description": "Produces a structured export of M365 Copilot activity combining user identity, source IP, application context, and accessed resources — suitable as the evidence foundation for a case file. Captures metadata from the CopilotActivity table. Note: audit logs are metadata-first and do not contain the actual text of prompts or responses. When content-level evidence is required (what was asked / what was returned), pivot to Microsoft Purview eDiscovery or DSPM for AI.",
       "group": "copilot-ai",
       "tactics": [
-        "Exfiltration",
         "Collection"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1213"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Investigation"
       ],
@@ -839,10 +938,14 @@
       "description": "Surfaces M365 Copilot interactions where the built-in safety system flagged a user prompt as a potential jailbreak attempt (JailbreakDetected == true). This is a detection signal, not a confirmed attack — false positives occur. Evaluate in context: a single flagged event from a curious user differs from repeated attempts by the same actor across multiple AppHost values. Sustained or escalating patterns warrant correlation with Azure AI alert queries and potential escalation.",
       "group": "copilot-ai",
       "tactics": [
-        "PrivilegeEscalation",
-        "DefenseEvasion"
+        "InitialAccess",
+        "Stealth"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1190",
+        "T1211"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -862,11 +965,16 @@
       "description": "Broad sweep across Defender XDR alerts matching AI threat keywords: Jailbreak, prompt injection, credential theft. Returns alerts with associated evidence entities (users, IPs, resources) from AlertEvidence. Use this for a cross-product view of AI-related alerts rather than targeting a specific alert type. Review AttackTechniques for MITRE mapping. If the result set is large, narrow by Severity or ServiceSource to prioritize triage.",
       "group": "copilot-ai",
       "tactics": [
-        "CredentialAccess",
-        "PrivilegeEscalation",
-        "DefenseEvasion"
+        "InitialAccess",
+        "Stealth",
+        "CredentialAccess"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1190",
+        "T1211",
+        "T1552"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -886,10 +994,13 @@
       "description": "More than 200 downloads from any cloud app in one hour — typical pre-exfiltration pattern where a user bulk-collects from M365 before uploading to personal storage (T1530 — Data from Cloud Storage).",
       "group": "defender-for-cloud-apps",
       "tactics": [
-        "Collection",
-        "Exfiltration"
+        "Collection"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1530",
+        "T1074"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -911,7 +1022,11 @@
       "tactics": [
         "Exfiltration"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1567.002",
+        "T1030"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "DataLoss",
         "Hunting"
@@ -935,7 +1050,11 @@
         "InitialAccess",
         "Exfiltration"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1078.004",
+        "T1567.002"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -954,8 +1073,15 @@
       "name": "Cloud App Access from Unmanaged Device",
       "description": "Access to unapproved cloud services from a device not enrolled in Intune — high-risk combination: corporate data transiting outside IT-controlled infrastructure (T1078.004 — Valid Accounts: Cloud Accounts).",
       "group": "defender-for-cloud-apps",
-      "tactics": [],
-      "relevantTechniques": [],
+      "tactics": [
+        "Exfiltration",
+        "InitialAccess"
+      ],
+      "relevantTechniques": [
+        "T1567.002",
+        "T1078.004"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "DataLoss",
         "Hunting"
@@ -979,7 +1105,10 @@
         "Persistence",
         "PrivilegeEscalation"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1098.003"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -1002,7 +1131,10 @@
         "Persistence",
         "PrivilegeEscalation"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1098"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -1022,9 +1154,14 @@
       "description": "B2B guest accounts added to internal groups may expose documents and channels to unverified third parties — particularly risky when groups contain sensitive project data (T1136.003 — Cloud Account).",
       "group": "defender-for-cloud-apps",
       "tactics": [
-        "Exfiltration"
+        "Persistence",
+        "PrivilegeEscalation"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1098",
+        "T1136.003"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -1046,7 +1183,10 @@
       "tactics": [
         "Exfiltration"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1567.002"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "DataLoss",
         "Hunting"
@@ -1069,7 +1209,10 @@
       "tactics": [
         "Exfiltration"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1567"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "DataLoss",
         "Hunting"
@@ -1090,10 +1233,12 @@
       "description": "Modifications enabling external senders, auto-subscription, or public visibility on distribution or unified groups — potential data exfiltration channel.",
       "group": "defender-for-cloud-apps",
       "tactics": [
-        "Exfiltration",
         "Persistence"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1098"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -1112,10 +1257,9 @@
       "name": "M365 / Teams Group Created by Non-IT User",
       "description": "Non-IT users creating Teams or Microsoft 365 groups can establish shadow IT, uncontrolled data sharing, or channels used for exfiltration.",
       "group": "defender-for-cloud-apps",
-      "tactics": [
-        "Exfiltration"
-      ],
+      "tactics": [],
       "relevantTechniques": [],
+      "mitreNotApplicable": "Shadow-IT governance check on group creation",
       "tags": [
         "Hunting"
       ],
@@ -1138,7 +1282,10 @@
         "Persistence",
         "PrivilegeEscalation"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1098.003"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -1160,7 +1307,10 @@
       "tactics": [
         "Exfiltration"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1567.002"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "DataLoss",
         "Hunting"
@@ -1183,7 +1333,10 @@
       "tactics": [
         "Exfiltration"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1567"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "DataLoss",
         "Hunting"
@@ -1204,9 +1357,15 @@
       "description": "Settings enabling Teams consumer federation or shared channels with external tenants — if unplanned, can open internal data to unauthorized organizations.",
       "group": "defender-for-cloud-apps",
       "tactics": [
+        "DefenseImpairment",
+        "PrivilegeEscalation",
         "Exfiltration"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1484.002",
+        "T1537"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -1226,10 +1385,13 @@
       "description": "Critical system processes (svchost, lsass, winlogon) spawning unexpected children — indicator of process injection or process hollowing where attacker code runs inside a trusted host (T1055 — Process Injection).",
       "group": "defender-for-endpoint",
       "tactics": [
-        "DefenseEvasion",
+        "Stealth",
         "PrivilegeEscalation"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1055"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -1249,10 +1411,14 @@
       "description": "Modifications to application configuration files (web.config, appsettings.json, .env, wp-config.php) — used to inject C2 connections, change DB credentials, or disable security controls (T1565 — Data Manipulation).",
       "group": "defender-for-endpoint",
       "tactics": [
-        "Persistence",
-        "DefenseEvasion"
+        "Impact",
+        "Persistence"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1565.001",
+        "T1505"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -1272,10 +1438,14 @@
       "description": "certutil.exe invoked with download flags (-urlcache, -f, -split) and HTTP URLs — Living-off-the-Land Binary abuse to fetch payloads while bypassing proxy and AV controls (T1140 — Deobfuscate/Decode).",
       "group": "defender-for-endpoint",
       "tactics": [
-        "Execution",
-        "DefenseEvasion"
+        "CommandAndControl",
+        "Stealth"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1105",
+        "T1140"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -1297,7 +1467,12 @@
       "tactics": [
         "CredentialAccess"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1555.005",
+        "T1552.001",
+        "T1552.004"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -1317,10 +1492,14 @@
       "description": "Modifications to critical system files (lsass.exe, svchost.exe, hosts, ntoskrnl.exe) in System32/SysWOW64 — tampering technique for persistence or network redirection (T1565.001 — Stored Data Manipulation).",
       "group": "defender-for-endpoint",
       "tactics": [
-        "Persistence",
-        "DefenseEvasion"
+        "Impact",
+        "Stealth"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1565.001",
+        "T1036.005"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -1341,9 +1520,13 @@
       "group": "defender-for-endpoint",
       "tactics": [
         "Discovery",
-        "PrivilegeEscalation"
+        "Collection"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1083",
+        "T1005"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -1363,10 +1546,16 @@
       "description": "Flags browser-downloaded files matching a double-extension pattern (e.g. invoice.pdf.exe) — a social engineering technique to disguise executables as harmless documents.",
       "group": "defender-for-endpoint",
       "tactics": [
-        "InitialAccess",
-        "DefenseEvasion"
+        "Stealth",
+        "Execution",
+        "InitialAccess"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1036.007",
+        "T1204.002",
+        "T1566.002"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -1387,9 +1576,13 @@
       "group": "defender-for-endpoint",
       "tactics": [
         "Execution",
-        "Persistence"
+        "CommandAndControl"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1204.002",
+        "T1105"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -1411,7 +1604,10 @@
       "tactics": [
         "Execution"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1204.002"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "ThreatIntel",
         "Hunting"
@@ -1434,7 +1630,10 @@
       "tactics": [
         "Exfiltration"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1052.001"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -1457,7 +1656,11 @@
         "InitialAccess",
         "LateralMovement"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1078",
+        "T1021.001"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -1478,9 +1681,16 @@
       "group": "defender-for-endpoint",
       "tactics": [
         "CredentialAccess",
+        "Discovery",
         "LateralMovement"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1003",
+        "T1558",
+        "T1087.002",
+        "T1021.002"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -1500,9 +1710,16 @@
       "description": "Identifies lateral connections via PsExec, WMI, or remote administration tools. Shows source-destination pairs with timestamps to map the attacker's progression through the network.",
       "group": "defender-for-endpoint",
       "tactics": [
-        "LateralMovement"
+        "LateralMovement",
+        "Execution"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1021.002",
+        "T1021.006",
+        "T1047",
+        "T1569.002"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Investigation"
       ],
@@ -1522,10 +1739,17 @@
       "description": "Detects the use of legitimate Windows binaries (certutil, mshta, wscript, regsvr32, rundll32) with arguments typical of remote download or execution, a classic technique to evade AV/EDR solutions.",
       "group": "defender-for-endpoint",
       "tactics": [
-        "DefenseEvasion",
+        "Stealth",
+        "CommandAndControl",
         "Execution"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1218",
+        "T1105",
+        "T1059.005",
+        "T1197"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -1545,10 +1769,12 @@
       "description": "Command lines containing Base64 strings longer than 100 characters — obfuscation technique to hide malicious commands from static analysis and AV signature detection (T1027 — Obfuscated Files or Information).",
       "group": "defender-for-endpoint",
       "tactics": [
-        "Execution",
-        "DefenseEvasion"
+        "Stealth"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1027.010"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -1570,7 +1796,10 @@
       "tactics": [
         "CredentialAccess"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1003.001"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -1592,7 +1821,10 @@
       "tactics": [
         "Impact"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1485"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Ransomware",
         "Hunting"
@@ -1615,7 +1847,10 @@
       "tactics": [
         "Impact"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1486"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Ransomware",
         "Hunting"
@@ -1636,10 +1871,12 @@
       "description": "Identifies outbound connections to ports associated with attack frameworks such as Metasploit or Cobalt Strike (4444, 1234, 8080, 9001, 9002, 31337). Public IP filter reduces noise from internal services.",
       "group": "defender-for-endpoint",
       "tactics": [
-        "CommandAndControl",
-        "Exfiltration"
+        "CommandAndControl"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1571"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -1661,7 +1898,11 @@
       "tactics": [
         "CommandAndControl"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1071",
+        "T1219"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -1684,7 +1925,12 @@
         "InitialAccess",
         "Execution"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1566.001",
+        "T1204.002",
+        "T1059"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Phishing"
       ],
@@ -1704,10 +1950,14 @@
       "description": "Detects PowerShell executions using the -EncodedCommand flag or equivalent abbreviations, commonly used to obfuscate malicious payloads and bypass keyword-based detection rules.",
       "group": "defender-for-endpoint",
       "tactics": [
-        "DefenseEvasion",
-        "Execution"
+        "Execution",
+        "Stealth"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1059.001",
+        "T1027.010"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -1728,9 +1978,13 @@
       "group": "defender-for-endpoint",
       "tactics": [
         "Execution",
-        "DefenseEvasion"
+        "CommandAndControl"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1059.001",
+        "T1105"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -1750,9 +2004,13 @@
       "description": "Detects token impersonation events involving SeImpersonatePrivilege or SeDebugPrivilege — used to escalate to SYSTEM or other privileged contexts post-compromise (T1134 — Access Token Manipulation).",
       "group": "defender-for-endpoint",
       "tactics": [
-        "PrivilegeEscalation"
+        "PrivilegeEscalation",
+        "Stealth"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1134.001"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -1774,7 +2032,10 @@
       "tactics": [
         "Execution"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1204.002"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -1794,10 +2055,14 @@
       "description": "Processes launched with hidden window flags (-WindowStyle Hidden, -w hidden, CreateNoWindow) — stealth execution technique used by malware and malicious PowerShell scripts to avoid user awareness (T1564.003 — Hide Artifacts: Hidden Window).",
       "group": "defender-for-endpoint",
       "tactics": [
-        "DefenseEvasion",
+        "Stealth",
         "Execution"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1564.003",
+        "T1059.001"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -1820,7 +2085,12 @@
         "LateralMovement",
         "Execution"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1021.002",
+        "T1569.002",
+        "T1570"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -1842,7 +2112,10 @@
       "tactics": [
         "CredentialAccess"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1110"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "BruteForce",
         "Hunting"
@@ -1863,9 +2136,14 @@
       "description": "Finds scheduled tasks created by processes not typically responsible for this operation (PowerShell, cmd, wscript). Common persistence technique on compromised endpoints.",
       "group": "defender-for-endpoint",
       "tactics": [
-        "Persistence"
+        "Persistence",
+        "Execution"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1053.005",
+        "T1059"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -1888,7 +2166,11 @@
         "Persistence",
         "Execution"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1053.005",
+        "T1053.002"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -1909,9 +2191,14 @@
       "group": "defender-for-endpoint",
       "tactics": [
         "Execution",
-        "InitialAccess"
+        "Stealth"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1059.005",
+        "T1059.007",
+        "T1218.005"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -1932,9 +2219,13 @@
       "group": "defender-for-endpoint",
       "tactics": [
         "Execution",
-        "Persistence"
+        "CommandAndControl"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1059",
+        "T1105"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -1957,7 +2248,11 @@
         "LateralMovement",
         "InitialAccess"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1021.001",
+        "T1133"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -1977,10 +2272,14 @@
       "description": "Use of mklink or New-Item SymbolicLink targeting system directories — technique used for privilege escalation or bypassing file access controls (T1574 — Hijack Execution Flow).",
       "group": "defender-for-endpoint",
       "tactics": [
-        "PrivilegeEscalation",
-        "DefenseEvasion"
+        "Stealth",
+        "PrivilegeEscalation"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1574",
+        "T1068"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -2000,10 +2299,13 @@
       "description": "Detects registry modifications that disable Windows Defender real-time protection or tamper protection — a precursor step attackers take to persist undetected on endpoints (T1562.001 — Impair Defenses).",
       "group": "defender-for-endpoint",
       "tactics": [
-        "DefenseEvasion",
-        "Persistence"
+        "DefenseImpairment"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1685",
+        "T1112"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -2023,10 +2325,12 @@
       "description": "Unexpected child processes spawned by WmiPrvSE.exe — WMI-based lateral execution technique that runs fileless on the target and bypasses many perimeter controls (T1047 — Windows Management Instrumentation).",
       "group": "defender-for-endpoint",
       "tactics": [
-        "LateralMovement",
         "Execution"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1047"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -2046,9 +2350,13 @@
       "description": "Surfaces all AD group membership changes for a specific group (default: PowerBI). Replace the group name to monitor any target group in real time.",
       "group": "defender-for-identity",
       "tactics": [
-        "Persistence"
+        "Persistence",
+        "PrivilegeEscalation"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1098.007"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Investigation"
       ],
@@ -2070,7 +2378,10 @@
       "tactics": [
         "CredentialAccess"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1558.004"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -2092,7 +2403,10 @@
       "tactics": [
         "CredentialAccess"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1003.006"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -2112,10 +2426,12 @@
       "description": "Kerberos tickets with a lifetime exceeding company policy (typically 8–10h) may indicate a Golden Ticket forged with compromised KRBTGT credentials, granting unlimited access (T1558.001).",
       "group": "defender-for-identity",
       "tactics": [
-        "CredentialAccess",
-        "Persistence"
+        "CredentialAccess"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1558.001"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -2136,6 +2452,7 @@
       "group": "defender-for-identity",
       "tactics": [],
       "relevantTechniques": [],
+      "mitreNotApplicable": "Generic interactive logon inventory with no threat filter",
       "tags": [
         "Authentication",
         "Investigation"
@@ -2158,7 +2475,10 @@
       "tactics": [
         "CredentialAccess"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1558.003"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -2178,10 +2498,13 @@
       "description": "Detects high-volume LDAP queries against Active Directory, typical of post-compromise discovery tooling (BloodHound, ldapdomaindump) that maps the environment before lateral movement (T1087 — Account Discovery).",
       "group": "defender-for-identity",
       "tactics": [
-        "Discovery",
-        "Reconnaissance"
+        "Discovery"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1087.002",
+        "T1069.002"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -2202,6 +2525,7 @@
       "group": "defender-for-identity",
       "tactics": [],
       "relevantTechniques": [],
+      "mitreNotApplicable": "Baseline listing of successful domain logons, no threat filter",
       "tags": [
         "Authentication",
         "Investigation"
@@ -2224,7 +2548,10 @@
       "tactics": [
         "Impact"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1531"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -2246,7 +2573,11 @@
       "tactics": [
         "Persistence"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1098.007",
+        "T1136.002"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -2266,10 +2597,12 @@
       "description": "An account authenticating via NTLM from many different devices in a short period is a strong indicator of Pass-the-Hash, where stolen hashes are replayed across multiple hosts (T1550.002).",
       "group": "defender-for-identity",
       "tactics": [
-        "CredentialAccess",
         "LateralMovement"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1550.002"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -2291,7 +2624,10 @@
       "tactics": [
         "LateralMovement"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1550.003"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -2311,10 +2647,12 @@
       "description": "Password spray attack pattern: the same source IP failing authentication against many distinct accounts in a short window to avoid per-account lockout policies (T1110.003 — Brute Force: Password Spraying).",
       "group": "defender-for-identity",
       "tactics": [
-        "CredentialAccess",
-        "InitialAccess"
+        "CredentialAccess"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1110.003"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -2336,7 +2674,10 @@
       "tactics": [
         "Impact"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1531"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -2359,7 +2700,10 @@
         "Persistence",
         "PrivilegeEscalation"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1098.007"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Investigation"
       ],
@@ -2379,9 +2723,14 @@
       "description": "New accounts with names matching patterns of service or admin accounts (e.g. svc01, admin99, backup02) — attacker technique to create backdoor accounts that blend in with legitimate ones (T1136 — Create Account).",
       "group": "defender-for-identity",
       "tactics": [
-        "Persistence"
+        "Persistence",
+        "Stealth"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1136.002",
+        "T1036.005"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -2401,10 +2750,13 @@
       "description": "Detects membership changes to critical Active Directory groups (Domain Admins, Enterprise Admins, etc.) — unauthorized escalation technique used by attackers to gain persistent privileged access (T1098 — Account Manipulation).",
       "group": "defender-for-identity",
       "tactics": [
-        "PrivilegeEscalation",
-        "Persistence"
+        "Persistence",
+        "PrivilegeEscalation"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1098.007"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -2423,8 +2775,13 @@
       "name": "All Email from a Specific Sender Address",
       "description": "Retrieves all emails from a specific address regardless of delivery outcome — starting point for any BEC or phishing investigation. Replace the placeholder with the address to investigate.",
       "group": "defender-for-office-365",
-      "tactics": [],
-      "relevantTechniques": [],
+      "tactics": [
+        "InitialAccess"
+      ],
+      "relevantTechniques": [
+        "T1566"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Phishing",
         "BEC",
@@ -2445,8 +2802,13 @@
       "name": "All Email from a Specific Sender Domain",
       "description": "Aggregated view of all email from a suspicious domain — useful when investigating a campaign from an entire infrastructure rather than a single address.",
       "group": "defender-for-office-365",
-      "tactics": [],
-      "relevantTechniques": [],
+      "tactics": [
+        "InitialAccess"
+      ],
+      "relevantTechniques": [
+        "T1566"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Phishing",
         "BEC",
@@ -2467,8 +2829,13 @@
       "name": "All Emails Classified as Malware by MDO",
       "description": "Complete view of emails with malware payloads detected by Defender for Office 365 — includes blocked emails and any delivered before ZAP triggered.",
       "group": "defender-for-office-365",
-      "tactics": [],
-      "relevantTechniques": [],
+      "tactics": [
+        "InitialAccess"
+      ],
+      "relevantTechniques": [
+        "T1566.001"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Malware",
         "Investigation"
@@ -2488,8 +2855,14 @@
       "name": "All Emails Classified as Phishing by MDO",
       "description": "Phishing emails detected by MDO — assess campaign volume, which users were targeted, and how many reached inboxes despite detection.",
       "group": "defender-for-office-365",
-      "tactics": [],
-      "relevantTechniques": [],
+      "tactics": [
+        "InitialAccess"
+      ],
+      "relevantTechniques": [
+        "T1566",
+        "T1566.002"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Phishing",
         "Investigation"
@@ -2510,10 +2883,12 @@
       "description": "Detects inbox or transport rules configured to silently forward email to external providers (Gmail, Yahoo, ProtonMail) — near-certain indicator of a compromised account used for BEC (T1114.003 — Email Forwarding Rule).",
       "group": "defender-for-office-365",
       "tactics": [
-        "Exfiltration",
-        "Persistence"
+        "Collection"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1114.003"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "BEC"
       ],
@@ -2533,10 +2908,12 @@
       "description": "Detects a single account accessing more than 500 mailbox items in one hour — potential automated exfiltration via a non-managed client or OAuth token (T1114.002 — Remote Email Collection).",
       "group": "defender-for-office-365",
       "tactics": [
-        "Collection",
-        "Exfiltration"
+        "Collection"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1114.002"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -2558,7 +2935,10 @@
       "tactics": [
         "InitialAccess"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1566.002"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Phishing",
         "Hunting"
@@ -2578,8 +2958,13 @@
       "name": "Display Name Spoofing — External Sender Impersonating Internal User",
       "description": "Emails where the visible display name matches an internal person but the domain is external — effective against users who only read the name, not the full address (T1566.001 — Spearphishing).",
       "group": "defender-for-office-365",
-      "tactics": [],
-      "relevantTechniques": [],
+      "tactics": [
+        "InitialAccess"
+      ],
+      "relevantTechniques": [
+        "T1566"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Phishing",
         "BEC",
@@ -2600,8 +2985,13 @@
       "name": "Email Keyword Search by Subject",
       "description": "Finds emails containing specified keywords in the subject — locate all variants of a known phishing campaign or investigate a user-reported suspicious subject line.",
       "group": "defender-for-office-365",
-      "tactics": [],
-      "relevantTechniques": [],
+      "tactics": [
+        "InitialAccess"
+      ],
+      "relevantTechniques": [
+        "T1566"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Phishing",
         "Investigation"
@@ -2621,8 +3011,14 @@
       "name": "Emails Removed by Zero-Hour Auto Purge (ZAP)",
       "description": "Emails initially delivered and later removed by ZAP — threat detected late; users may have already opened the message before removal.",
       "group": "defender-for-office-365",
-      "tactics": [],
-      "relevantTechniques": [],
+      "tactics": [
+        "InitialAccess"
+      ],
+      "relevantTechniques": [
+        "T1566.001",
+        "T1566.002"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Phishing",
         "Malware",
@@ -2646,7 +3042,10 @@
       "tactics": [
         "InitialAccess"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1566.002"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Phishing",
         "Investigation"
@@ -2670,7 +3069,11 @@
         "InitialAccess",
         "Collection"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1078.004",
+        "T1114.002"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -2692,7 +3095,10 @@
       "tactics": [
         "InitialAccess"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1566.001"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Phishing",
         "Hunting"
@@ -2715,7 +3121,10 @@
       "tactics": [
         "InitialAccess"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1566"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Phishing",
         "BEC"
@@ -2735,8 +3144,13 @@
       "name": "Malicious Attachment Hashes for IOC Sharing",
       "description": "Extracts SHA256 hashes and filenames from malicious email attachments — ready to share as IOCs with other platforms or load into a Sentinel Watchlist.",
       "group": "defender-for-office-365",
-      "tactics": [],
-      "relevantTechniques": [],
+      "tactics": [
+        "InitialAccess"
+      ],
+      "relevantTechniques": [
+        "T1566.001"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Phishing",
         "ThreatIntel",
@@ -2757,8 +3171,14 @@
       "name": "Malicious Emails Delivered to Inbox (Missed Detections)",
       "description": "Malware, phishing, or spam that bypassed filters and reached user inboxes — requires MDO policy review and potential user remediation.",
       "group": "defender-for-office-365",
-      "tactics": [],
-      "relevantTechniques": [],
+      "tactics": [
+        "InitialAccess"
+      ],
+      "relevantTechniques": [
+        "T1566.001",
+        "T1566.002"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Phishing",
         "Malware",
@@ -2779,8 +3199,13 @@
       "name": "Malicious URLs from Emails — Blocklist Export",
       "description": "Deduplicated list of malicious URLs found in email campaigns — ready as a blocklist for proxy/firewall or as a Sentinel Watchlist IOC feed.",
       "group": "defender-for-office-365",
-      "tactics": [],
-      "relevantTechniques": [],
+      "tactics": [
+        "InitialAccess"
+      ],
+      "relevantTechniques": [
+        "T1566.002"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Phishing",
         "ThreatIntel",
@@ -2801,8 +3226,13 @@
       "name": "Phishing Campaign Volume by Sender Infrastructure",
       "description": "Groups phishing emails by sender domain and IPv4 to identify the most active campaigns — helps prioritize blocking and correlate domains/IPs from the same infrastructure.",
       "group": "defender-for-office-365",
-      "tactics": [],
-      "relevantTechniques": [],
+      "tactics": [
+        "InitialAccess"
+      ],
+      "relevantTechniques": [
+        "T1566"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Phishing",
         "Investigation"
@@ -2823,9 +3253,14 @@
       "description": "Identifies a single sender delivering the same subject to more than 15 recipients in one hour — pattern of a compromised account used as an internal phishing relay (T1566 — Phishing).",
       "group": "defender-for-office-365",
       "tactics": [
-        "InitialAccess"
+        "InitialAccess",
+        "LateralMovement"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1566",
+        "T1534"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Phishing",
         "Hunting"
@@ -2845,8 +3280,13 @@
       "name": "Retroactive IOC Sweep by Attachment Hash",
       "description": "Searches all email history for a specific SHA256 hash from threat intelligence — how many emails with that attachment entered the organization and who received them, enabling rapid containment.",
       "group": "defender-for-office-365",
-      "tactics": [],
-      "relevantTechniques": [],
+      "tactics": [
+        "InitialAccess"
+      ],
+      "relevantTechniques": [
+        "T1566.001"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Phishing",
         "ThreatIntel",
@@ -2870,7 +3310,10 @@
       "tactics": [
         "InitialAccess"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1566"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Phishing",
         "Hunting"
@@ -2890,8 +3333,13 @@
       "name": "Single Message Timeline (Trace by NetworkMessageId)",
       "description": "Full forensic reconstruction of a single email — all associated events (headers, attachments, URLs, delivery outcome) in one query. Replace the placeholder ID.",
       "group": "defender-for-office-365",
-      "tactics": [],
-      "relevantTechniques": [],
+      "tactics": [
+        "InitialAccess"
+      ],
+      "relevantTechniques": [
+        "T1566"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Phishing",
         "Investigation"
@@ -2911,8 +3359,15 @@
       "name": "Typosquatting — Lookalike Sender Domains",
       "description": "Emails from domains typosquatting your organization's domain — advanced BEC using character substitution to impersonate internal senders (T1566 — Phishing). Update the domain and regex.",
       "group": "defender-for-office-365",
-      "tactics": [],
-      "relevantTechniques": [],
+      "tactics": [
+        "InitialAccess",
+        "ResourceDevelopment"
+      ],
+      "relevantTechniques": [
+        "T1566",
+        "T1583.001"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Phishing",
         "BEC",
@@ -2934,9 +3389,14 @@
       "description": "Tracks user clicks on external URLs from emails after delivery — identifies users who interacted with phishing links before or after Safe Links inspection.",
       "group": "defender-for-office-365",
       "tactics": [
-        "InitialAccess"
+        "InitialAccess",
+        "Execution"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1566.002",
+        "T1204.001"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Phishing",
         "Hunting"
@@ -2960,7 +3420,11 @@
         "InitialAccess",
         "Execution"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1566.001",
+        "T1204.002"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Phishing"
       ],
@@ -2980,9 +3444,12 @@
       "description": "Identifies accounts with more than 10 failed sign-in attempts in the last 24 hours, grouped by user and IP address. Primary indicator of brute force or password spray attacks.",
       "group": "entra-id",
       "tactics": [
-        "InitialAccess"
+        "CredentialAccess"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1110"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "BruteForce",
         "Hunting"
@@ -3003,9 +3470,13 @@
       "description": "Monitors the addition of new credentials (passwords or certificates) to Service Principals and App Registrations. Common persistence technique: the attacker adds their own key to maintain access even after password rotation.",
       "group": "entra-id",
       "tactics": [
-        "Persistence"
+        "Persistence",
+        "PrivilegeEscalation"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1098.001"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Investigation"
       ],
@@ -3025,9 +3496,12 @@
       "description": "Identifies users who have received more than 5 denied MFA push notifications within 1 hour. Used in MFA fatigue/push bombing attacks: the attacker floods the user with requests to wear them down until they accept.",
       "group": "entra-id",
       "tactics": [
-        "InitialAccess"
+        "CredentialAccess"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1621"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "MFABypass",
         "Hunting"
@@ -3047,8 +3521,13 @@
       "name": "Sign-in from a country never seen before",
       "description": "Finds users successfully signing in from countries they have never connected from in the past 2 weeks. Useful for detecting compromised accounts used by remote attackers.",
       "group": "entra-id",
-      "tactics": [],
-      "relevantTechniques": [],
+      "tactics": [
+        "InitialAccess"
+      ],
+      "relevantTechniques": [
+        "T1078.004"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "AnomalousLocation",
         "Investigation"
@@ -3069,10 +3548,12 @@
       "description": "Detects user accounts with sign-in activity from more than one country in a 24-hour period — impossible travel indicator or credential sharing across regions (T1078 — Valid Accounts).",
       "group": "entra-id",
       "tactics": [
-        "CredentialAccess",
         "InitialAccess"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1078.004"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -3093,6 +3574,7 @@
       "group": "exchange-online",
       "tactics": [],
       "relevantTechniques": [],
+      "mitreNotApplicable": "User activity inventory",
       "tags": [
         "Investigation"
       ],
@@ -3111,8 +3593,13 @@
       "name": "Email Trace — Specific Sender to Specific Recipient",
       "description": "Retrieves all email messages between a specific sender and recipient pair. Use for targeted BEC investigation or delivery verification.",
       "group": "exchange-online",
-      "tactics": [],
-      "relevantTechniques": [],
+      "tactics": [
+        "InitialAccess"
+      ],
+      "relevantTechniques": [
+        "T1566"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "BEC",
         "Investigation"
@@ -3134,6 +3621,7 @@
       "group": "exchange-online",
       "tactics": [],
       "relevantTechniques": [],
+      "mitreNotApplicable": "Generic admin audit log listing",
       "tags": [
         "Investigation"
       ],
@@ -3154,6 +3642,7 @@
       "group": "exchange-online",
       "tactics": [],
       "relevantTechniques": [],
+      "mitreNotApplicable": "Generic admin activity summary",
       "tags": [
         "Investigation"
       ],
@@ -3173,9 +3662,13 @@
       "description": "Monitors the assignment of administrative roles in Microsoft 365. Any role elevation should be verified and approved by the IAM team.",
       "group": "exchange-online",
       "tactics": [
-        "PrivilegeEscalation"
+        "PrivilegeEscalation",
+        "Persistence"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1098.003"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Investigation"
       ],
@@ -3195,10 +3688,14 @@
       "description": "Detects the creation of email forwarding rules pointing to addresses outside the organization — a very common exfiltration technique.",
       "group": "exchange-online",
       "tactics": [
-        "Exfiltration",
-        "Persistence"
+        "Collection",
+        "Stealth"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1114.003",
+        "T1564.008"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Investigation"
       ],
@@ -3218,10 +3715,16 @@
       "description": "Catch-all hunting query over all inbox and transport rule operations via CloudAppEvents. Useful to spot any rule manipulation activity.",
       "group": "exchange-online",
       "tactics": [
-        "Exfiltration",
+        "Collection",
+        "Stealth",
         "Persistence"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1114.003",
+        "T1564.008",
+        "T1098.002"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -3241,9 +3744,13 @@
       "description": "Detects Add-MailboxPermission and Add-RecipientPermission operations — attackers use this to silently read a victim's email without changing the password.",
       "group": "exchange-online",
       "tactics": [
-        "Persistence"
+        "Persistence",
+        "PrivilegeEscalation"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1098.002"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "BEC",
         "Investigation"
@@ -3264,9 +3771,14 @@
       "description": "Identifies users deleting an unusually high number of emails in a short time. May indicate ransomware clearing mailboxes, deliberate sabotage, or a compromised account.",
       "group": "exchange-online",
       "tactics": [
-        "Impact"
+        "Impact",
+        "Stealth"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1485",
+        "T1070.008"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Investigation"
       ],
@@ -3286,9 +3798,14 @@
       "description": "Aggregates inbox rule modification operations grouped by user, operation type, and source IP.",
       "group": "exchange-online",
       "tactics": [
-        "Exfiltration"
+        "Collection",
+        "Stealth"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1114.003",
+        "T1564.008"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Investigation"
       ],
@@ -3309,6 +3826,7 @@
       "group": "exchange-online",
       "tactics": [],
       "relevantTechniques": [],
+      "mitreNotApplicable": "Generic activity volume summary per user",
       "tags": [
         "Investigation"
       ],
@@ -3327,8 +3845,15 @@
       "name": "Send As Permission Granted — Full Impersonation",
       "description": "Detects Add-RecipientPermission actions granting SendAs rights — emails are indistinguishable from legitimate ones sent by the victim.",
       "group": "exchange-online",
-      "tactics": [],
-      "relevantTechniques": [],
+      "tactics": [
+        "Persistence",
+        "Stealth"
+      ],
+      "relevantTechniques": [
+        "T1098.002",
+        "T1684.001"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "BEC",
         "Impersonation",
@@ -3350,9 +3875,14 @@
       "description": "Detects Set-Mailbox operations that modify the GrantSendOnBehalfTo attribute. Common in BEC attacks to impersonate executives.",
       "group": "exchange-online",
       "tactics": [
-        "Persistence"
+        "Persistence",
+        "Stealth"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1098.002",
+        "T1684.001"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "BEC",
         "Investigation"
@@ -3374,6 +3904,7 @@
       "group": "file-server",
       "tactics": [],
       "relevantTechniques": [],
+      "mitreNotApplicable": "Generic file server activity view",
       "tags": [
         "DataLoss",
         "Investigation"
@@ -3395,6 +3926,7 @@
       "group": "fortinet-fortigate",
       "tactics": [],
       "relevantTechniques": [],
+      "mitreNotApplicable": "Raw firewall event exploration",
       "tags": [
         "Investigation"
       ],
@@ -3415,6 +3947,7 @@
       "group": "fortinet-fortigate",
       "tactics": [],
       "relevantTechniques": [],
+      "mitreNotApplicable": "Operational performance monitoring",
       "tags": [
         "Performance",
         "Investigation"
@@ -3437,7 +3970,11 @@
       "tactics": [
         "CommandAndControl"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1071",
+        "T1571"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -3457,9 +3994,15 @@
       "description": "Identifies DNS queries with unusually long subdomains (>50 characters), a technique used to exfiltrate Base64/hex-encoded data over DNS — difficult to block with traditional proxies.",
       "group": "network-dns",
       "tactics": [
-        "Exfiltration"
+        "Exfiltration",
+        "CommandAndControl"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1048",
+        "T1071.004",
+        "T1132"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -3479,9 +4022,14 @@
       "description": "Executables or scripts uploaded to SharePoint — potential internal malware distribution via shared links or automated workflows (T1105 — Ingress Tool Transfer).",
       "group": "sharepoint-onedrive",
       "tactics": [
-        "Execution"
+        "CommandAndControl",
+        "LateralMovement"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1105",
+        "T1080"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -3503,7 +4051,11 @@
       "tactics": [
         "Exfiltration"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1567",
+        "T1537"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "DataLoss",
         "Hunting"
@@ -3526,7 +4078,11 @@
       "tactics": [
         "Exfiltration"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1567.002",
+        "T1537"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "DataLoss",
         "Hunting"
@@ -3549,7 +4105,10 @@
       "tactics": [
         "Impact"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1485"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Ransomware",
         "Hunting"
@@ -3570,9 +4129,13 @@
       "description": "More than 100 file downloads from SharePoint/OneDrive in one hour — typical of an insider threat or compromised account bulk-collecting documents before exfiltration (T1530 — Data from Cloud Storage).",
       "group": "sharepoint-onedrive",
       "tactics": [
-        "Exfiltration"
+        "Collection"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1530",
+        "T1213.002"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -3594,7 +4157,10 @@
       "tactics": [
         "Impact"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1486"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Ransomware",
         "Hunting"
@@ -3614,8 +4180,15 @@
       "name": "Sensitive Files Modified in SharePoint",
       "description": "Modifications to files with names indicating sensitive content (contracts, budget, salary, M&A, confidential) — DLP monitoring for high-value documents (T1565 — Data Manipulation).",
       "group": "sharepoint-onedrive",
-      "tactics": [],
-      "relevantTechniques": [],
+      "tactics": [
+        "Impact",
+        "Collection"
+      ],
+      "relevantTechniques": [
+        "T1565.001",
+        "T1213.002"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "DataLoss",
         "Hunting"
@@ -3637,6 +4210,7 @@
       "group": "sharepoint-onedrive",
       "tactics": [],
       "relevantTechniques": [],
+      "mitreNotApplicable": "Generic activity volume baseline per user",
       "tags": [
         "Investigation"
       ],
@@ -3656,9 +4230,13 @@
       "description": "File downloads using HTTP library user agents (python-requests, curl, wget, go-http-client) instead of browsers — automated exfiltration via script with stolen OAuth tokens (T1530 — Data from Cloud Storage).",
       "group": "sharepoint-onedrive",
       "tactics": [
-        "Exfiltration"
+        "Collection"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1530",
+        "T1119"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -3678,9 +4256,14 @@
       "description": "File downloads from public IPs outside corporate/VPN ranges — potential access from an unmanaged device or compromised account (T1078.004 — Valid Accounts: Cloud Accounts). Adapt IP ranges.",
       "group": "sharepoint-onedrive",
       "tactics": [
-        "Exfiltration"
+        "InitialAccess",
+        "Collection"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1078.004",
+        "T1530"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -3699,10 +4282,9 @@
       "name": "SharePoint File & Folder Activity (Color-Coded Operations)",
       "description": "Complete view of SharePoint file and folder events over 7 days with color-coded operation labels. Covers create, modify, delete, access, and upload events across files and folders, including the managing device.",
       "group": "sharepoint-onedrive",
-      "tactics": [
-        "Exfiltration"
-      ],
+      "tactics": [],
       "relevantTechniques": [],
+      "mitreNotApplicable": "Generic SharePoint file/folder activity view",
       "tags": [
         "DataLoss",
         "Investigation"
@@ -3723,9 +4305,12 @@
       "description": "Ranks most frequently uploaded filenames on SharePoint over 14 days, sorted by volume. Identifies specific files or file patterns being repeatedly uploaded.",
       "group": "sharepoint-onedrive",
       "tactics": [
-        "Exfiltration"
+        "Collection"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1074.002"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Investigation"
       ],
@@ -3745,9 +4330,12 @@
       "description": "Counts FileUploaded operations per user on SharePoint over 14 days. Helps identify bulk uploaders that may be staging data for external sharing.",
       "group": "sharepoint-onedrive",
       "tactics": [
-        "Exfiltration"
+        "Collection"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1074.002"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Investigation"
       ],
@@ -3767,10 +4355,12 @@
       "description": "Disabling versioning on SharePoint document libraries removes the ability to recover from malicious modifications or ransomware — sabotage of resilience controls (T1485 — Data Destruction).",
       "group": "sharepoint-onedrive",
       "tactics": [
-        "Impact",
-        "DefenseEvasion"
+        "Impact"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1490"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -3791,6 +4381,7 @@
       "group": "veeam",
       "tactics": [],
       "relevantTechniques": [],
+      "mitreNotApplicable": "Backup job availability monitoring",
       "tags": [
         "Availability",
         "Investigation"
@@ -3811,10 +4402,14 @@
       "description": "Connections to well-known admin panel paths (/wp-admin, /phpmyadmin, /.env) on public IPs — reconnaissance or exploitation attempts against internet-facing web assets (T1190 — Exploit Public-Facing Application).",
       "group": "web-navigation",
       "tactics": [
-        "InitialAccess",
-        "Discovery"
+        "Reconnaissance",
+        "InitialAccess"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1595.003",
+        "T1190"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -3836,7 +4431,11 @@
       "tactics": [
         "Exfiltration"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1567",
+        "T1567.002"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -3856,9 +4455,16 @@
       "description": "Correlates browser network connections and file downloads from domains with suspicious TLDs (.xyz, .top, .tk, etc.) — identifies malware downloaded via browser from ephemeral infrastructure.",
       "group": "web-navigation",
       "tactics": [
-        "InitialAccess"
+        "InitialAccess",
+        "Execution",
+        "CommandAndControl"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1189",
+        "T1204.002",
+        "T1105"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -3878,9 +4484,14 @@
       "description": "Matches outbound connections against a list of known C2 or phishing domains. In production, replace the placeholder list with a Sentinel Watchlist fed by a threat intelligence source (TAXII/STIX, Microsoft MDTI).",
       "group": "web-navigation",
       "tactics": [
-        "CommandAndControl"
+        "CommandAndControl",
+        "InitialAccess"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1071.001",
+        "T1566.002"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "ThreatIntel",
         "Hunting"
@@ -3903,7 +4514,11 @@
       "tactics": [
         "CommandAndControl"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1071.001",
+        "T1573"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -3923,11 +4538,12 @@
       "description": "Outbound connections on Tor standard ports (9050, 9051, 9150, 9001, 9030) — used to anonymize C2 traffic, bypass DLP, and make exfiltration untraceable (T1090.003 — Multi-hop Proxy).",
       "group": "web-navigation",
       "tactics": [
-        "CommandAndControl",
-        "Exfiltration",
-        "DefenseEvasion"
+        "CommandAndControl"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1090.003"
+      ],
+      "mitreNotApplicable": null,
       "tags": [],
       "requiredDataConnectors": [],
       "version": "1.0.0",
@@ -3945,10 +4561,13 @@
       "description": "Non-browser processes connecting to public DoH resolvers (Google, Cloudflare, Quad9) — bypass of corporate DNS controls to hide C2 domain resolution queries (T1071.004 — DNS).",
       "group": "web-navigation",
       "tactics": [
-        "CommandAndControl",
-        "DefenseEvasion"
+        "CommandAndControl"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1071.004",
+        "T1572"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -3971,7 +4590,12 @@
         "CommandAndControl",
         "Exfiltration"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1071.004",
+        "T1572",
+        "T1048"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -3991,10 +4615,13 @@
       "description": "Access to Pastebin, GitHub Gist, or similar paste sites from non-browser processes (PowerShell, cmd) — technique to download C2 configs or payloads from trusted-looking services (T1102 — Web Service).",
       "group": "web-navigation",
       "tactics": [
-        "CommandAndControl",
-        "Execution"
+        "CommandAndControl"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1102",
+        "T1105"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -4016,7 +4643,10 @@
       "tactics": [
         "CommandAndControl"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1071.001"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -4037,6 +4667,7 @@
       "group": "windows-performance",
       "tactics": [],
       "relevantTechniques": [],
+      "mitreNotApplicable": "Operational performance monitoring",
       "tags": [
         "Performance",
         "Investigation"
@@ -4058,6 +4689,7 @@
       "group": "windows-performance",
       "tactics": [],
       "relevantTechniques": [],
+      "mitreNotApplicable": "Operational performance monitoring",
       "tags": [
         "Performance",
         "Investigation"
@@ -4079,6 +4711,7 @@
       "group": "windows-performance",
       "tactics": [],
       "relevantTechniques": [],
+      "mitreNotApplicable": "Operational performance monitoring",
       "tags": [
         "Performance",
         "Investigation"
@@ -4102,7 +4735,11 @@
         "Persistence",
         "PrivilegeEscalation"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1136.001",
+        "T1098.007"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Investigation"
       ],
@@ -4124,7 +4761,10 @@
       "tactics": [
         "CredentialAccess"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1558.003"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -4144,10 +4784,12 @@
       "description": "Identifies network logons using NTLM authentication (Logon Type 3) to workstations: in a properly configured Kerberos environment these should not occur between clients. Indicator of pass-the-hash or weak credentials.",
       "group": "windows-security-events",
       "tactics": [
-        "LateralMovement",
-        "CredentialAccess"
+        "LateralMovement"
       ],
-      "relevantTechniques": [],
+      "relevantTechniques": [
+        "T1550.002"
+      ],
+      "mitreNotApplicable": null,
       "tags": [
         "Hunting"
       ],
@@ -4168,6 +4810,7 @@
       "group": "windows-security-events",
       "tactics": [],
       "relevantTechniques": [],
+      "mitreNotApplicable": "Generic EventID filter template",
       "tags": [
         "Investigation"
       ],

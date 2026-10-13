@@ -5,6 +5,7 @@ description: |
 group: sharepoint-onedrive
 tactics: []
 relevantTechniques: []
+mitreNotApplicable: 'Generic activity volume baseline per user'
 tags:
   - Investigation
 version: 1.0.0

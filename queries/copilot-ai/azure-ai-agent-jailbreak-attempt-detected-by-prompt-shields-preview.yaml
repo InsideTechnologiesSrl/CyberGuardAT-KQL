@@ -4,9 +4,11 @@ description: |
   Identifies Defender for Cloud AI agent alerts where Prompt Shields detected (but may not have blocked) a jailbreak attempt against an agentic workflow. Medium severity. Preview signal — distinct from the blocked-jailbreak variant in that the attempt was detected without necessarily being stopped. Correlate with the agent inventory queries (copilotai-9 through copilotai-11) to assess the agent's risk posture and authorization configuration.
 group: copilot-ai
 tactics:
-  - PrivilegeEscalation
-  - DefenseEvasion
-relevantTechniques: []
+  - InitialAccess
+  - Stealth
+relevantTechniques:
+  - T1190
+  - T1211
 tags:
   - Hunting
 version: 1.0.0

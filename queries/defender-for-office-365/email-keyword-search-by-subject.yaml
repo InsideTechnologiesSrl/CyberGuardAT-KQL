@@ -3,8 +3,10 @@ name: 'Email Keyword Search by Subject'
 description: |
   Finds emails containing specified keywords in the subject — locate all variants of a known phishing campaign or investigate a user-reported suspicious subject line.
 group: defender-for-office-365
-tactics: []
-relevantTechniques: []
+tactics:
+  - InitialAccess
+relevantTechniques:
+  - T1566
 tags:
   - Phishing
   - Investigation

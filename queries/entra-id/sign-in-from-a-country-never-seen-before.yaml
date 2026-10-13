@@ -3,8 +3,10 @@ name: 'Sign-in from a country never seen before'
 description: |
   Finds users successfully signing in from countries they have never connected from in the past 2 weeks. Useful for detecting compromised accounts used by remote attackers.
 group: entra-id
-tactics: []
-relevantTechniques: []
+tactics:
+  - InitialAccess
+relevantTechniques:
+  - T1078.004
 tags:
   - AnomalousLocation
   - Investigation

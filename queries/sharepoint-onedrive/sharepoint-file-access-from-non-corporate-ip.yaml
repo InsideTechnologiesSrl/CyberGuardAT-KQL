@@ -4,8 +4,11 @@ description: |
   File downloads from public IPs outside corporate/VPN ranges — potential access from an unmanaged device or compromised account (T1078.004 — Valid Accounts: Cloud Accounts). Adapt IP ranges.
 group: sharepoint-onedrive
 tactics:
-  - Exfiltration
-relevantTechniques: []
+  - InitialAccess
+  - Collection
+relevantTechniques:
+  - T1078.004
+  - T1530
 tags:
   - Hunting
 version: 1.0.0

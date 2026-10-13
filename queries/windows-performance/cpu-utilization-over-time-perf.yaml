@@ -5,6 +5,7 @@ description: |
 group: windows-performance
 tactics: []
 relevantTechniques: []
+mitreNotApplicable: 'Operational performance monitoring'
 tags:
   - Performance
   - Investigation

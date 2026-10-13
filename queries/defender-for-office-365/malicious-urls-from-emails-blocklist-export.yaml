@@ -3,8 +3,10 @@ name: 'Malicious URLs from Emails — Blocklist Export'
 description: |
   Deduplicated list of malicious URLs found in email campaigns — ready as a blocklist for proxy/firewall or as a Sentinel Watchlist IOC feed.
 group: defender-for-office-365
-tactics: []
-relevantTechniques: []
+tactics:
+  - InitialAccess
+relevantTechniques:
+  - T1566.002
 tags:
   - Phishing
   - ThreatIntel

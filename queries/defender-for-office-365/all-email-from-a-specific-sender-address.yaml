@@ -3,8 +3,10 @@ name: 'All Email from a Specific Sender Address'
 description: |
   Retrieves all emails from a specific address regardless of delivery outcome — starting point for any BEC or phishing investigation. Replace the placeholder with the address to investigate.
 group: defender-for-office-365
-tactics: []
-relevantTechniques: []
+tactics:
+  - InitialAccess
+relevantTechniques:
+  - T1566
 tags:
   - Phishing
   - BEC

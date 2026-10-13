@@ -3,8 +3,10 @@ name: 'Display Name Spoofing — External Sender Impersonating Internal User'
 description: |
   Emails where the visible display name matches an internal person but the domain is external — effective against users who only read the name, not the full address (T1566.001 — Spearphishing).
 group: defender-for-office-365
-tactics: []
-relevantTechniques: []
+tactics:
+  - InitialAccess
+relevantTechniques:
+  - T1566
 tags:
   - Phishing
   - BEC

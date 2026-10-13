@@ -5,8 +5,10 @@ description: |
 group: defender-for-endpoint
 tactics:
   - Discovery
-  - PrivilegeEscalation
-relevantTechniques: []
+  - Collection
+relevantTechniques:
+  - T1083
+  - T1005
 tags:
   - Hunting
 version: 1.0.0

@@ -4,9 +4,11 @@ description: |
   Surfaces Defender for Cloud AI agent alerts where the HTTP user-agent string is suspicious — for example, automated tooling, scrapers, or known attack frameworks. High severity. Preview signal. Suspicious user agents accessing AI agents may indicate automated abuse, credential stuffing, or reconnaissance. Review ExtendedProperties for the raw user-agent string.
 group: copilot-ai
 tactics:
-  - Execution
-  - DefenseEvasion
-relevantTechniques: []
+  - Reconnaissance
+  - InitialAccess
+relevantTechniques:
+  - T1595
+  - T1190
 tags:
   - Hunting
 version: 1.0.0

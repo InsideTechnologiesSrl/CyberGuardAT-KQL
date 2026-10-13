@@ -4,9 +4,11 @@ description: |
   Detects the creation of email forwarding rules pointing to addresses outside the organization — a very common exfiltration technique.
 group: exchange-online
 tactics:
-  - Exfiltration
-  - Persistence
-relevantTechniques: []
+  - Collection
+  - Stealth
+relevantTechniques:
+  - T1114.003
+  - T1564.008
 tags:
   - Investigation
 version: 1.0.0

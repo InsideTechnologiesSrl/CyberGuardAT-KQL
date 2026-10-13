@@ -3,8 +3,10 @@ name: 'Retroactive IOC Sweep by Attachment Hash'
 description: |
   Searches all email history for a specific SHA256 hash from threat intelligence — how many emails with that attachment entered the organization and who received them, enabling rapid containment.
 group: defender-for-office-365
-tactics: []
-relevantTechniques: []
+tactics:
+  - InitialAccess
+relevantTechniques:
+  - T1566.001
 tags:
   - Phishing
   - ThreatIntel

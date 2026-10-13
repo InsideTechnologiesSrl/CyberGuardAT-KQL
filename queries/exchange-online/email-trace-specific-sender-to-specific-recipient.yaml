@@ -3,8 +3,10 @@ name: 'Email Trace — Specific Sender to Specific Recipient'
 description: |
   Retrieves all email messages between a specific sender and recipient pair. Use for targeted BEC investigation or delivery verification.
 group: exchange-online
-tactics: []
-relevantTechniques: []
+tactics:
+  - InitialAccess
+relevantTechniques:
+  - T1566
 tags:
   - BEC
   - Investigation

@@ -5,7 +5,9 @@ description: |
 group: exchange-online
 tactics:
   - Persistence
-relevantTechniques: []
+  - PrivilegeEscalation
+relevantTechniques:
+  - T1098.002
 tags:
   - BEC
   - Investigation

@@ -5,8 +5,9 @@ description: |
 group: defender-for-cloud-apps
 tactics:
   - Collection
-  - Exfiltration
-relevantTechniques: []
+relevantTechniques:
+  - T1530
+  - T1074
 tags:
   - Hunting
 version: 1.0.0

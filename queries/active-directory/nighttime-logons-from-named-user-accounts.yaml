@@ -5,7 +5,8 @@ description: |
 group: active-directory
 tactics:
   - InitialAccess
-relevantTechniques: []
+relevantTechniques:
+  - T1078
 tags:
   - Hunting
 version: 1.0.0

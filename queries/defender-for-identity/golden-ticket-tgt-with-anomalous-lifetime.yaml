@@ -5,8 +5,8 @@ description: |
 group: defender-for-identity
 tactics:
   - CredentialAccess
-  - Persistence
-relevantTechniques: []
+relevantTechniques:
+  - T1558.001
 tags:
   - Hunting
 version: 1.0.0

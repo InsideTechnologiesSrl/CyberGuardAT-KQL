@@ -5,8 +5,8 @@ description: |
 group: defender-for-office-365
 tactics:
   - Collection
-  - Exfiltration
-relevantTechniques: []
+relevantTechniques:
+  - T1114.002
 tags:
   - Hunting
 version: 1.0.0

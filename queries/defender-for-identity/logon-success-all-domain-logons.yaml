@@ -5,6 +5,7 @@ description: |
 group: defender-for-identity
 tactics: []
 relevantTechniques: []
+mitreNotApplicable: 'Baseline listing of successful domain logons, no threat filter'
 tags:
   - Authentication
   - Investigation

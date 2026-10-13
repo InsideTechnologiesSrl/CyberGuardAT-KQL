@@ -3,8 +3,12 @@ name: 'WAF Firewall Events — Top Blocked Client IPs and URIs'
 description: |
   Summarizes WAF events by client IP and requested URI to identify the most frequently triggered sources and endpoints. Helps prioritize IP blocking and WAF rule tuning.
 group: azure-application-gateway
-tactics: []
-relevantTechniques: []
+tactics:
+  - InitialAccess
+  - Reconnaissance
+relevantTechniques:
+  - T1190
+  - T1595.002
 tags:
   - Investigation
 version: 1.0.0

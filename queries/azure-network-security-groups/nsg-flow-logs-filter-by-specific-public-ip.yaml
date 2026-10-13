@@ -5,6 +5,7 @@ description: |
 group: azure-network-security-groups
 tactics: []
 relevantTechniques: []
+mitreNotApplicable: 'Generic IOC pivot on a single IP'
 tags:
   - Investigation
 version: 1.0.0

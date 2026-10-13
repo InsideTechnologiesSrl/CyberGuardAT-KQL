@@ -5,7 +5,10 @@ description: |
 group: active-directory
 tactics:
   - PrivilegeEscalation
-relevantTechniques: []
+  - Stealth
+relevantTechniques:
+  - T1134.002
+  - T1078.002
 tags:
   - Hunting
 version: 1.0.0

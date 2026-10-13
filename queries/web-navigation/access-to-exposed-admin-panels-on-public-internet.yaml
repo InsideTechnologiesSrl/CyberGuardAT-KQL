@@ -4,9 +4,11 @@ description: |
   Connections to well-known admin panel paths (/wp-admin, /phpmyadmin, /.env) on public IPs — reconnaissance or exploitation attempts against internet-facing web assets (T1190 — Exploit Public-Facing Application).
 group: web-navigation
 tactics:
+  - Reconnaissance
   - InitialAccess
-  - Discovery
-relevantTechniques: []
+relevantTechniques:
+  - T1595.003
+  - T1190
 tags:
   - Hunting
 version: 1.0.0

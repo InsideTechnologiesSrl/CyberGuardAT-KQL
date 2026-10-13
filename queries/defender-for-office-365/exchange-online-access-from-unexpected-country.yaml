@@ -6,7 +6,9 @@ group: defender-for-office-365
 tactics:
   - InitialAccess
   - Collection
-relevantTechniques: []
+relevantTechniques:
+  - T1078.004
+  - T1114.002
 tags:
   - Hunting
 version: 1.0.0

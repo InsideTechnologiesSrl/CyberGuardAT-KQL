@@ -4,8 +4,9 @@ description: |
   Identifies accounts with more than 10 failed sign-in attempts in the last 24 hours, grouped by user and IP address. Primary indicator of brute force or password spray attacks.
 group: entra-id
 tactics:
-  - InitialAccess
-relevantTechniques: []
+  - CredentialAccess
+relevantTechniques:
+  - T1110
 tags:
   - BruteForce
   - Hunting

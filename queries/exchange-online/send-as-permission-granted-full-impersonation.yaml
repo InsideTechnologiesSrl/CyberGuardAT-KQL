@@ -3,8 +3,12 @@ name: 'Send As Permission Granted — Full Impersonation'
 description: |
   Detects Add-RecipientPermission actions granting SendAs rights — emails are indistinguishable from legitimate ones sent by the victim.
 group: exchange-online
-tactics: []
-relevantTechniques: []
+tactics:
+  - Persistence
+  - Stealth
+relevantTechniques:
+  - T1098.002
+  - T1684.001
 tags:
   - BEC
   - Impersonation

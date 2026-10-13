@@ -6,7 +6,10 @@ group: defender-for-endpoint
 tactics:
   - InitialAccess
   - Execution
-relevantTechniques: []
+relevantTechniques:
+  - T1566.001
+  - T1204.002
+  - T1059
 tags:
   - Phishing
 version: 1.0.0

@@ -5,7 +5,10 @@ description: |
 group: web-navigation
 tactics:
   - CommandAndControl
-relevantTechniques: []
+  - InitialAccess
+relevantTechniques:
+  - T1071.001
+  - T1566.002
 tags:
   - ThreatIntel
   - Hunting

@@ -5,7 +5,8 @@ description: |
 group: defender-for-office-365
 tactics:
   - InitialAccess
-relevantTechniques: []
+relevantTechniques:
+  - T1566
 tags:
   - Phishing
   - Hunting

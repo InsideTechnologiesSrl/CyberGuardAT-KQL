@@ -5,7 +5,9 @@ description: |
 group: entra-id
 tactics:
   - Persistence
-relevantTechniques: []
+  - PrivilegeEscalation
+relevantTechniques:
+  - T1098.001
 tags:
   - Investigation
 version: 1.0.0

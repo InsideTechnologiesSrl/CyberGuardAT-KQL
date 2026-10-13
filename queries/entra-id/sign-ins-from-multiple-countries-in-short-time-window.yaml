@@ -4,9 +4,9 @@ description: |
   Detects user accounts with sign-in activity from more than one country in a 24-hour period — impossible travel indicator or credential sharing across regions (T1078 — Valid Accounts).
 group: entra-id
 tactics:
-  - CredentialAccess
   - InitialAccess
-relevantTechniques: []
+relevantTechniques:
+  - T1078.004
 tags:
   - Hunting
 version: 1.0.0

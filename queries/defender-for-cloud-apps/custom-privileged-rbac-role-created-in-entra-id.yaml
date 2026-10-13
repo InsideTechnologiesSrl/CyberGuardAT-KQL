@@ -6,7 +6,8 @@ group: defender-for-cloud-apps
 tactics:
   - Persistence
   - PrivilegeEscalation
-relevantTechniques: []
+relevantTechniques:
+  - T1098.003
 tags:
   - Hunting
 version: 1.0.0

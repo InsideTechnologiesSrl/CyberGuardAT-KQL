@@ -5,7 +5,8 @@ description: |
 group: defender-for-identity
 tactics:
   - LateralMovement
-relevantTechniques: []
+relevantTechniques:
+  - T1550.003
 tags:
   - Hunting
 version: 1.0.0

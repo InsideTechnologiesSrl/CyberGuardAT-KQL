@@ -3,9 +3,9 @@ name: 'Agent 365 — Active AI agent inventory'
 description: |
   Lists the current inventory of active (non-deleted) agents registered through Agent 365. Use this as the baseline inventory before assessing agent risk posture. Review CreatorAccountUpn to understand who is building agents and whether agent creation aligns with organizational policy. Empty results indicate no Agent 365 agents are deployed — also a useful data point when auditing the agentic surface.
 group: copilot-ai
-tactics:
-  - Persistence
+tactics: []
 relevantTechniques: []
+mitreNotApplicable: 'AI agent asset inventory baseline'
 tags:
   - Hunting
   - Investigation

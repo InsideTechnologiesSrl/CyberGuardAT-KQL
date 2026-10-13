@@ -5,7 +5,8 @@ description: |
 group: defender-for-identity
 tactics:
   - Impact
-relevantTechniques: []
+relevantTechniques:
+  - T1531
 tags:
   - Hunting
 version: 1.0.0

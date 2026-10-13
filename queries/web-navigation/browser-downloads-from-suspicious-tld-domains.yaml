@@ -5,7 +5,12 @@ description: |
 group: web-navigation
 tactics:
   - InitialAccess
-relevantTechniques: []
+  - Execution
+  - CommandAndControl
+relevantTechniques:
+  - T1189
+  - T1204.002
+  - T1105
 tags:
   - Hunting
 version: 1.0.0

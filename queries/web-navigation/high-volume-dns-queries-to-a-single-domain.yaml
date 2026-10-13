@@ -6,7 +6,10 @@ group: web-navigation
 tactics:
   - CommandAndControl
   - Exfiltration
-relevantTechniques: []
+relevantTechniques:
+  - T1071.004
+  - T1572
+  - T1048
 tags:
   - Hunting
 version: 1.0.0

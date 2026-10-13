@@ -5,8 +5,13 @@ description: |
 group: defender-for-endpoint
 tactics:
   - CredentialAccess
+  - Discovery
   - LateralMovement
-relevantTechniques: []
+relevantTechniques:
+  - T1003
+  - T1558
+  - T1087.002
+  - T1021.002
 tags:
   - Hunting
 version: 1.0.0

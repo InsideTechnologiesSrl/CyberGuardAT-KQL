@@ -5,7 +5,8 @@ description: |
 group: web-navigation
 tactics:
   - CommandAndControl
-relevantTechniques: []
+relevantTechniques:
+  - T1071.001
 tags:
   - Hunting
 version: 1.0.0

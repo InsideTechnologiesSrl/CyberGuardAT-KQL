@@ -5,7 +5,9 @@ description: |
 group: defender-for-endpoint
 tactics:
   - PrivilegeEscalation
-relevantTechniques: []
+  - Stealth
+relevantTechniques:
+  - T1134.001
 tags:
   - Hunting
 version: 1.0.0

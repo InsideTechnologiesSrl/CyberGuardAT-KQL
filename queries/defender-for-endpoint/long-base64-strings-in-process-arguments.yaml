@@ -4,9 +4,9 @@ description: |
   Command lines containing Base64 strings longer than 100 characters — obfuscation technique to hide malicious commands from static analysis and AV signature detection (T1027 — Obfuscated Files or Information).
 group: defender-for-endpoint
 tactics:
-  - Execution
-  - DefenseEvasion
-relevantTechniques: []
+  - Stealth
+relevantTechniques:
+  - T1027.010
 tags:
   - Hunting
 version: 1.0.0

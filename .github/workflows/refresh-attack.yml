@@ -1,0 +1,35 @@
+name: Refresh ATT&CK reference
+
+on:
+  schedule:
+    - cron: "0 5 1 * *"   # first day of every month, 05:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Download the current MITRE ATT&CK Enterprise release
+        run: npm run attack:update
+      - name: Validate queries against it and rebuild index.json
+        run: npm run build
+      - name: Commit if changed
+        run: |
+          if git diff --quiet; then
+            echo "ATT&CK reference unchanged"
+            exit 0
+          fi
+          git config user.name "Inside Technologies"
+          git config user.email "InsideTechnologiesSrl@users.noreply.github.com"
+          git add tools/attack-enterprise.json index.json
+          git commit -m "Refresh MITRE ATT&CK reference"
+          git push

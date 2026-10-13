@@ -4,8 +4,10 @@ description: |
   File downloads using HTTP library user agents (python-requests, curl, wget, go-http-client) instead of browsers — automated exfiltration via script with stolen OAuth tokens (T1530 — Data from Cloud Storage).
 group: sharepoint-onedrive
 tactics:
-  - Exfiltration
-relevantTechniques: []
+  - Collection
+relevantTechniques:
+  - T1530
+  - T1119
 tags:
   - Hunting
 version: 1.0.0

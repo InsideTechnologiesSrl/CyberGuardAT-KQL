@@ -4,9 +4,9 @@ description: |
   Same account authenticated from multiple countries within the same hour — strong indicator of credential compromise since physical travel is impossible (T1078 — Valid Accounts).
 group: active-directory
 tactics:
-  - CredentialAccess
   - InitialAccess
-relevantTechniques: []
+relevantTechniques:
+  - T1078
 tags:
   - Hunting
 version: 1.0.0

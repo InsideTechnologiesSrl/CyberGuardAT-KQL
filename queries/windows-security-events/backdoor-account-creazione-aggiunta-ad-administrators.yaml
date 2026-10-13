@@ -6,7 +6,9 @@ group: windows-security-events
 tactics:
   - Persistence
   - PrivilegeEscalation
-relevantTechniques: []
+relevantTechniques:
+  - T1136.001
+  - T1098.007
 tags:
   - Investigation
 version: 1.0.0

@@ -5,8 +5,9 @@ description: |
 group: web-navigation
 tactics:
   - CommandAndControl
-  - DefenseEvasion
-relevantTechniques: []
+relevantTechniques:
+  - T1071.004
+  - T1572
 tags:
   - Hunting
 version: 1.0.0

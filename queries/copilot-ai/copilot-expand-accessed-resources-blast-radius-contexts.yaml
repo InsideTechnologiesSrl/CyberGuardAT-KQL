@@ -5,8 +5,9 @@ description: |
 group: copilot-ai
 tactics:
   - Collection
-  - Exfiltration
-relevantTechniques: []
+relevantTechniques:
+  - T1213
+  - T1530
 tags:
   - Investigation
 version: 1.0.0

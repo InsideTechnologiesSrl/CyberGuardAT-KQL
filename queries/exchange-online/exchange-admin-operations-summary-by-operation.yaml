@@ -5,6 +5,7 @@ description: |
 group: exchange-online
 tactics: []
 relevantTechniques: []
+mitreNotApplicable: 'Generic admin activity summary'
 tags:
   - Investigation
 version: 1.0.0

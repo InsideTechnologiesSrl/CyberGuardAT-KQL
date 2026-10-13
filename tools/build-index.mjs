@@ -11,11 +11,9 @@ const QUERIES = join(ROOT, 'queries');
 const INDEX = join(ROOT, 'index.json');
 const check = process.argv.includes('--check');
 
-const TACTICS = new Set([
-  'Reconnaissance', 'ResourceDevelopment', 'InitialAccess', 'Execution', 'Persistence', 'PrivilegeEscalation',
-  'DefenseEvasion', 'CredentialAccess', 'Discovery', 'LateralMovement', 'Collection', 'CommandAndControl',
-  'Exfiltration', 'Impact',
-]);
+// MITRE ATT&CK Enterprise reference (tools/update-attack.mjs): active tactics and techniques only
+const ATTACK = JSON.parse(readFileSync(join(ROOT, 'tools', 'attack-enterprise.json'), 'utf8'));
+const TACTICS = new Set(ATTACK.tactics.map(t => t.name));
 const GUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
 const TECHNIQUE = /^T\d{4}(\.\d{3})?$/;
 const SEMVER = /^\d+\.\d+\.\d+$/;
@@ -54,8 +52,23 @@ for (const folder of readdirSync(QUERIES, { withFileTypes: true }).filter(d => d
     if (!DATE.test(date(q.added))) err('added must be YYYY-MM-DD');
     if (q.updated != null && !DATE.test(date(q.updated))) err('updated must be YYYY-MM-DD');
     if (!str(q.author)) err('author is required');
-    for (const t of arr(q.tactics)) if (!TACTICS.has(t)) err(`unknown tactic "${t}"`);
-    for (const t of arr(q.relevantTechniques)) if (!TECHNIQUE.test(t)) err(`invalid technique "${t}"`);
+    // MITRE mapping is mandatory: techniques + tactics, or an explicit reason why it does not apply
+    const techniques = arr(q.relevantTechniques), tactics = arr(q.tactics), na = str(q.mitreNotApplicable);
+    if (na) {
+      if (techniques.length || tactics.length) err('mitreNotApplicable is set: tactics and relevantTechniques must be empty');
+    } else if (!techniques.length || !tactics.length) {
+      err('MITRE mapping missing: set tactics and relevantTechniques, or mitreNotApplicable with a reason');
+    }
+    const covered = new Set();
+    for (const t of techniques) {
+      if (!TECHNIQUE.test(t)) err(`invalid technique "${t}"`);
+      else if (!ATTACK.techniques[t]) err(`technique ${t} is not an active technique in ATT&CK ${ATTACK.version}`);
+      else ATTACK.techniques[t].tactics.forEach(x => covered.add(x));
+    }
+    for (const t of tactics) {
+      if (!TACTICS.has(t)) err(`unknown tactic "${t}" (ATT&CK ${ATTACK.version})`);
+      else if (techniques.length && !covered.has(t)) err(`tactic ${t} is not covered by any of the listed techniques`);
+    }
 
     queries.push({
       id: q.id,
@@ -64,6 +77,7 @@ for (const folder of readdirSync(QUERIES, { withFileTypes: true }).filter(d => d
       group: folder,
       tactics: arr(q.tactics),
       relevantTechniques: arr(q.relevantTechniques),
+      mitreNotApplicable: str(q.mitreNotApplicable),
       tags: arr(q.tags),
       requiredDataConnectors: arr(q.requiredDataConnectors),
       version: String(q.version),
@@ -84,7 +98,7 @@ if (errors.length) {
   process.exit(1);
 }
 
-const index = JSON.stringify({ schemaVersion: 1, count: queries.length, groups, queries }, null, 2) + '\n';
+const index = JSON.stringify({ schemaVersion: 1, attackVersion: ATTACK.version, count: queries.length, groups, queries }, null, 2) + '\n';
 if (check) {
   if (!existsSync(INDEX) || readFileSync(INDEX, 'utf8').replace(/\r\n/g, '\n') !== index) {
     console.error('index.json is out of date: run "npm run build" and commit the result');

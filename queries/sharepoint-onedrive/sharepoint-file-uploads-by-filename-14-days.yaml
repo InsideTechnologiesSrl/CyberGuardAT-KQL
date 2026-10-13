@@ -4,8 +4,9 @@ description: |
   Ranks most frequently uploaded filenames on SharePoint over 14 days, sorted by volume. Identifies specific files or file patterns being repeatedly uploaded.
 group: sharepoint-onedrive
 tactics:
-  - Exfiltration
-relevantTechniques: []
+  - Collection
+relevantTechniques:
+  - T1074.002
 tags:
   - Investigation
 version: 1.0.0

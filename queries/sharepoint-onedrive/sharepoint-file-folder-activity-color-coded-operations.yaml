@@ -3,9 +3,9 @@ name: 'SharePoint File & Folder Activity (Color-Coded Operations)'
 description: |
   Complete view of SharePoint file and folder events over 7 days with color-coded operation labels. Covers create, modify, delete, access, and upload events across files and folders, including the managing device.
 group: sharepoint-onedrive
-tactics:
-  - Exfiltration
+tactics: []
 relevantTechniques: []
+mitreNotApplicable: 'Generic SharePoint file/folder activity view'
 tags:
   - DataLoss
   - Investigation

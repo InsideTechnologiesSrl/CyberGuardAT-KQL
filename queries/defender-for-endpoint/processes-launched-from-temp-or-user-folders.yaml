@@ -5,7 +5,8 @@ description: |
 group: defender-for-endpoint
 tactics:
   - Execution
-relevantTechniques: []
+relevantTechniques:
+  - T1204.002
 tags:
   - Hunting
 version: 1.0.0

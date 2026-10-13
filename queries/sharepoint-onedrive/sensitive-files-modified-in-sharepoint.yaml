@@ -3,8 +3,12 @@ name: 'Sensitive Files Modified in SharePoint'
 description: |
   Modifications to files with names indicating sensitive content (contracts, budget, salary, M&A, confidential) — DLP monitoring for high-value documents (T1565 — Data Manipulation).
 group: sharepoint-onedrive
-tactics: []
-relevantTechniques: []
+tactics:
+  - Impact
+  - Collection
+relevantTechniques:
+  - T1565.001
+  - T1213.002
 tags:
   - DataLoss
   - Hunting

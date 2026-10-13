@@ -3,10 +3,9 @@ name: 'Agent 365 — Agents with MCP tool configured (expanded attack surface)'
 description: |
   Identifies AI agents that have Model Context Protocol (MCP) tool configurations, which give them the ability to invoke external tool operations and expand their attack surface beyond standard agent interactions. Lists configured MCP tool names grouped by agent and creator. Review tool names and creator accounts to determine whether configurations are authorized. An unrecognized MCP tool warrants investigation into what it accesses and who approved its configuration.
 group: copilot-ai
-tactics:
-  - Persistence
-  - Execution
+tactics: []
 relevantTechniques: []
+mitreNotApplicable: 'AI agent configuration posture inventory'
 tags:
   - Hunting
 version: 1.0.0

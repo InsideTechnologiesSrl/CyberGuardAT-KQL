@@ -4,9 +4,10 @@ description: |
   Detects registry modifications that disable Windows Defender real-time protection or tamper protection — a precursor step attackers take to persist undetected on endpoints (T1562.001 — Impair Defenses).
 group: defender-for-endpoint
 tactics:
-  - DefenseEvasion
-  - Persistence
-relevantTechniques: []
+  - DefenseImpairment
+relevantTechniques:
+  - T1685
+  - T1112
 tags:
   - Hunting
 version: 1.0.0

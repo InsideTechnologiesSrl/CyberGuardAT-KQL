@@ -5,6 +5,7 @@ description: |
 group: windows-security-events
 tactics: []
 relevantTechniques: []
+mitreNotApplicable: 'Generic EventID filter template'
 tags:
   - Investigation
 version: 1.0.0

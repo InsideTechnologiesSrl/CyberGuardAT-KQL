@@ -5,7 +5,10 @@ description: |
 group: active-directory
 tactics:
   - LateralMovement
-relevantTechniques: []
+  - InitialAccess
+relevantTechniques:
+  - T1078
+  - T1021
 tags:
   - Hunting
 version: 1.0.0

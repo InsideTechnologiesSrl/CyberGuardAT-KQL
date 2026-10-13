@@ -5,8 +5,11 @@ description: |
 group: defender-for-endpoint
 tactics:
   - Execution
-  - InitialAccess
-relevantTechniques: []
+  - Stealth
+relevantTechniques:
+  - T1059.005
+  - T1059.007
+  - T1218.005
 tags:
   - Hunting
 version: 1.0.0

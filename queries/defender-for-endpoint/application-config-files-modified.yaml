@@ -4,9 +4,11 @@ description: |
   Modifications to application configuration files (web.config, appsettings.json, .env, wp-config.php) — used to inject C2 connections, change DB credentials, or disable security controls (T1565 — Data Manipulation).
 group: defender-for-endpoint
 tactics:
+  - Impact
   - Persistence
-  - DefenseEvasion
-relevantTechniques: []
+relevantTechniques:
+  - T1565.001
+  - T1505
 tags:
   - Hunting
 version: 1.0.0

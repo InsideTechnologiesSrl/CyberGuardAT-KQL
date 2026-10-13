@@ -5,7 +5,8 @@ description: |
 group: azure-activity
 tactics:
   - Impact
-relevantTechniques: []
+relevantTechniques:
+  - T1485
 tags:
   - Investigation
 version: 1.0.0

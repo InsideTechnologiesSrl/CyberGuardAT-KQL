@@ -4,9 +4,11 @@ description: |
   Use of mklink or New-Item SymbolicLink targeting system directories — technique used for privilege escalation or bypassing file access controls (T1574 — Hijack Execution Flow).
 group: defender-for-endpoint
 tactics:
+  - Stealth
   - PrivilegeEscalation
-  - DefenseEvasion
-relevantTechniques: []
+relevantTechniques:
+  - T1574
+  - T1068
 tags:
   - Hunting
 version: 1.0.0

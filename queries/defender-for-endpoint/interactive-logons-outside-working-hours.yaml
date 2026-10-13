@@ -6,7 +6,9 @@ group: defender-for-endpoint
 tactics:
   - InitialAccess
   - LateralMovement
-relevantTechniques: []
+relevantTechniques:
+  - T1078
+  - T1021.001
 tags:
   - Hunting
 version: 1.0.0

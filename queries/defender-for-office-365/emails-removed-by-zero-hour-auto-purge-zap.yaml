@@ -3,8 +3,11 @@ name: 'Emails Removed by Zero-Hour Auto Purge (ZAP)'
 description: |
   Emails initially delivered and later removed by ZAP — threat detected late; users may have already opened the message before removal.
 group: defender-for-office-365
-tactics: []
-relevantTechniques: []
+tactics:
+  - InitialAccess
+relevantTechniques:
+  - T1566.001
+  - T1566.002
 tags:
   - Phishing
   - Malware

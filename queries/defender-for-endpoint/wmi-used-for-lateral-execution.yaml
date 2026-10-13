@@ -4,9 +4,9 @@ description: |
   Unexpected child processes spawned by WmiPrvSE.exe — WMI-based lateral execution technique that runs fileless on the target and bypasses many perimeter controls (T1047 — Windows Management Instrumentation).
 group: defender-for-endpoint
 tactics:
-  - LateralMovement
   - Execution
-relevantTechniques: []
+relevantTechniques:
+  - T1047
 tags:
   - Hunting
 version: 1.0.0

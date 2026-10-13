@@ -4,8 +4,9 @@ description: |
   Counts FileUploaded operations per user on SharePoint over 14 days. Helps identify bulk uploaders that may be staging data for external sharing.
 group: sharepoint-onedrive
 tactics:
-  - Exfiltration
-relevantTechniques: []
+  - Collection
+relevantTechniques:
+  - T1074.002
 tags:
   - Investigation
 version: 1.0.0

@@ -4,9 +4,9 @@ description: |
   Detects inbox or transport rules configured to silently forward email to external providers (Gmail, Yahoo, ProtonMail) — near-certain indicator of a compromised account used for BEC (T1114.003 — Email Forwarding Rule).
 group: defender-for-office-365
 tactics:
-  - Exfiltration
-  - Persistence
-relevantTechniques: []
+  - Collection
+relevantTechniques:
+  - T1114.003
 tags:
   - BEC
 version: 1.0.0
