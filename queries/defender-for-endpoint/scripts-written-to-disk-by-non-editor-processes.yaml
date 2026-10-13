@@ -1,0 +1,24 @@
+id: 70b72cd4-68a8-50c9-aa94-4a2f728f3cc3
+name: 'Scripts Written to Disk by Non-Editor Processes'
+description: |
+  Script files (.ps1, .bat, .vbs, .js) created by processes other than known editors — multi-stage dropper pattern where the first stage materializes subsequent payloads on disk (T1059 — Command and Scripting Interpreter).
+group: defender-for-endpoint
+tactics:
+  - Execution
+  - Persistence
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: file-3
+query: |
+  DeviceFileEvents
+  | where ActionType == "FileCreated"
+  | where FileName endswith ".ps1" or FileName endswith ".bat"
+      or FileName endswith ".vbs" or FileName endswith ".js"
+  | where InitiatingProcessFileName !in~ ("code.exe", "notepad.exe", "notepad++.exe", "explorer.exe")
+  | extend AccountName = InitiatingProcessAccountName
+  | project Timestamp, DeviceName, AccountName, FileName, FolderPath, InitiatingProcessFileName, SHA256
+  | order by Timestamp desc

@@ -1,0 +1,24 @@
+id: 340bc519-e44b-5c75-9ccd-2f2dcb9cf7eb
+name: 'Windows Defender Disabled or Modified via Registry'
+description: |
+  Detects registry modifications that disable Windows Defender real-time protection or tamper protection — a precursor step attackers take to persist undetected on endpoints (T1562.001 — Impair Defenses).
+group: defender-for-endpoint
+tactics:
+  - DefenseEvasion
+  - Persistence
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mde-12
+query: |
+  DeviceRegistryEvents
+  | where RegistryKey has @"SOFTWARE\Policies\Microsoft\Windows Defender"
+      or RegistryKey has @"SOFTWARE\Microsoft\Windows Defender\Features"
+  | where ActionType in ("RegistryValueSet", "RegistryKeyCreated")
+  | where RegistryValueName in~ ("DisableAntiSpyware", "DisableRealtimeMonitoring", "TamperProtection")
+  | extend AccountName = InitiatingProcessAccountName
+  | project Timestamp, DeviceName, AccountName, RegistryKey, RegistryValueName, RegistryValueData
+  | order by Timestamp desc

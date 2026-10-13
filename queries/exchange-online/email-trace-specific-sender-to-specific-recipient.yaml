@@ -1,0 +1,20 @@
+id: 7c526306-bc41-516e-a2cc-07ab86e292c4
+name: 'Email Trace — Specific Sender to Specific Recipient'
+description: |
+  Retrieves all email messages between a specific sender and recipient pair. Use for targeted BEC investigation or delivery verification.
+group: exchange-online
+tactics: []
+relevantTechniques: []
+tags:
+  - BEC
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: o365-17
+query: |
+  EmailEvents
+  | where SenderFromAddress == "mittente@dominio.com"
+  | where RecipientEmailAddress == "destinatario@dominio.com"
+  | project TimeGenerated, NetworkMessageId, SenderFromAddress, RecipientEmailAddress, DeliveryAction, Subject
+  | order by TimeGenerated desc

@@ -1,0 +1,20 @@
+id: 7c4ecd32-1ce8-5dd3-b2ba-63bbe072210b
+name: 'Copilot — High-volume usage anomaly (>50 events/hour per user)'
+description: |
+  Identifies users generating more than 50 M365 Copilot events in a single hour, flagging statistical outliers that may warrant investigation. High volume alone is not evidence of abuse — legitimate power users, automated workflows, or testing can produce similar patterns. Triage by examining AppHost and resource context to determine whether the volume reflects normal work or anomalous behavior. Adjust the threshold to match your organization's baseline usage.
+group: copilot-ai
+tactics:
+  - Impact
+  - Exfiltration
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2026-06-15
+author: Silvio Di Benedetto
+legacyId: copilotai-4
+query: |
+  CopilotActivity
+  | summarize EventCount = count() by ActorName, bin(TimeGenerated, 1h)
+  | where EventCount > 50
+  | order by EventCount desc

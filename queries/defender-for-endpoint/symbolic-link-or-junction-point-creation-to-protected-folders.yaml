@@ -1,0 +1,23 @@
+id: 0f4a0418-f982-5e57-a288-06a98858170f
+name: 'Symbolic Link or Junction Point Creation to Protected Folders'
+description: |
+  Use of mklink or New-Item SymbolicLink targeting system directories — technique used for privilege escalation or bypassing file access controls (T1574 — Hijack Execution Flow).
+group: defender-for-endpoint
+tactics:
+  - PrivilegeEscalation
+  - DefenseEvasion
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: file-10
+query: |
+  DeviceProcessEvents
+  | where FileName in~ ("cmd.exe", "powershell.exe")
+  | where ProcessCommandLine has "mklink"
+      or (ProcessCommandLine has "New-Item" and ProcessCommandLine has "SymbolicLink")
+      or ProcessCommandLine has "junction"
+  | project Timestamp, DeviceName, AccountName, ProcessCommandLine, InitiatingProcessFileName
+  | order by Timestamp desc

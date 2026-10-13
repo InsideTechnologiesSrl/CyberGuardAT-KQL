@@ -1,0 +1,23 @@
+id: 0eb5117f-750d-5c35-a837-b1aa7de906be
+name: 'System Processes Making Cleartext HTTP Connections'
+description: |
+  Windows system processes (svchost, rundll32, regsvr32) making plain HTTP connections to the internet — potential C2 beacon using HTTP to evade TLS inspection (T1071.001 — Application Layer Protocol: Web Protocols).
+group: web-navigation
+tactics:
+  - CommandAndControl
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: web-4
+query: |
+  DeviceNetworkEvents
+  | where ActionType == "ConnectionSuccess"
+  | where RemotePort == 80
+  | where RemoteIPType == "Public"
+  | where InitiatingProcessFileName in~ ("svchost.exe", "wuauclt.exe", "msiexec.exe", "rundll32.exe", "regsvr32.exe")
+  | extend AccountName = InitiatingProcessAccountName
+  | project Timestamp, DeviceName, AccountName, RemoteUrl, RemoteIP, InitiatingProcessFileName
+  | order by Timestamp desc

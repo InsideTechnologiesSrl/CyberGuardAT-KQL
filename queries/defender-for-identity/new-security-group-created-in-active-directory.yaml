@@ -1,0 +1,19 @@
+id: d8cfa79d-5185-5fb7-aeb8-a33e0fee6857
+name: 'New Security Group Created in Active Directory'
+description: |
+  Every new AD security group should be tracked — attackers create custom groups to grant persistent access or aggregate backdoor accounts without modifying existing privileged groups (T1136 — Create Account).
+group: defender-for-identity
+tactics:
+  - Persistence
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: grp-1
+query: |
+  IdentityDirectoryEvents
+  | where ActionType == "Group created"
+  | project Timestamp, AccountDisplayName, TargetAccountDisplayName, AdditionalFields, DeviceName
+  | order by Timestamp desc

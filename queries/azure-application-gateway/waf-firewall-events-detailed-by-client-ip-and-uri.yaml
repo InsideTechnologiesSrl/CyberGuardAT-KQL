@@ -1,0 +1,18 @@
+id: 35416f50-e938-5ab5-ac14-c06a22e29123
+name: 'WAF Firewall Events — Detailed by Client IP and URI'
+description: |
+  Aggregates Azure Application Gateway WAF firewall log entries by client IP, request URI, WAF action, site, and rule details. Useful for identifying blocked attacks and false positives per minute.
+group: azure-application-gateway
+tactics: []
+relevantTechniques: []
+tags:
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: agw-1
+query: |
+  AzureDiagnostics
+  | where ResourceProvider == "MICROSOFT.NETWORK"
+      and Category == "ApplicationGatewayFirewallLog"
+  | summarize count() by clientIp_s, requestUri_s, action_s, site_s, details_message_s, details_data_s, bin(TimeGenerated, 1m)

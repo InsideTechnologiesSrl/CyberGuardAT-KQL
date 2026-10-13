@@ -1,0 +1,21 @@
+id: d422f259-865d-5f0b-9a78-20a973430547
+name: 'Azure AI Agent — Access from anonymized IP (Tor / anonymizer, preview)'
+description: |
+  Identifies Defender for Cloud AI agent alerts where the access originates from an anonymizing network such as Tor. High severity. Preview signal. Access to AI agents from anonymizing networks is a strong indicator of intentional evasion. Investigate whether the actor is an authenticated user and escalate if access involved sensitive data or privileged agent operations.
+group: copilot-ai
+tactics:
+  - Execution
+  - DefenseEvasion
+  - InitialAccess
+relevantTechniques: []
+tags: []
+version: 1.0.0
+added: 2026-06-15
+author: Silvio Di Benedetto
+legacyId: copilotai-15
+query: |
+  SecurityAlert
+  | where AlertType in ("AI.Azure_Agentic_AccessFromAnonymizedIP")
+         or AlertName in ("AI.Azure_Agentic_AccessFromAnonymizedIP")
+  | project TimeGenerated, AlertName, AlertType, Severity,
+            Description, Entities, ExtendedProperties

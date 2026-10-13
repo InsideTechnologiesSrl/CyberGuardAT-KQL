@@ -1,0 +1,22 @@
+id: 3600cb6e-1ccf-550f-ac9e-1d2e97650791
+name: 'Phishing Spray — Same Sender to Many Recipients'
+description: |
+  Identifies a single sender delivering the same subject to more than 15 recipients in one hour — pattern of a compromised account used as an internal phishing relay (T1566 — Phishing).
+group: defender-for-office-365
+tactics:
+  - InitialAccess
+relevantTechniques: []
+tags:
+  - Phishing
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mdo-6
+query: |
+  EmailEvents
+  | where Timestamp > ago(24h)
+  | where DeliveryAction in ("Delivered", "DeliveredAsSpam")
+  | summarize RecipientCount = dcount(RecipientEmailAddress), Recipients = make_set(RecipientEmailAddress, 20) by SenderFromAddress, Subject, bin(Timestamp, 1h)
+  | where RecipientCount > 15
+  | order by RecipientCount desc

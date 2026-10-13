@@ -1,0 +1,21 @@
+id: 647900c1-1623-537e-86b9-9a713cede9fd
+name: 'WMI Used for Lateral Execution'
+description: |
+  Unexpected child processes spawned by WmiPrvSE.exe — WMI-based lateral execution technique that runs fileless on the target and bypasses many perimeter controls (T1047 — Windows Management Instrumentation).
+group: defender-for-endpoint
+tactics:
+  - LateralMovement
+  - Execution
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: proc-9
+query: |
+  DeviceProcessEvents
+  | where InitiatingProcessFileName =~ "WmiPrvSE.exe"
+  | where FileName !in~ ("msiexec.exe", "SearchIndexer.exe", "WerFault.exe")
+  | project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, InitiatingProcessFileName
+  | order by Timestamp desc

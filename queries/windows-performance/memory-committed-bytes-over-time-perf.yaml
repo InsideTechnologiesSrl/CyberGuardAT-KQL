@@ -1,0 +1,21 @@
+id: 3d39fc31-d237-5626-b077-b8313bbf547e
+name: 'Memory — Committed Bytes Over Time (Perf)'
+description: |
+  Tracks committed memory in GB for a Windows computer over time. Useful for detecting memory leaks, capacity planning, or correlating resource exhaustion with security events.
+group: windows-performance
+tactics: []
+relevantTechniques: []
+tags:
+  - Performance
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: perf-2
+query: |
+  Perf
+  | where Computer contains "ltm01.xshypo1" // replace with your computer name
+  | where ObjectName == "Memory"
+  | where CounterName == "Committed Bytes"
+  | summarize AvgMemoryGB = avg(CounterValue / pow(1024, 3)) by bin(TimeGenerated, 1m), Computer
+  | order by TimeGenerated asc

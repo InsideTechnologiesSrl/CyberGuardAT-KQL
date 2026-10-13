@@ -1,0 +1,24 @@
+id: 28e3007a-1580-55ac-aec1-2f23a70c3727
+name: 'Impossible Travel — Simultaneous Logins from Different Countries'
+description: |
+  Same account authenticated from multiple countries within the same hour — strong indicator of credential compromise since physical travel is impossible (T1078 — Valid Accounts).
+group: active-directory
+tactics:
+  - CredentialAccess
+  - InitialAccess
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: login-5
+query: |
+  DeviceLogonEvents
+  | where ActionType == "LogonSuccess"
+  | where Timestamp > ago(1h)
+  | extend Country = tostring(AdditionalFields.Country)
+  | where isnotempty(Country)
+  | summarize Countries = dcount(Country), CountryList = make_set(Country), Devices = make_set(DeviceName) by AccountName, bin(Timestamp, 1h)
+  | where Countries > 1
+  | order by Countries desc

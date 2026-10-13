@@ -1,0 +1,24 @@
+id: b921ccc7-49fe-5659-a9f1-bc17bc852011
+name: 'User Clicks on Suspicious URLs Post-Delivery'
+description: |
+  Tracks user clicks on external URLs from emails after delivery — identifies users who interacted with phishing links before or after Safe Links inspection.
+group: defender-for-office-365
+tactics:
+  - InitialAccess
+relevantTechniques: []
+tags:
+  - Phishing
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mdo-4
+query: |
+  UrlClickEvents
+  | where Timestamp > ago(7d)
+  | join kind=leftouter (
+      EmailUrlInfo
+      | project NetworkMessageId, Url, UrlDomain
+  ) on NetworkMessageId, Url
+  | project Timestamp, AccountUpn, Url, UrlDomain, ActionType, IsClickedThrough, ThreatTypes
+  | order by Timestamp desc

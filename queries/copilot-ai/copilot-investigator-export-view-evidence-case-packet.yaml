@@ -1,0 +1,23 @@
+id: 7ce8230d-fcb1-5200-9bf3-e2bb268f20cf
+name: 'Copilot — Investigator export view (evidence case packet)'
+description: |
+  Produces a structured export of M365 Copilot activity combining user identity, source IP, application context, and accessed resources — suitable as the evidence foundation for a case file. Captures metadata from the CopilotActivity table. Note: audit logs are metadata-first and do not contain the actual text of prompts or responses. When content-level evidence is required (what was asked / what was returned), pivot to Microsoft Purview eDiscovery or DSPM for AI.
+group: copilot-ai
+tactics:
+  - Exfiltration
+  - Collection
+relevantTechniques: []
+tags:
+  - Investigation
+version: 1.0.0
+added: 2026-06-15
+author: Silvio Di Benedetto
+legacyId: copilotai-5
+query: |
+  CopilotActivity
+  | extend Contexts     = parse_json(LLMEventData.Contexts)
+  | mv-expand ctx       = Contexts
+  | extend ResourceId   = tostring(ctx.Id),
+           ResourceType = tostring(ctx.Type)
+  | project TimeGenerated, ActorName, ActorUserId, SrcIpAddr,
+            AppHost, ResourceId, ResourceType, RecordType

@@ -1,0 +1,24 @@
+id: 5408d151-2dbc-5fec-b288-e659f9647e4a
+name: 'Files Uploaded to AI Platforms (Data Leakage via Prompt)'
+description: |
+  Direct file uploads to generative AI services — corporate documents, contracts, or source code uploaded as prompt context represent an immediate and difficult-to-reverse DLP risk.
+group: defender-for-cloud-apps
+tactics:
+  - Exfiltration
+relevantTechniques: []
+tags:
+  - DataLoss
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: cloud-5
+query: |
+  CloudAppEvents
+  | where Application in (
+      "ChatGPT", "OpenAI", "Google Gemini", "Claude",
+      "Perplexity AI", "Mistral AI", "Hugging Face"
+  )
+  | where ActionType in ("FileUploaded", "Upload", "Attach")
+  | project Timestamp, AccountDisplayName, Application, ActionType, ObjectName, IPAddress
+  | order by Timestamp desc

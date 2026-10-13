@@ -1,0 +1,25 @@
+id: 5b5ec00d-68aa-5c96-89a1-0d16647d3abb
+name: 'Executable Files Uploaded to SharePoint'
+description: |
+  Executables or scripts uploaded to SharePoint — potential internal malware distribution via shared links or automated workflows (T1105 — Ingress Tool Transfer).
+group: sharepoint-onedrive
+tactics:
+  - Execution
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: spo-4
+query: |
+  CloudAppEvents
+  | where Application == "Microsoft SharePoint Online"
+  | where ActionType == "FileUploaded"
+  | where ObjectName endswith ".exe"
+      or ObjectName endswith ".dll"
+      or ObjectName endswith ".ps1"
+      or ObjectName endswith ".bat"
+      or ObjectName endswith ".msi"
+  | project Timestamp, AccountDisplayName, ObjectName, AdditionalFields, IPAddress
+  | order by Timestamp desc

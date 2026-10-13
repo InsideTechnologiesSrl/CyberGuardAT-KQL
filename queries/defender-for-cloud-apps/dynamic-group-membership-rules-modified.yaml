@@ -1,0 +1,24 @@
+id: 6ee2395e-004f-5b3b-abee-104cfc097808
+name: 'Dynamic Group Membership Rules Modified'
+description: |
+  Changes to Entra ID dynamic group membership rules can silently include unintended users in groups that grant access to sensitive resources.
+group: defender-for-cloud-apps
+tactics:
+  - Persistence
+  - PrivilegeEscalation
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: grp-7
+query: |
+  AuditLogs
+  | where OperationName == "Update group"
+  | where TargetResources has "membershipRule"
+  | extend ModifiedBy = tostring(InitiatedBy.user.userPrincipalName)
+  | extend OldRule = tostring(parse_json(tostring(TargetResources))[0].modifiedProperties[0].oldValue)
+  | extend NewRule = tostring(parse_json(tostring(TargetResources))[0].modifiedProperties[0].newValue)
+  | project TimeGenerated, ModifiedBy, OldRule, NewRule
+  | order by TimeGenerated desc

@@ -1,0 +1,17 @@
+id: 03469c8d-1763-5a7a-8fdb-53795eebdb18
+name: 'Windows Event ID Filter (Custom EventID)'
+description: |
+  Returns all Windows events matching a specific EventID over 14 days. Replace 5000 with any EventID of interest. Useful as a template for event-based alerting and custom security event analysis.
+group: windows-security-events
+tactics: []
+relevantTechniques: []
+tags:
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: win-4
+query: |
+  Event
+  | where EventID == 5000 // replace with the EventID to investigate
+  | where TimeGenerated > ago(14d)

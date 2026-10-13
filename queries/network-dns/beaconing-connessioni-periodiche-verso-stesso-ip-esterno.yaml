@@ -1,0 +1,29 @@
+id: 5f1a11de-9452-502a-9ba0-123d46730864
+name: 'Beaconing — connessioni periodiche verso stesso IP esterno'
+description: |
+  Detects hosts making very frequent connections to the same external IP over a 24-hour period. Typical pattern of C2 malware with a fixed beacon interval: high connection frequency to a single destination.
+group: network-dns
+tactics:
+  - CommandAndControl
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: net-2
+query: |
+  CommonSecurityLog
+  | where TimeGenerated > ago(24h)
+  | where CommunicationDirection == "Outbound"
+  | where not(DestinationIP matches regex @"^(10.|192.168.|172.(1[6-9]|2[0-9]|3[01]).)")
+  | summarize
+      Connections = count(),
+      Ports       = make_set(DestinationPort, 5),
+      FirstSeen   = min(TimeGenerated),
+      LastSeen    = max(TimeGenerated)
+    by SourceIP, DestinationIP
+  | where Connections > 50
+  | extend DurationH = round(datetime_diff("minute", LastSeen, FirstSeen) / 60.0, 1)
+  | where DurationH > 1
+  | order by Connections desc

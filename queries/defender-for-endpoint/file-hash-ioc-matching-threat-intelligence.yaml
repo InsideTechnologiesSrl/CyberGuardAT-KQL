@@ -1,0 +1,25 @@
+id: a84d07bb-ec55-5714-9a48-aac887aa878d
+name: 'File Hash IOC Matching (Threat Intelligence)'
+description: |
+  Matches created files against known malicious SHA256 hashes from threat intelligence. Feed this query with a Sentinel Watchlist of current IOCs for production use (T1204 — User Execution).
+group: defender-for-endpoint
+tactics:
+  - Execution
+relevantTechniques: []
+tags:
+  - ThreatIntel
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: file-8
+query: |
+  DeviceFileEvents
+  | where ActionType == "FileCreated"
+  | where SHA256 in (
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "aec070645fe53ee3b3763059376134f058cc337247c978add178b6ccdfb0019f"
+  )
+  | extend AccountName = InitiatingProcessAccountName
+  | project Timestamp, DeviceName, AccountName, FileName, FolderPath, SHA256
+  | order by Timestamp desc

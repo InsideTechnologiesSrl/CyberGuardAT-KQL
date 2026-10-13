@@ -1,0 +1,21 @@
+id: eb960466-4ce6-58fe-84fc-b143af753d22
+name: 'Teams External Federation or Shared Channels Enabled'
+description: |
+  Settings enabling Teams consumer federation or shared channels with external tenants — if unplanned, can open internal data to unauthorized organizations.
+group: defender-for-cloud-apps
+tactics:
+  - Exfiltration
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: grp-10
+query: |
+  CloudAppEvents
+  | where ActionType == "TeamsTenantSettingChanged"
+      or ActionType == "ExternalAccessSettingChanged"
+  | where AdditionalFields has_any ("AllowTeamsConsumer", "AllowFederatedUsers", "SharedChannels")
+  | project Timestamp, AccountDisplayName, ActionType, AdditionalFields, IPAddress
+  | order by Timestamp desc

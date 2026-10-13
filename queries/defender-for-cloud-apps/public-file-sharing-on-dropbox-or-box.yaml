@@ -1,0 +1,22 @@
+id: 11d2f1e1-f8cb-5053-bf4e-4fba2f516e2e
+name: 'Public File Sharing on Dropbox or Box'
+description: |
+  Files shared via public or anonymous links on external cloud storage — severe DLP violation as data exits the M365 perimeter and is beyond native Microsoft monitoring controls.
+group: defender-for-cloud-apps
+tactics:
+  - Exfiltration
+relevantTechniques: []
+tags:
+  - DataLoss
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: cloud-8
+query: |
+  CloudAppEvents
+  | where Application in ("Dropbox", "Box", "Google Drive")
+  | where ActionType in ("SharedLink", "SharedLinkCreated", "SharingSet", "FileShared")
+  | where AdditionalFields has_any ("public", "anyone", "open", "anonymous")
+  | project Timestamp, AccountDisplayName, Application, ActionType, ObjectName, AdditionalFields, IPAddress
+  | order by Timestamp desc

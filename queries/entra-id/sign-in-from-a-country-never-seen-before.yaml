@@ -1,0 +1,27 @@
+id: ac1cc9de-2b91-5fcc-9f16-e42b2ce5e929
+name: 'Sign-in from a country never seen before'
+description: |
+  Finds users successfully signing in from countries they have never connected from in the past 2 weeks. Useful for detecting compromised accounts used by remote attackers.
+group: entra-id
+tactics: []
+relevantTechniques: []
+tags:
+  - AnomalousLocation
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: entra-3
+query: |
+  let lookback  = 14d;
+  let recentWin = 1d;
+  let known_countries = SigninLogs
+      | where TimeGenerated between (ago(lookback) .. ago(recentWin))
+      | where ResultType == "0"
+      | distinct UserPrincipalName, KnownLocation = Location;
+  SigninLogs
+  | where TimeGenerated > ago(recentWin)
+  | where ResultType == "0"
+  | join kind=leftouter known_countries on $left.UserPrincipalName == $right.UserPrincipalName and $left.Location == $right.KnownLocation
+  | where isempty(KnownLocation)
+  | project TimeGenerated, UserPrincipalName, Location, IPAddress, AppDisplayName

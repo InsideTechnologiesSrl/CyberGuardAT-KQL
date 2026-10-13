@@ -1,0 +1,29 @@
+id: 78ba116b-9844-5f12-9998-fbbd3fe65c86
+name: 'DNS over HTTPS to Non-Corporate Resolvers'
+description: |
+  Non-browser processes connecting to public DoH resolvers (Google, Cloudflare, Quad9) — bypass of corporate DNS controls to hide C2 domain resolution queries (T1071.004 — DNS).
+group: web-navigation
+tactics:
+  - CommandAndControl
+  - DefenseEvasion
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: web-7
+query: |
+  DeviceNetworkEvents
+  | where ActionType == "ConnectionSuccess"
+  | where RemotePort == 443
+  | where RemoteIP in (
+      "8.8.8.8", "8.8.4.4",           // Google
+      "1.1.1.1", "1.0.0.1",           // Cloudflare
+      "9.9.9.9",                       // Quad9
+      "208.67.222.222", "208.67.220.220" // OpenDNS
+  )
+  | where InitiatingProcessFileName !in~ ("chrome.exe", "msedge.exe", "firefox.exe")
+  | extend AccountName = InitiatingProcessAccountName
+  | project Timestamp, DeviceName, AccountName, RemoteIP, InitiatingProcessFileName
+  | order by Timestamp desc

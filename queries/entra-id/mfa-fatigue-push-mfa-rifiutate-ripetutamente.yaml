@@ -1,0 +1,29 @@
+id: ff76cd84-6b90-5534-9fd8-53d8a6dd11f5
+name: 'MFA Fatigue — Push MFA rifiutate ripetutamente'
+description: |
+  Identifies users who have received more than 5 denied MFA push notifications within 1 hour. Used in MFA fatigue/push bombing attacks: the attacker floods the user with requests to wear them down until they accept.
+group: entra-id
+tactics:
+  - InitialAccess
+relevantTechniques: []
+tags:
+  - MFABypass
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: entra-2
+query: |
+  SigninLogs
+  | where TimeGenerated > ago(1h)
+  | where AuthenticationDetails has "MFA"
+  | mv-expand todynamic(AuthenticationDetails)
+  | where AuthenticationDetails.authenticationMethod == "Mobile app notification"
+        and AuthenticationDetails.succeeded == "false"
+  | summarize
+      PushDenied = count(),
+      IPList     = make_set(IPAddress, 5),
+      Locations  = make_set(Location, 5)
+    by UserPrincipalName, bin(TimeGenerated, 1h)
+  | where PushDenied > 5
+  | order by PushDenied desc

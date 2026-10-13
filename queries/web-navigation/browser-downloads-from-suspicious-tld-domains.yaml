@@ -1,0 +1,27 @@
+id: 37740093-be1d-5b8f-9cfa-ef4c16ec5394
+name: 'Browser Downloads from Suspicious TLD Domains'
+description: |
+  Correlates browser network connections and file downloads from domains with suspicious TLDs (.xyz, .top, .tk, etc.) — identifies malware downloaded via browser from ephemeral infrastructure.
+group: web-navigation
+tactics:
+  - InitialAccess
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: web-3
+query: |
+  DeviceNetworkEvents
+  | where ActionType == "ConnectionSuccess"
+  | where InitiatingProcessFileName in~ ("chrome.exe", "msedge.exe", "firefox.exe")
+  | join kind=inner (
+      DeviceFileEvents
+      | where ActionType == "FileCreated"
+      | where FolderPath has "Downloads"
+  ) on DeviceName, $left.Timestamp == $right.Timestamp
+  | where RemoteUrl matches regex @"\.(xyz|top|club|online|site|tk|ml|ga|cf)\b"
+  | extend AccountName = InitiatingProcessAccountName
+  | project Timestamp, DeviceName, AccountName, RemoteUrl, FileName, FolderPath
+  | order by Timestamp desc

@@ -1,0 +1,22 @@
+id: bdcf670d-e0b2-593f-82d2-1f8b2ac8d905
+name: 'Typosquatting — Lookalike Sender Domains'
+description: |
+  Emails from domains typosquatting your organization's domain — advanced BEC using character substitution to impersonate internal senders (T1566 — Phishing). Update the domain and regex.
+group: defender-for-office-365
+tactics: []
+relevantTechniques: []
+tags:
+  - Phishing
+  - BEC
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mail-11
+query: |
+  let InternalDomain = "insidetechnologies.it"; // replace with your domain
+  EmailEvents
+  | where SenderFromDomain != InternalDomain
+  | where SenderFromDomain matches regex @"(inside.technologies|insidetecnologies|insidetecnology|inside-technologies|insideitechnologies)"
+  | project Timestamp, SenderFromAddress, SenderFromDomain, RecipientEmailAddress, Subject, DeliveryAction, ThreatTypes
+  | order by Timestamp desc

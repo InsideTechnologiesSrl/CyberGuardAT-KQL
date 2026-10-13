@@ -1,0 +1,23 @@
+id: da9ec2ad-4ae5-50a4-928f-91bdfd8f08b8
+name: 'Display Name Spoofing — External Sender Impersonating Internal User'
+description: |
+  Emails where the visible display name matches an internal person but the domain is external — effective against users who only read the name, not the full address (T1566.001 — Spearphishing).
+group: defender-for-office-365
+tactics: []
+relevantTechniques: []
+tags:
+  - Phishing
+  - BEC
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mail-12
+query: |
+  let InternalDisplayNames = dynamic(["Mario Rossi", "Anna Bianchi", "CEO", "Amministratore", "IT Support", "Help Desk"]);
+  // replace with key people names in your organization
+  EmailEvents
+  | where SenderFromDomain != "insidetechnologies.it" // replace with your domain
+  | where SenderDisplayName in~ (InternalDisplayNames)
+  | project Timestamp, SenderDisplayName, SenderFromAddress, SenderFromDomain, RecipientEmailAddress, Subject, DeliveryAction
+  | order by Timestamp desc

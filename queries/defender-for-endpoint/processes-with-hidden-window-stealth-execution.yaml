@@ -1,0 +1,23 @@
+id: 1908e2a5-682f-5808-82c5-96f3899f7c88
+name: 'Processes with Hidden Window (Stealth Execution)'
+description: |
+  Processes launched with hidden window flags (-WindowStyle Hidden, -w hidden, CreateNoWindow) — stealth execution technique used by malware and malicious PowerShell scripts to avoid user awareness (T1564.003 — Hide Artifacts: Hidden Window).
+group: defender-for-endpoint
+tactics:
+  - DefenseEvasion
+  - Execution
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: proc-10
+query: |
+  DeviceProcessEvents
+  | where AdditionalFields has "WindowStyle:Hidden"
+      or ProcessCommandLine has "-WindowStyle Hidden"
+      or ProcessCommandLine has "-w hidden"
+      or ProcessCommandLine has "CreateNoWindow"
+  | project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, InitiatingProcessFileName
+  | order by Timestamp desc

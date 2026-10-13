@@ -1,0 +1,23 @@
+id: 1ffd367f-ceaa-5dea-80d0-0b881968020c
+name: 'Files Shared via Public Anonymous Links'
+description: |
+  Corporate files made publicly accessible without authentication via "Anyone with the link" sharing — critical DLP violation, potential intentional or accidental exfiltration (T1567.002 — Exfiltration to Cloud Storage).
+group: sharepoint-onedrive
+tactics:
+  - Exfiltration
+relevantTechniques: []
+tags:
+  - DataLoss
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: spo-2
+query: |
+  CloudAppEvents
+  | where Application in ("Microsoft SharePoint Online", "Microsoft OneDrive")
+  | where ActionType == "SharingSet"
+  | where AdditionalFields has "Anyone"
+      or AdditionalFields has "AnonymousLink"
+  | project Timestamp, AccountDisplayName, ObjectName, AdditionalFields, IPAddress
+  | order by Timestamp desc

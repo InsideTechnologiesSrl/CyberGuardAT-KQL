@@ -1,0 +1,20 @@
+id: 0e3137cf-6928-5f49-941b-707c16032996
+name: 'Send As Permission Granted — Full Impersonation'
+description: |
+  Detects Add-RecipientPermission actions granting SendAs rights — emails are indistinguishable from legitimate ones sent by the victim.
+group: exchange-online
+tactics: []
+relevantTechniques: []
+tags:
+  - BEC
+  - Impersonation
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: o365-6
+query: |
+  CloudAppEvents
+  | where Application == "Microsoft Exchange Online"
+  | where ActionType == "Add-RecipientPermission"
+  | project Timestamp, AccountDisplayName, RawEventData

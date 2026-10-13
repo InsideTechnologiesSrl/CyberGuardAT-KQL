@@ -1,0 +1,25 @@
+id: cac2c60e-236f-5220-9077-a221fd1ae540
+name: 'File Upload to Unapproved External Cloud Storage'
+description: |
+  File uploads to personal or unapproved cloud storage (Dropbox, Box, Google Drive, Mega, etc.) — classic insider threat or compromised account exfiltration vector (T1567.002 — Exfiltration to Cloud Storage).
+group: defender-for-cloud-apps
+tactics:
+  - Exfiltration
+relevantTechniques: []
+tags:
+  - DataLoss
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: cloud-1
+query: |
+  CloudAppEvents
+  | where ActionType == "FileUploaded"
+  | where Application in (
+      "Dropbox", "Box", "Google Drive", "WeTransfer",
+      "Mega", "pCloud", "iCloud Drive", "Sync.com",
+      "MediaFire", "Zippyshare"
+  )
+  | project Timestamp, AccountDisplayName, Application, ObjectName, IPAddress, CountryCode, ISP
+  | order by Timestamp desc

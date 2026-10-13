@@ -1,0 +1,22 @@
+id: 3ece34ea-6e0e-54f2-8274-a88ea027796b
+name: 'Network Connections to Known C2 Ports'
+description: |
+  Identifies outbound connections to ports associated with attack frameworks such as Metasploit or Cobalt Strike (4444, 1234, 8080, 9001, 9002, 31337). Public IP filter reduces noise from internal services.
+group: defender-for-endpoint
+tactics:
+  - CommandAndControl
+  - Exfiltration
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mde-9
+query: |
+  DeviceNetworkEvents
+  | where ActionType == "ConnectionSuccess"
+  | where RemotePort in (4444, 1234, 8080, 9001, 9002, 31337)
+  | where RemoteIPType == "Public"
+  | project Timestamp, DeviceName, InitiatingProcessFileName, RemoteIP, RemotePort, RemoteUrl
+  | order by Timestamp desc

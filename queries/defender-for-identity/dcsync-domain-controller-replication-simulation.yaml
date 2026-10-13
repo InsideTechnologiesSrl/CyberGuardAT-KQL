@@ -1,0 +1,20 @@
+id: 0d0313aa-25ec-569a-bd31-5ad69a470832
+name: 'DCSync — Domain Controller Replication Simulation'
+description: |
+  Detects accounts requesting DC replication with GetChangesAll permission — DCSync attack to extract all password hashes without touching the DC directly (T1003.006 — OS Credential Dumping: DCSync).
+group: defender-for-identity
+tactics:
+  - CredentialAccess
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mdi-7
+query: |
+  IdentityDirectoryEvents
+  | where ActionType == "Directory Services Replication"
+  | where AdditionalFields has "GetChangesAll"
+  | project Timestamp, AccountDisplayName, DeviceName, TargetDeviceName, AdditionalFields
+  | order by Timestamp desc

@@ -1,0 +1,21 @@
+id: 3cdb9b83-f1c1-598b-8c9b-bc0c7783a8f0
+name: 'Send On Behalf — GrantSendOnBehalfTo Modified'
+description: |
+  Detects Set-Mailbox operations that modify the GrantSendOnBehalfTo attribute. Common in BEC attacks to impersonate executives.
+group: exchange-online
+tactics:
+  - Persistence
+relevantTechniques: []
+tags:
+  - BEC
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: o365-5
+query: |
+  CloudAppEvents
+  | where Application == "Microsoft Exchange Online"
+  | where ActionType == "Set-Mailbox"
+  | where RawEventData has "GrantSendOnBehalfTo"
+  | project Timestamp, AccountDisplayName, RawEventData

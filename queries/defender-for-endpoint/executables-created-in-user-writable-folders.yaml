@@ -1,0 +1,24 @@
+id: 1a2cec79-3fab-591d-b474-4639a1b11ec2
+name: 'Executables Created in User-Writable Folders'
+description: |
+  Dropper or malware stages executables in user-accessible folders (Temp, ProgramData, Users) to avoid detection in monitored system directories (T1204.002 — User Execution: Malicious File).
+group: defender-for-endpoint
+tactics:
+  - Execution
+  - Persistence
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: file-1
+query: |
+  DeviceFileEvents
+  | where ActionType == "FileCreated"
+  | where FolderPath has_any (@"C:\Users\", @"C:\ProgramData\", @"C:\Temp\", @"C:\Windows\Temp\")
+  | where FileName endswith ".exe" or FileName endswith ".dll"
+      or FileName endswith ".bat" or FileName endswith ".ps1"
+  | extend AccountName = InitiatingProcessAccountName
+  | project Timestamp, DeviceName, AccountName, FileName, FolderPath, InitiatingProcessFileName, SHA256
+  | order by Timestamp desc

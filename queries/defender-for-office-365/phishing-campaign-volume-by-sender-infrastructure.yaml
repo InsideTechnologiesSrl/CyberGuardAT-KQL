@@ -1,0 +1,26 @@
+id: 9c05c5b1-9f60-53ea-b922-14c7ca1bf78b
+name: 'Phishing Campaign Volume by Sender Infrastructure'
+description: |
+  Groups phishing emails by sender domain and IPv4 to identify the most active campaigns — helps prioritize blocking and correlate domains/IPs from the same infrastructure.
+group: defender-for-office-365
+tactics: []
+relevantTechniques: []
+tags:
+  - Phishing
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mail-13
+query: |
+  EmailEvents
+  | where ThreatTypes has "Phish"
+  | where Timestamp > ago(7d)
+  | summarize
+      EmailCount = count(),
+      UniqueRecipients = dcount(RecipientEmailAddress),
+      Subjects = make_set(Subject, 5),
+      FirstSeen = min(Timestamp),
+      LastSeen = max(Timestamp)
+      by SenderFromDomain, SenderIPv4
+  | order by EmailCount desc

@@ -1,0 +1,20 @@
+id: c35c1798-263b-5b91-837a-470b41be95fe
+name: 'Agent 365 — Active AI agent inventory'
+description: |
+  Lists the current inventory of active (non-deleted) agents registered through Agent 365. Use this as the baseline inventory before assessing agent risk posture. Review CreatorAccountUpn to understand who is building agents and whether agent creation aligns with organizational policy. Empty results indicate no Agent 365 agents are deployed — also a useful data point when auditing the agentic surface.
+group: copilot-ai
+tactics:
+  - Persistence
+relevantTechniques: []
+tags:
+  - Hunting
+  - Investigation
+version: 1.0.0
+added: 2026-06-15
+author: Silvio Di Benedetto
+legacyId: copilotai-9
+query: |
+  AIAgentsInfo
+  | summarize arg_max(Timestamp, *) by AIAgentId
+  | where RegistrySource == "A365"
+  | where AgentStatus != "Deleted"

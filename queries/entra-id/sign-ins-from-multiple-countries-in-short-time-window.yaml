@@ -1,0 +1,29 @@
+id: 1ec89750-b9d7-5a4c-a8e8-3e7984d5558c
+name: 'Sign-ins from Multiple Countries in Short Time Window'
+description: |
+  Detects user accounts with sign-in activity from more than one country in a 24-hour period — impossible travel indicator or credential sharing across regions (T1078 — Valid Accounts).
+group: entra-id
+tactics:
+  - CredentialAccess
+  - InitialAccess
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: entra-5
+query: |
+  SigninLogs
+  | where TimeGenerated > ago(1d)
+  | where ResultType == "0"
+  | summarize
+      START = min(TimeGenerated),
+      END = max(TimeGenerated),
+      CountPerCountry = dcount(Location),
+      Nations = make_set(Location),
+      CountPerCity = dcount(tostring(LocationDetails.city)),
+      All_Cities = make_set(tostring(LocationDetails.city))
+      by UserPrincipalName
+  | where CountPerCountry > 1
+  | order by CountPerCountry desc

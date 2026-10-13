@@ -1,0 +1,27 @@
+id: 23217a87-06b3-54dc-a38f-40506a00cecf
+name: 'Repeated Failed Logons Followed by Success (Brute Force)'
+description: |
+  Detects accounts with 5+ failed logon attempts followed by a successful login from the same device — classic brute force or credential stuffing pattern (T1110.001 — Brute Force).
+group: active-directory
+tactics:
+  - CredentialAccess
+  - InitialAccess
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: login-1
+query: |
+  let FailThreshold = 5;
+  let failures =
+      DeviceLogonEvents
+      | where ActionType == "LogonFailed"
+      | summarize FailCount = count(), LastFail = max(Timestamp) by AccountName, DeviceName, RemoteIP;
+  DeviceLogonEvents
+  | where ActionType == "LogonSuccess"
+  | join kind=inner failures on AccountName, DeviceName
+  | where FailCount >= FailThreshold
+  | project Timestamp, AccountName, DeviceName, RemoteIP, FailCount
+  | order by Timestamp desc

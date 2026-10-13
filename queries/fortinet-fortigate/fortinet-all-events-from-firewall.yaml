@@ -1,0 +1,16 @@
+id: ab6b1f02-126b-5100-8020-1ea97ff02b21
+name: 'Fortinet — All Events from Firewall'
+description: |
+  Returns all CommonSecurityLog events from the Fortinet firewall. Use as a starting query to explore raw events, then add filters for specific device event classes, actions, or source/destination IPs.
+group: fortinet-fortigate
+tactics: []
+relevantTechniques: []
+tags:
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: fw-1
+query: |
+  CommonSecurityLog
+  | where Computer contains "fw01" // replace with your firewall hostname

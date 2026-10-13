@@ -1,0 +1,23 @@
+id: 727038e9-5096-5c4e-885c-1bfc08c09d0b
+name: 'Mass File Deletion — Sabotage or Pre-Ransomware'
+description: |
+  More than 200 files deleted within 10 minutes — can precede ransomware (shadow copy deletion) or be deliberate sabotage by an insider threat (T1485 — Data Destruction).
+group: defender-for-endpoint
+tactics:
+  - Impact
+relevantTechniques: []
+tags:
+  - Ransomware
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: file-4
+query: |
+  DeviceFileEvents
+  | where ActionType == "FileDeleted"
+  | where Timestamp > ago(1h)
+  | extend AccountName = InitiatingProcessAccountName
+  | summarize DeletedCount = count(), Extensions = make_set(tostring(split(FileName, ".")[-1])) by DeviceName, AccountName, bin(Timestamp, 10m)
+  | where DeletedCount > 200
+  | order by DeletedCount desc

@@ -1,0 +1,21 @@
+id: 7746d97c-cd57-5b68-9f08-f7348abc6957
+name: 'Azure AI Agent — Jailbreak attempt detected by Prompt Shields (preview)'
+description: |
+  Identifies Defender for Cloud AI agent alerts where Prompt Shields detected (but may not have blocked) a jailbreak attempt against an agentic workflow. Medium severity. Preview signal — distinct from the blocked-jailbreak variant in that the attempt was detected without necessarily being stopped. Correlate with the agent inventory queries (copilotai-9 through copilotai-11) to assess the agent's risk posture and authorization configuration.
+group: copilot-ai
+tactics:
+  - PrivilegeEscalation
+  - DefenseEvasion
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2026-06-15
+author: Silvio Di Benedetto
+legacyId: copilotai-17
+query: |
+  SecurityAlert
+  | where AlertType in ("AI.Azure_Agentic_Jailbreak")
+         or AlertName in ("AI.Azure_Agentic_Jailbreak")
+  | project TimeGenerated, AlertName, AlertType, Severity,
+            Description, Entities, ExtendedProperties

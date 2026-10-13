@@ -1,0 +1,23 @@
+id: b3cff923-2a02-54a5-8167-ec575d6b90c0
+name: 'Exchange Online Access from Unexpected Country'
+description: |
+  Surfaces Exchange Online activity (read, send, delete) originating from countries outside the approved list — indicator of a compromised account operated by a remote threat actor (T1078 — Valid Accounts). Adapt the country filter.
+group: defender-for-office-365
+tactics:
+  - InitialAccess
+  - Collection
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mdo-9
+query: |
+  CloudAppEvents
+  | where Application == "Microsoft Exchange Online"
+  | where ActionType in ("MailItemsAccessed", "Send", "MoveToDeletedItems")
+  | where CountryCode !in ("IT", "US", "GB", "DE", "FR") // adapt to your policy
+  | summarize AccessCount = count() by AccountDisplayName, CountryCode, IPAddress, bin(Timestamp, 1h)
+  | where AccessCount > 10
+  | order by AccessCount desc

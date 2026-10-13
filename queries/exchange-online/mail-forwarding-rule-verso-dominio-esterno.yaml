@@ -1,0 +1,23 @@
+id: cf428b77-2489-599f-9b4b-127dfc8becdd
+name: 'Mail Forwarding Rule verso dominio esterno'
+description: |
+  Detects the creation of email forwarding rules pointing to addresses outside the organization — a very common exfiltration technique.
+group: exchange-online
+tactics:
+  - Exfiltration
+  - Persistence
+relevantTechniques: []
+tags:
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: o365-1
+query: |
+  OfficeActivity
+  | where TimeGenerated > ago(7d)
+  | where Operation in ("New-InboxRule","Set-InboxRule","New-TransportRule")
+  | where Parameters has_any ("ForwardTo","RedirectTo","ForwardAsAttachmentTo")
+  | extend ForwardTo = extract(@"(?:ForwardTo|RedirectTo)[^|]+|([^|,s]+@[^|,s]+)", 1, tostring(Parameters))
+  | where ForwardTo !endswith "@contoso.com"
+  | project TimeGenerated, UserId, ClientIP, Operation, ForwardTo, Parameters

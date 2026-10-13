@@ -1,0 +1,26 @@
+id: d659a28b-2cde-5737-ac6d-a1dfec269326
+name: 'Lateral Movement — PsExec e WMI remoto'
+description: |
+  Identifies lateral connections via PsExec, WMI, or remote administration tools. Shows source-destination pairs with timestamps to map the attacker's progression through the network.
+group: defender-for-endpoint
+tactics:
+  - LateralMovement
+relevantTechniques: []
+tags:
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mde-3
+query: |
+  DeviceNetworkEvents
+  | where TimeGenerated > ago(1d)
+  | where InitiatingProcessFileName in~ ("PsExec.exe","PsExec64.exe","wmic.exe","winrm.cmd")
+      or (InitiatingProcessFileName == "svchost.exe"
+          and RemotePort in (135, 445, 5985, 5986))
+  | summarize
+      Connections  = count(),
+      Destinations = make_set(RemoteIP, 20)
+    by DeviceName, InitiatingProcessFileName, InitiatingProcessAccountName
+  | where Connections > 2
+  | order by Connections desc

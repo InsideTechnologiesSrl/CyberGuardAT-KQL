@@ -1,0 +1,27 @@
+id: 89a12445-7bf4-5902-a6d4-a6da016c50c7
+name: 'Bulk External Upload (Mass Exfiltration)'
+description: |
+  More than 20 file uploads to non-Microsoft cloud services in one hour — calibrate threshold to your baseline; high values almost always indicate intentional exfiltration (T1030 — Data Transfer Size Limits).
+group: defender-for-cloud-apps
+tactics:
+  - Exfiltration
+relevantTechniques: []
+tags:
+  - DataLoss
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: cloud-2
+query: |
+  CloudAppEvents
+  | where ActionType == "FileUploaded"
+  | where Application !in ("Microsoft SharePoint Online", "Microsoft OneDrive", "Microsoft Teams")
+  | summarize
+      UploadCount = count(),
+      Apps = make_set(Application),
+      Files = make_set(ObjectName, 20),
+      TotalSizeMB = sum(todouble(AdditionalFields.FileSize)) / 1048576
+      by AccountDisplayName, IPAddress, bin(Timestamp, 1h)
+  | where UploadCount > 20
+  | order by UploadCount desc

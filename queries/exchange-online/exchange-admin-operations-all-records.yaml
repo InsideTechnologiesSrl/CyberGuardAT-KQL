@@ -1,0 +1,16 @@
+id: 08c5db10-2059-5ac4-a667-9ba4caae3018
+name: 'Exchange Admin Operations — All Records'
+description: |
+  Returns all ExchangeAdmin audit records — every administrative action taken in Exchange Online.
+group: exchange-online
+tactics: []
+relevantTechniques: []
+tags:
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: o365-15
+query: |
+  OfficeActivity
+  | where RecordType == "ExchangeAdmin"

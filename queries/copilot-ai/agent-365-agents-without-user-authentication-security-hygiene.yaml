@@ -1,0 +1,22 @@
+id: 9dc1a5e5-f5fb-55d5-a23f-e79b5214c553
+name: 'Agent 365 — Agents without user authentication (security hygiene)'
+description: |
+  Finds agents with UserAuthenticationType == "None", meaning they accept interactions without authenticating the caller. Activity from these agents cannot be reliably attributed to a specific identity. Review creator and owner accounts to determine whether missing authentication is intentional (e.g., a public FAQ bot) or an oversight. For agents that handle sensitive data or perform actions on behalf of users, missing authentication is a risk to escalate to the agent owner for remediation.
+group: copilot-ai
+tactics:
+  - Persistence
+  - DefenseEvasion
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2026-06-15
+author: Silvio Di Benedetto
+legacyId: copilotai-11
+query: |
+  AIAgentsInfo
+  | summarize arg_max(Timestamp, *) by AIAgentId
+  | where AgentStatus != "Deleted"
+  | where UserAuthenticationType == "None"
+  | project AIAgentName, AIAgentId, CreatorAccountUpn,
+            OwnerAccountUpns, UserAuthenticationType, AgentCreationTime

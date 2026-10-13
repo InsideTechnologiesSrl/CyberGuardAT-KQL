@@ -1,0 +1,19 @@
+id: cb6eb6ce-cf3d-57c3-b9b4-46d105831be6
+name: 'NSG — Inbound Traffic for Specific Resource'
+description: |
+  Returns all inbound NSG flow entries for a specific network security group resource. Replace the Resource filter with your NSG name. Useful for reviewing allowed and denied inbound traffic.
+group: azure-network-security-groups
+tactics: []
+relevantTechniques: []
+tags:
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: nsg-1
+query: |
+  AzureDiagnostics
+  | where ResourceType == "NETWORKSECURITYGROUPS"
+      and Resource contains "vnet-nsg-ftp" // replace with your NSG resource name
+  | where TimeGenerated > ago(1d)
+  | where direction_s == "In"

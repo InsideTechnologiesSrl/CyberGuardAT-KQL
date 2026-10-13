@@ -1,0 +1,18 @@
+id: bedc7b4b-10f7-5a5a-ab84-266fb56275e4
+name: 'SharePoint Activity Count by User (14 days)'
+description: |
+  Counts SharePoint events per user over the past 14 days. Baseline for identifying unusually active users or accounts with abnormal SharePoint interaction volumes.
+group: sharepoint-onedrive
+tactics: []
+relevantTechniques: []
+tags:
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: spo-12
+query: |
+  OfficeActivity
+  | where EventSource == "SharePoint"
+  | where TimeGenerated > ago(14d)
+  | summarize count() by UserId

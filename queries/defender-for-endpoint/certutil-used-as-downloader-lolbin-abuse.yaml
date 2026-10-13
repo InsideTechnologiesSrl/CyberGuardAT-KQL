@@ -1,0 +1,22 @@
+id: f3f8c855-a9d9-5c2c-a5d9-b66e81334892
+name: 'Certutil Used as Downloader (LOLBin Abuse)'
+description: |
+  certutil.exe invoked with download flags (-urlcache, -f, -split) and HTTP URLs — Living-off-the-Land Binary abuse to fetch payloads while bypassing proxy and AV controls (T1140 — Deobfuscate/Decode).
+group: defender-for-endpoint
+tactics:
+  - Execution
+  - DefenseEvasion
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: proc-4
+query: |
+  DeviceProcessEvents
+  | where FileName =~ "certutil.exe"
+  | where ProcessCommandLine has_any ("-urlcache", "-f", "-split", "-decode")
+  | where ProcessCommandLine has "http"
+  | project Timestamp, DeviceName, AccountName, ProcessCommandLine
+  | order by Timestamp desc

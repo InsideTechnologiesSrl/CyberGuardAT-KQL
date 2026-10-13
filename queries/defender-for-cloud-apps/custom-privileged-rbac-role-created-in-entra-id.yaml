@@ -1,0 +1,23 @@
+id: 97172a45-faf1-585f-b152-7c9cffd05b45
+name: 'Custom Privileged RBAC Role Created in Entra ID'
+description: |
+  Custom RBAC role definitions with elevated permissions created in Entra ID — stealth persistence technique that avoids monitoring on well-known built-in roles (T1098.003).
+group: defender-for-cloud-apps
+tactics:
+  - Persistence
+  - PrivilegeEscalation
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: grp-8
+query: |
+  AuditLogs
+  | where OperationName == "Add custom role definition to a role management policy"
+      or OperationName == "Add role definition"
+  | extend CreatedBy = tostring(InitiatedBy.user.userPrincipalName)
+  | extend RoleName = tostring(TargetResources[0].displayName)
+  | project TimeGenerated, CreatedBy, RoleName, Result
+  | order by TimeGenerated desc

@@ -1,0 +1,25 @@
+id: 0c30aeeb-d7dd-5f6d-8094-fdb97ca4426c
+name: 'External Guest Invited to SharePoint Sites'
+description: |
+  SharePoint sharing invitations sent to Gmail, Yahoo, or other personal email accounts — potential exfiltration to personal accounts or unauthorized external parties (T1567 — Exfiltration Over Web Service).
+group: sharepoint-onedrive
+tactics:
+  - Exfiltration
+relevantTechniques: []
+tags:
+  - DataLoss
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: spo-8
+query: |
+  CloudAppEvents
+  | where Application == "Microsoft SharePoint Online"
+  | where ActionType == "SharingInvitationCreated"
+  | where AdditionalFields has "#EXT#"
+      or AdditionalFields has "gmail.com"
+      or AdditionalFields has "yahoo.com"
+      or AdditionalFields has "hotmail.com"
+  | project Timestamp, AccountDisplayName, ObjectName, AdditionalFields, IPAddress
+  | order by Timestamp desc

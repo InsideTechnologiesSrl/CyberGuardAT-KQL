@@ -1,0 +1,20 @@
+id: b8a7ff27-c18e-5acf-a65d-88f9781a1ac8
+name: 'SharePoint File Uploads by User (14 days)'
+description: |
+  Counts FileUploaded operations per user on SharePoint over 14 days. Helps identify bulk uploaders that may be staging data for external sharing.
+group: sharepoint-onedrive
+tactics:
+  - Exfiltration
+relevantTechniques: []
+tags:
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: spo-13
+query: |
+  OfficeActivity
+  | where EventSource == "SharePoint"
+      and Operation == "FileUploaded"
+      and TimeGenerated > ago(14d)
+  | summarize AggregatedValue = count() by UserId

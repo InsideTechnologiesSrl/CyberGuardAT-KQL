@@ -1,0 +1,24 @@
+id: 570f6d38-b393-5280-bfe5-13db2fade39e
+name: 'Non-Browser Processes Spawning Internet Connections'
+description: |
+  Joins process and network events to identify non-browser, non-standard processes opening public internet connections — detection pattern for backdoors and RATs communicating with C2 (T1071 — Application Layer Protocol).
+group: defender-for-endpoint
+tactics:
+  - CommandAndControl
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: proc-5
+query: |
+  DeviceProcessEvents
+  | join kind=inner (
+      DeviceNetworkEvents
+      | where ActionType == "ConnectionSuccess"
+      | where RemoteIPType == "Public"
+  ) on DeviceId, $left.ProcessId == $right.InitiatingProcessId
+  | where FileName !in~ ("chrome.exe", "msedge.exe", "firefox.exe", "outlook.exe", "teams.exe", "svchost.exe")
+  | project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, RemoteIP, RemotePort, RemoteUrl
+  | order by Timestamp desc

@@ -1,0 +1,23 @@
+id: 80a494a1-da7a-5ae3-be36-993b449b0afd
+name: 'SharePoint File Access from Non-Corporate IP'
+description: |
+  File downloads from public IPs outside corporate/VPN ranges — potential access from an unmanaged device or compromised account (T1078.004 — Valid Accounts: Cloud Accounts). Adapt IP ranges.
+group: sharepoint-onedrive
+tactics:
+  - Exfiltration
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: spo-5
+query: |
+  CloudAppEvents
+  | where Application in ("Microsoft SharePoint Online", "Microsoft OneDrive")
+  | where ActionType in ("FileDownloaded", "FileRead", "FilePreviewed")
+  | where IPAddress !startswith "10." // adapt to your corporate IP ranges
+      and IPAddress !startswith "192.168."
+      and IPAddress !startswith "172."
+  | project Timestamp, AccountDisplayName, ObjectName, IPAddress, CountryCode, Application
+  | order by Timestamp desc

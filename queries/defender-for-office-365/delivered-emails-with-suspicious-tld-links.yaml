@@ -1,0 +1,26 @@
+id: c543b990-5f6d-5627-b8c2-35fad237f36c
+name: 'Delivered Emails with Suspicious TLD Links'
+description: |
+  Identifies delivered emails containing URLs pointing to low-cost or ephemeral TLDs (.xyz, .top, .club, .tk, etc.) frequently used in phishing and C2 infrastructure (T1566.002 — Phishing: Spearphishing Link).
+group: defender-for-office-365
+tactics:
+  - InitialAccess
+relevantTechniques: []
+tags:
+  - Phishing
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mdo-1
+query: |
+  EmailUrlInfo
+  | where Timestamp > ago(24h)
+  | join kind=inner (
+      EmailEvents
+      | where Timestamp > ago(24h)
+      | where DeliveryAction != "Blocked"
+  ) on NetworkMessageId
+  | where UrlDomain matches regex @"\.(xyz|top|club|online|site|tk|ml|ga|cf)\b"
+  | project Timestamp, SenderFromAddress, RecipientEmailAddress, Subject, Url, UrlDomain
+  | order by Timestamp desc

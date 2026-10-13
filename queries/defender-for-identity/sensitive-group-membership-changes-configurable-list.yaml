@@ -1,0 +1,34 @@
+id: 1f9c049b-85e4-5e10-ab46-db17ae78d3d7
+name: 'Sensitive Group Membership Changes (Configurable List)'
+description: |
+  Detects additions and removals from a customizable list of sensitive AD groups (Domain Admins, IT, SQL, Veeam, etc.). Update the pack_array with your organization's privileged group names.
+group: defender-for-identity
+tactics:
+  - Persistence
+  - PrivilegeEscalation
+relevantTechniques: []
+tags:
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mdi-14
+query: |
+  let SensitiveGroupName = pack_array(
+  // Add your custom sensitive groups here
+  'Department ICT','Domain Admins','Enterprise Admins','Read-only Domain Controllers',
+  'Remote App ICT','SCCM Admins','SQL Admins','Veeam Backup Admins','Veeam Backup Operators Restore','Veeam Backup Operators View'
+  );
+  IdentityDirectoryEvents
+  | where Application == "Active Directory"
+  | where ActionType == "Group Membership changed"
+  | where isnotempty(DestinationDeviceName)
+  | extend ToGroup = tostring(parse_json(AdditionalFields)["TO_GROUP"])
+  | extend FromGroup = tostring(parse_json(AdditionalFields)["FROM_GROUP"])
+  | extend Action = iff(isempty(ToGroup), "Removed", "Add")
+  | extend GroupModified = iff(isempty(ToGroup), FromGroup, ToGroup)
+  | where GroupModified in~ (SensitiveGroupName)
+  | project Timestamp, Action, GroupModified,
+      Target_Account = TargetAccountDisplayName, Target_UPN = TargetAccountUpn,
+      DC = DestinationDeviceName, Actor = AccountDisplayName, ActorDomain = AccountDomain
+  | sort by Timestamp desc

@@ -1,0 +1,34 @@
+id: 484d6b60-1299-51e0-a824-df34ac42eebc
+name: 'ZIP Attachment Correlated with Executable Extraction on Endpoint'
+description: |
+  Correlates ZIP attachments delivered by email with executable files later extracted on endpoints — end-to-end kill chain visibility from delivery to execution (T1566.001 — Phishing: Spearphishing Attachment).
+group: defender-for-office-365
+tactics:
+  - InitialAccess
+  - Execution
+relevantTechniques: []
+tags:
+  - Phishing
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mdo-10
+query: |
+  EmailAttachmentInfo
+  | where Timestamp > ago(24h)
+  | where FileType =~ "zip"
+  | where SHA256 != ""
+  | join kind=inner (
+      EmailEvents
+      | where DeliveryAction == "Delivered"
+      | where AttachmentCount > 0
+  ) on NetworkMessageId
+  | project Timestamp, SenderFromAddress, RecipientEmailAddress, Subject, FileName, SHA256
+  | join kind=leftouter (
+      DeviceFileEvents
+      | where InitiatingProcessFileName =~ "explorer.exe"
+      | where FileName endswith ".exe"
+  ) on $left.SHA256 == $right.SHA256
+  | where isnotempty(DeviceName)
+  | project Timestamp, RecipientEmailAddress, Subject, FileName, SHA256, DeviceName
+  | order by Timestamp desc

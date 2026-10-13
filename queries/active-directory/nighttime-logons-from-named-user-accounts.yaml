@@ -1,0 +1,22 @@
+id: 240c95ca-3b8a-5305-b26a-72f7f760f099
+name: 'Nighttime Logons from Named User Accounts'
+description: |
+  Named user accounts logging in between 22:00 and 06:00 — potential unauthorized access or insider threat activity outside business hours (T1078 — Valid Accounts).
+group: active-directory
+tactics:
+  - InitialAccess
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: login-8
+query: |
+  DeviceLogonEvents
+  | where ActionType == "LogonSuccess"
+  | where LogonType in ("Interactive", "RemoteInteractive", "Network")
+  | where hourofday(Timestamp) between (22 .. 6)
+  | where AccountName !startswith "svc_"
+  | project Timestamp, AccountName, DeviceName, LogonType, RemoteIP
+  | order by Timestamp desc

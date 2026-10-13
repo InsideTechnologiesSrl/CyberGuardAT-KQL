@@ -1,0 +1,25 @@
+id: 5dd16c27-e6f1-595e-893e-98b6fd4dcfa0
+name: 'Retroactive IOC Sweep by Attachment Hash'
+description: |
+  Searches all email history for a specific SHA256 hash from threat intelligence — how many emails with that attachment entered the organization and who received them, enabling rapid containment.
+group: defender-for-office-365
+tactics: []
+relevantTechniques: []
+tags:
+  - Phishing
+  - ThreatIntel
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mail-15
+query: |
+  let SuspiciousHash = "abc123def456..."; // replace with SHA256 from threat intel
+  EmailAttachmentInfo
+  | where SHA256 =~ SuspiciousHash
+  | join kind=inner (
+      EmailEvents
+      | project NetworkMessageId, SenderFromAddress, RecipientEmailAddress, Subject, Timestamp, DeliveryAction, DeliveryLocation
+  ) on NetworkMessageId
+  | project Timestamp, SenderFromAddress, RecipientEmailAddress, Subject, FileName, SHA256, DeliveryAction, DeliveryLocation
+  | order by Timestamp desc

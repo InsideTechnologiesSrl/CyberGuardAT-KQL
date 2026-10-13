@@ -1,0 +1,29 @@
+id: 07280ca1-dd4c-5ceb-8341-db2c4b6a9bdb
+name: 'Brute Force — Sign-in failures per user (last 24h)'
+description: |
+  Identifies accounts with more than 10 failed sign-in attempts in the last 24 hours, grouped by user and IP address. Primary indicator of brute force or password spray attacks.
+group: entra-id
+tactics:
+  - InitialAccess
+relevantTechniques: []
+tags:
+  - BruteForce
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: entra-1
+query: |
+  SigninLogs
+  | where TimeGenerated > ago(24h)
+  | where ResultType != "0"
+  | summarize
+      FailedAttempts = count(),
+      DistinctIPs    = dcount(IPAddress),
+      IPList         = make_set(IPAddress, 10),
+      AppList        = make_set(AppDisplayName, 5),
+      FirstSeen      = min(TimeGenerated),
+      LastSeen       = max(TimeGenerated)
+    by UserPrincipalName, UserDisplayName
+  | where FailedAttempts > 10
+  | order by FailedAttempts desc

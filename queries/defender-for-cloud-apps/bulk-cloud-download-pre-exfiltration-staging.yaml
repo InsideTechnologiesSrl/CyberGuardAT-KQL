@@ -1,0 +1,25 @@
+id: 0ae8d0fd-9d0b-5ec2-a51a-338fbca9e156
+name: 'Bulk Cloud Download (Pre-Exfiltration Staging)'
+description: |
+  More than 200 downloads from any cloud app in one hour — typical pre-exfiltration pattern where a user bulk-collects from M365 before uploading to personal storage (T1530 — Data from Cloud Storage).
+group: defender-for-cloud-apps
+tactics:
+  - Collection
+  - Exfiltration
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: cloud-3
+query: |
+  CloudAppEvents
+  | where ActionType in ("FileDownloaded", "Download")
+  | summarize
+      DownloadCount = count(),
+      Apps = make_set(Application),
+      Files = make_set(ObjectName, 20)
+      by AccountDisplayName, IPAddress, bin(Timestamp, 1h)
+  | where DownloadCount > 200
+  | order by DownloadCount desc

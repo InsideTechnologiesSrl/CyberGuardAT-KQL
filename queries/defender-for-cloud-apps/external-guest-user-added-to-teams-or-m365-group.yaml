@@ -1,0 +1,20 @@
+id: 0c4a23c0-b0fa-5fa0-9836-fd2724455ac0
+name: 'External Guest User Added to Teams or M365 Group'
+description: |
+  B2B guest accounts added to internal groups may expose documents and channels to unverified third parties — particularly risky when groups contain sensitive project data (T1136.003 — Cloud Account).
+group: defender-for-cloud-apps
+tactics:
+  - Exfiltration
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: grp-3
+query: |
+  CloudAppEvents
+  | where ActionType == "Add member to group."
+  | where AdditionalFields has "#EXT#"
+  | project Timestamp, AccountDisplayName, AdditionalFields, IPAddress, Application
+  | order by Timestamp desc

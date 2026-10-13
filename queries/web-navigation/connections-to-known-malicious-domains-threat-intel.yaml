@@ -1,0 +1,25 @@
+id: 0d896837-5c59-517e-95d4-0fb58cf31a22
+name: 'Connections to Known Malicious Domains (Threat Intel)'
+description: |
+  Matches outbound connections against a list of known C2 or phishing domains. In production, replace the placeholder list with a Sentinel Watchlist fed by a threat intelligence source (TAXII/STIX, Microsoft MDTI).
+group: web-navigation
+tactics:
+  - CommandAndControl
+relevantTechniques: []
+tags:
+  - ThreatIntel
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: web-1
+query: |
+  DeviceNetworkEvents
+  | where ActionType == "ConnectionSuccess"
+  | where RemoteUrl has_any (
+      "malware-c2.example.com",   // replace with IOCs from your threat intel feed
+      "phishing-kit.example.net"  // use a Sentinel Watchlist in production
+  )
+  | extend AccountName = InitiatingProcessAccountName
+  | project Timestamp, DeviceName, AccountName, RemoteUrl, RemoteIP, RemotePort, InitiatingProcessFileName
+  | order by Timestamp desc

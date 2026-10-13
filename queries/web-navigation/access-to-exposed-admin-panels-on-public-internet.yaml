@@ -1,0 +1,23 @@
+id: 9ae118e9-ee6c-5dd0-8565-c44acf1b60e5
+name: 'Access to Exposed Admin Panels on Public Internet'
+description: |
+  Connections to well-known admin panel paths (/wp-admin, /phpmyadmin, /.env) on public IPs — reconnaissance or exploitation attempts against internet-facing web assets (T1190 — Exploit Public-Facing Application).
+group: web-navigation
+tactics:
+  - InitialAccess
+  - Discovery
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: web-9
+query: |
+  DeviceNetworkEvents
+  | where ActionType == "ConnectionSuccess"
+  | where RemoteUrl has_any ("/wp-admin", "/admin", "/phpmyadmin", "/cpanel", "/.env", "/wp-config.php", "/adminer")
+  | where RemoteIPType == "Public"
+  | extend AccountName = InitiatingProcessAccountName
+  | project Timestamp, DeviceName, AccountName, RemoteUrl, RemoteIP, InitiatingProcessFileName
+  | order by Timestamp desc

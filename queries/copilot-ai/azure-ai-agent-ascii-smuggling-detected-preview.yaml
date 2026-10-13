@@ -1,0 +1,21 @@
+id: cdbbde25-de47-50fc-8e77-7303f474cf3f
+name: 'Azure AI Agent — ASCII smuggling detected (preview)'
+description: |
+  Surfaces Defender for Cloud AI agent alerts indicating ASCII smuggling attempts, a technique where hidden or obfuscated characters are embedded in prompts to bypass content filters or covertly exfiltrate data. High severity. Preview signal — may fire at lower volume until the detection matures. Investigate Entities and ExtendedProperties for the affected resource and actor context.
+group: copilot-ai
+tactics:
+  - Impact
+  - DefenseEvasion
+  - Exfiltration
+relevantTechniques: []
+tags: []
+version: 1.0.0
+added: 2026-06-15
+author: Silvio Di Benedetto
+legacyId: copilotai-12
+query: |
+  SecurityAlert
+  | where AlertType in ("AI.Azure_Agentic_ASCIISmuggling")
+         or AlertName in ("AI.Azure_Agentic_ASCIISmuggling")
+  | project TimeGenerated, AlertName, AlertType, Severity,
+            Description, Entities, ExtendedProperties

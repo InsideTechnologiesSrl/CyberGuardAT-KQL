@@ -1,0 +1,25 @@
+id: b59d74f5-ccc0-52e4-b4d2-dba81af115e8
+name: 'Emails with Links to External Cloud Storage'
+description: |
+  External emails containing links to OneDrive, SharePoint, or Google Drive — growing technique to host malware or phishing pages on trusted infrastructure that bypasses email filters (T1566.002).
+group: defender-for-office-365
+tactics:
+  - InitialAccess
+relevantTechniques: []
+tags:
+  - Phishing
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mail-14
+query: |
+  EmailUrlInfo
+  | where Url has_any ("1drv.ms", "sharepoint.com", "onedrive.live.com", "docs.google.com", "drive.google.com")
+  | join kind=inner (
+      EmailEvents
+      | where SenderFromDomain != "insidetechnologies.it" // filter out legitimate internal senders
+      | where DeliveryAction == "Delivered"
+  ) on NetworkMessageId
+  | project Timestamp, SenderFromAddress, RecipientEmailAddress, Subject, Url, DeliveryAction
+  | order by Timestamp desc

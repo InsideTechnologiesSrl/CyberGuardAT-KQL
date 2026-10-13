@@ -1,0 +1,28 @@
+id: 77ebe634-e480-570d-8aad-6221186a2a0f
+name: 'DNS Exfiltration — subdomini eccessivamente lunghi'
+description: |
+  Identifies DNS queries with unusually long subdomains (>50 characters), a technique used to exfiltrate Base64/hex-encoded data over DNS — difficult to block with traditional proxies.
+group: network-dns
+tactics:
+  - Exfiltration
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: net-1
+query: |
+  DnsEvents
+  | where TimeGenerated > ago(1d)
+  | extend SubLen = strlen(Name) - strlen(extract(@"([^.]+.[^.]+)$", 1, Name))
+  | where SubLen > 50
+  | where not(Name endswith ".windowsupdate.com")
+  | where not(Name endswith ".microsoft.com")
+  | summarize
+      Queries     = count(),
+      UniqNames   = dcount(Name),
+      SampleNames = make_set(Name, 5)
+    by ClientIP, bin(TimeGenerated, 1h)
+  | where Queries > 20
+  | order by Queries desc

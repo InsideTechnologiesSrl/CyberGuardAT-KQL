@@ -1,0 +1,21 @@
+id: ded2d36c-b092-57b0-854b-4eb34adc6067
+name: 'Azure AI Agent — Access from suspicious IP (threat intelligence, preview)'
+description: |
+  Surfaces Defender for Cloud AI agent alerts where the access originates from an IP address flagged by Microsoft threat intelligence as suspicious. High severity. Preview signal. Correlate with identity telemetry (Entra SigninLogs) to determine whether the IP is associated with a known threat actor, VPN abuse, or compromised infrastructure.
+group: copilot-ai
+tactics:
+  - Execution
+  - InitialAccess
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2026-06-15
+author: Silvio Di Benedetto
+legacyId: copilotai-14
+query: |
+  SecurityAlert
+  | where AlertType in ("AI.Azure_Agentic_AccessFromSuspiciousIP")
+         or AlertName in ("AI.Azure_Agentic_AccessFromSuspiciousIP")
+  | project TimeGenerated, AlertName, AlertType, Severity,
+            Description, Entities, ExtendedProperties

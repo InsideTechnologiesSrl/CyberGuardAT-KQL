@@ -1,0 +1,26 @@
+id: 0b6b103c-2f8d-5cea-85df-8bce79eb80e7
+name: 'Unusually Long RDP Sessions'
+description: |
+  RDP sessions lasting more than 8 hours — potential persistent access by an external actor maintaining a foothold or using the session as a tunnel (T1021.001 — Remote Desktop Protocol).
+group: active-directory
+tactics:
+  - Persistence
+  - LateralMovement
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: login-10
+query: |
+  DeviceLogonEvents
+  | where LogonType == "RemoteInteractive" and ActionType == "LogonSuccess"
+  | join kind=inner (
+      DeviceLogonEvents
+      | where LogonType == "RemoteInteractive" and ActionType == "Logoff"
+  ) on AccountName, DeviceName, RemoteIP
+  | extend SessionDurationHours = datetime_diff('hour', Timestamp1, Timestamp)
+  | where SessionDurationHours > 8
+  | project AccountName, DeviceName, RemoteIP, SessionStart = Timestamp, SessionEnd = Timestamp1, SessionDurationHours
+  | order by SessionDurationHours desc

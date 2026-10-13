@@ -1,0 +1,27 @@
+id: e46a9487-07d7-5ecd-86b2-1d32b0aa3088
+name: 'Credenziale aggiunta a Service Principal'
+description: |
+  Monitors the addition of new credentials (passwords or certificates) to Service Principals and App Registrations. Common persistence technique: the attacker adds their own key to maintain access even after password rotation.
+group: entra-id
+tactics:
+  - Persistence
+relevantTechniques: []
+tags:
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: entra-4
+query: |
+  AuditLogs
+  | where TimeGenerated > ago(7d)
+  | where OperationName in (
+      "Add service principal credentials",
+      "Update application – Certificates and secrets management"
+    )
+  | extend
+      Actor          = tostring(InitiatedBy.user.userPrincipalName),
+      ActorIP        = tostring(InitiatedBy.user.ipAddress),
+      TargetApp      = tostring(TargetResources[0].displayName),
+      CredentialType = tostring(TargetResources[0].modifiedProperties[0].newValue)
+  | project TimeGenerated, Actor, ActorIP, TargetApp, CredentialType, OperationName

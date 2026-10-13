@@ -1,0 +1,24 @@
+id: 419d1be7-8825-5fe3-9e8c-800371f3e862
+name: 'PowerShell — Comandi encoded sospetti'
+description: |
+  Detects PowerShell executions using the -EncodedCommand flag or equivalent abbreviations, commonly used to obfuscate malicious payloads and bypass keyword-based detection rules.
+group: defender-for-endpoint
+tactics:
+  - DefenseEvasion
+  - Execution
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mde-1
+query: |
+  DeviceProcessEvents
+  | where TimeGenerated > ago(1d)
+  | where FileName in~ ("powershell.exe", "pwsh.exe")
+  | where ProcessCommandLine has_any ("-EncodedCommand", "-Enc ", "-ec ", " -e ")
+  | where not(InitiatingProcessFileName in~ ("msiexec.exe","svchost.exe"))
+  | project TimeGenerated, DeviceName, AccountName,
+            InitiatingProcessFileName, ProcessCommandLine
+  | order by TimeGenerated desc

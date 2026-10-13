@@ -1,0 +1,21 @@
+id: 57387518-67d9-5dac-baeb-d41c76a94c96
+name: 'M365 / Teams Group Created by Non-IT User'
+description: |
+  Non-IT users creating Teams or Microsoft 365 groups can establish shadow IT, uncontrolled data sharing, or channels used for exfiltration.
+group: defender-for-cloud-apps
+tactics:
+  - Exfiltration
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: grp-2
+query: |
+  CloudAppEvents
+  | where ActionType in ("Add group.", "Create group")
+  | where Application in ("Microsoft Teams", "Office 365")
+  | where AccountDisplayName !in ("IT Admin", "M365 Admin")
+  | project Timestamp, AccountDisplayName, ActionType, AdditionalFields, IPAddress
+  | order by Timestamp desc

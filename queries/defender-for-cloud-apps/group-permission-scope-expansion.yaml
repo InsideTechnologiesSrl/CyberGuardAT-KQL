@@ -1,0 +1,21 @@
+id: a2895d83-fad4-5371-8eb1-7d7f2e74a863
+name: 'Group Permission Scope Expansion'
+description: |
+  Modifications enabling external senders, auto-subscription, or public visibility on distribution or unified groups — potential data exfiltration channel.
+group: defender-for-cloud-apps
+tactics:
+  - Exfiltration
+  - Persistence
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: grp-6
+query: |
+  CloudAppEvents
+  | where ActionType in ("Update group.", "Set-UnifiedGroup", "Set-DistributionGroup")
+  | where AdditionalFields has_any ("AccessType", "AllowExternalSenders", "AutoSubscribeNewMembers", "HiddenFromAddressListsEnabled")
+  | project Timestamp, AccountDisplayName, ActionType, AdditionalFields, IPAddress
+  | order by Timestamp desc

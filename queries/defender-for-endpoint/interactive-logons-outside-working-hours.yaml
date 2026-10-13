@@ -1,0 +1,24 @@
+id: f70ae253-56c2-5692-80b1-6410cfec0aa4
+name: 'Interactive Logons Outside Working Hours'
+description: |
+  Surfaces interactive and RDP logons occurring outside 07:00–19:00 on weekdays or on weekends — a signal for unauthorized physical or remote access (T1078 — Valid Accounts).
+group: defender-for-endpoint
+tactics:
+  - InitialAccess
+  - LateralMovement
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mde-13
+query: |
+  DeviceLogonEvents
+  | where LogonType in ("Interactive", "RemoteInteractive")
+  | where ActionType == "LogonSuccess"
+  | where hourofday(Timestamp) !between (7 .. 19)
+      or dayofweek(Timestamp) in (0d, 6d) // Sunday, Saturday
+  | summarize LogonCount = count() by DeviceName, AccountName, bin(Timestamp, 1h)
+  | where LogonCount >= 1
+  | order by Timestamp desc

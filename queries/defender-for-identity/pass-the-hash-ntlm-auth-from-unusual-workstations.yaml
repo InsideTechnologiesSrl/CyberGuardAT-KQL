@@ -1,0 +1,23 @@
+id: 98488cbc-7f33-540f-923f-fd8401705518
+name: 'Pass-the-Hash — NTLM Auth from Unusual Workstations'
+description: |
+  An account authenticating via NTLM from many different devices in a short period is a strong indicator of Pass-the-Hash, where stolen hashes are replayed across multiple hosts (T1550.002).
+group: defender-for-identity
+tactics:
+  - CredentialAccess
+  - LateralMovement
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mdi-2
+query: |
+  IdentityLogonEvents
+  | where LogonType == "Network"
+  | where Protocol == "Ntlm"
+  | where ActionType == "LogonSuccess"
+  | summarize DevicesUsed = dcount(DeviceName), DeviceList = make_set(DeviceName) by AccountDisplayName, bin(Timestamp, 1h)
+  | where DevicesUsed > 3
+  | order by DevicesUsed desc

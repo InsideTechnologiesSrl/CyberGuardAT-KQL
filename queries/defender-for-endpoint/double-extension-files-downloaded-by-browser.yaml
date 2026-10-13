@@ -1,0 +1,23 @@
+id: 39706484-2071-581f-af1c-128ba1d25422
+name: 'Double-Extension Files Downloaded by Browser'
+description: |
+  Flags browser-downloaded files matching a double-extension pattern (e.g. invoice.pdf.exe) — a social engineering technique to disguise executables as harmless documents.
+group: defender-for-endpoint
+tactics:
+  - InitialAccess
+  - DefenseEvasion
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mde-11
+query: |
+  DeviceFileEvents
+  | where ActionType == "FileCreated"
+  | where InitiatingProcessFileName in~ ("chrome.exe", "msedge.exe", "firefox.exe", "iexplore.exe")
+  | where FileName matches regex @"\.(doc|xls|pdf|zip)\.(exe|bat|vbs|js|ps1)$"
+  | extend AccountName = InitiatingProcessAccountName
+  | project Timestamp, DeviceName, AccountName, FileName, FolderPath, InitiatingProcessFileName
+  | order by Timestamp desc

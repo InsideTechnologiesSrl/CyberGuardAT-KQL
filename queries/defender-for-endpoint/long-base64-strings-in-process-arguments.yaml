@@ -1,0 +1,21 @@
+id: 37d7c0e6-9ed0-5948-8d71-72ea3020c98b
+name: 'Long Base64 Strings in Process Arguments'
+description: |
+  Command lines containing Base64 strings longer than 100 characters — obfuscation technique to hide malicious commands from static analysis and AV signature detection (T1027 — Obfuscated Files or Information).
+group: defender-for-endpoint
+tactics:
+  - Execution
+  - DefenseEvasion
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: proc-7
+query: |
+  DeviceProcessEvents
+  | where ProcessCommandLine matches regex @"[A-Za-z0-9+/]{100,}={0,2}"
+  | where FileName !in~ ("java.exe", "node.exe")
+  | project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine
+  | order by Timestamp desc

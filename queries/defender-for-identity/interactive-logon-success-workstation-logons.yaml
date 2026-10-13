@@ -1,0 +1,22 @@
+id: 43e39246-fbb6-5a59-9dac-9bbd00ae6d41
+name: 'Interactive Logon Success — Workstation Logons'
+description: |
+  Filters domain logons to Interactive sessions only — physical console or local keyboard access. Useful for monitoring who is logging on locally to domain-joined machines.
+group: defender-for-identity
+tactics: []
+relevantTechniques: []
+tags:
+  - Authentication
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mdi-12
+query: |
+  IdentityLogonEvents
+  | where ActionType == "LogonSuccess"
+  | extend DomainName = substring(DestinationDeviceName, indexof(DestinationDeviceName, '.') + 1)
+  | where DomainName contains "insidetechnologies.lcl" // replace with your domain
+  | summarize NumberOfEntries = count() by TimeGenerated, LogonType, ActionType, AccountDisplayName, DomainName, AccountSid, IPAddress, DeviceName, DC = DestinationDeviceName
+  | where LogonType contains "Interactive"
+  | sort by AccountDisplayName

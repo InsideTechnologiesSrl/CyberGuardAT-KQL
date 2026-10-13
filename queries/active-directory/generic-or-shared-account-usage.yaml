@@ -1,0 +1,20 @@
+id: e778333d-38c7-5836-bb93-14e7c9f8e413
+name: 'Generic or Shared Account Usage'
+description: |
+  Tracks logins using shared or generic account names (administrator, admin, guest, test) that prevent individual accountability and hinder forensic investigations (T1078 — Valid Accounts).
+group: active-directory
+tactics:
+  - InitialAccess
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: login-6
+query: |
+  DeviceLogonEvents
+  | where ActionType == "LogonSuccess"
+  | where AccountName in~ ("administrator", "admin", "guest", "utente", "user", "test", "default")
+  | summarize LoginCount = count(), Devices = dcount(DeviceName), DeviceList = make_set(DeviceName) by AccountName, bin(Timestamp, 1d)
+  | order by LoginCount desc

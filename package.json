@@ -1,0 +1,12 @@
+{
+  "name": "cyberguardat-kql",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node tools/build-index.mjs",
+    "check": "node tools/build-index.mjs --check"
+  },
+  "devDependencies": {
+    "yaml": "2.9.1"
+  }
+}

@@ -1,0 +1,20 @@
+id: 86959c9d-620c-5c2a-80b4-807007cc86e7
+name: 'Suspicious Account Creation with Service-like Naming'
+description: |
+  New accounts with names matching patterns of service or admin accounts (e.g. svc01, admin99, backup02) — attacker technique to create backdoor accounts that blend in with legitimate ones (T1136 — Create Account).
+group: defender-for-identity
+tactics:
+  - Persistence
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mdi-8
+query: |
+  IdentityDirectoryEvents
+  | where ActionType == "User Account created"
+  | where TargetAccountDisplayName matches regex @"(admin|svc|test|backup|support)\d{2,}"
+  | project Timestamp, AccountDisplayName, TargetAccountDisplayName, AdditionalFields
+  | order by Timestamp desc

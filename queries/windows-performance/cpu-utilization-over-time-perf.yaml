@@ -1,0 +1,22 @@
+id: 452425de-b1e3-5eea-a3b0-3a61e29f35ce
+name: 'CPU Utilization Over Time (Perf)'
+description: |
+  Tracks average CPU utilization for a Windows computer using the Perf table. Shows _Total processor time per minute. Replace the Computer filter with your target hostname.
+group: windows-performance
+tactics: []
+relevantTechniques: []
+tags:
+  - Performance
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: perf-1
+query: |
+  Perf
+  | where Computer contains "ltm01.xshypo1" // replace with your computer name
+  | where ObjectName == "Processor Information"
+  | where CounterName == "% Processor Time"
+  | where InstanceName == "_Total"
+  | summarize AvgCPU = avg(CounterValue) by bin(TimeGenerated, 1m), Computer
+  | order by TimeGenerated asc

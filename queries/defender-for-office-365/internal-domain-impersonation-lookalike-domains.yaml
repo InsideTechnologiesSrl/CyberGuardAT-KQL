@@ -1,0 +1,23 @@
+id: c59cebec-19d6-5673-b013-eb1e047560e5
+name: 'Internal Domain Impersonation (Lookalike Domains)'
+description: |
+  Detects external emails using keywords associated with financial or urgent requests sent to internal recipients — BEC phishing using lookalike domains to trick employees (T1566 — Phishing). Update the domain filter.
+group: defender-for-office-365
+tactics:
+  - InitialAccess
+relevantTechniques: []
+tags:
+  - Phishing
+  - BEC
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mdo-3
+query: |
+  EmailEvents
+  | where Timestamp > ago(7d)
+  | where SenderFromDomain !endswith "insidetechnologies.it" // replace with your domain
+  | where Subject has_any ("fattura", "pagamento", "urgente", "password", "conferma", "invoice", "wire transfer", "urgent")
+  | where RecipientEmailAddress endswith "insidetechnologies.it"
+  | project Timestamp, SenderFromAddress, SenderFromDomain, RecipientEmailAddress, Subject, DeliveryAction
+  | order by Timestamp desc

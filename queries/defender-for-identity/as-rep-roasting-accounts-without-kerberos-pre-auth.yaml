@@ -1,0 +1,22 @@
+id: 1d43d013-c329-5ac9-9d67-688433ed6154
+name: 'AS-REP Roasting — Accounts Without Kerberos Pre-Auth'
+description: |
+  Detects TGT requests for accounts with pre-authentication disabled — AS-REP Roasting technique to obtain crackable hashes offline without requiring valid credentials (T1558.004).
+group: defender-for-identity
+tactics:
+  - CredentialAccess
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mdi-10
+query: |
+  IdentityQueryEvents
+  | where QueryType == "Kerberos"
+  | where AdditionalFields has "AS-REQ"
+  | where AdditionalFields !has "PA-ENC-TIMESTAMP"
+  | summarize RequestCount = count() by AccountDisplayName, DeviceName, bin(Timestamp, 1h)
+  | where RequestCount > 3
+  | order by RequestCount desc

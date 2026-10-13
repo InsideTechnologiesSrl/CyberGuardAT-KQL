@@ -1,0 +1,20 @@
+id: 9c647685-ee73-5bb3-b480-4e5b69a5c711
+name: 'All Email from a Specific Sender Address'
+description: |
+  Retrieves all emails from a specific address regardless of delivery outcome — starting point for any BEC or phishing investigation. Replace the placeholder with the address to investigate.
+group: defender-for-office-365
+tactics: []
+relevantTechniques: []
+tags:
+  - Phishing
+  - BEC
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mail-1
+query: |
+  EmailEvents
+  | where SenderFromAddress =~ "sender@domain.com" // replace with the address to investigate
+  | project Timestamp, SenderFromAddress, SenderDisplayName, RecipientEmailAddress, Subject, DeliveryAction, DeliveryLocation, ThreatTypes, DetectionMethods
+  | order by Timestamp desc

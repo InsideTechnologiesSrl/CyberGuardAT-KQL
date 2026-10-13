@@ -1,0 +1,20 @@
+id: 4e63e4c5-e371-5f1c-937a-4643e40be191
+name: 'PowerShell — Potential Download Activity'
+description: |
+  Detects PowerShell processes that reference download-related .NET classes or HTTP strings (WebClient, DownloadFile, DownloadString, WebRequest). Correlates both process and network events to catch first-stage downloaders that pull a second payload from the internet.
+group: defender-for-endpoint
+tactics:
+  - Execution
+  - DefenseEvasion
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mde-5
+query: |
+  union DeviceProcessEvents, DeviceNetworkEvents
+  | where Timestamp > ago(7d)
+  | where FileName in~ ("powershell.exe","powershell_ise.exe")
+  | where ProcessCommandLine has_any("WebClient","DownloadFile","DownloadString","WebRequest","http")

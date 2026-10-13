@@ -1,0 +1,25 @@
+id: 3a044af6-8f6a-5740-92f8-86dd02a55bc5
+name: 'Defender XDR — AI-related alerts sweep (AlertInfo + AlertEvidence join)'
+description: |
+  Broad sweep across Defender XDR alerts matching AI threat keywords: Jailbreak, prompt injection, credential theft. Returns alerts with associated evidence entities (users, IPs, resources) from AlertEvidence. Use this for a cross-product view of AI-related alerts rather than targeting a specific alert type. Review AttackTechniques for MITRE mapping. If the result set is large, narrow by Severity or ServiceSource to prioritize triage.
+group: copilot-ai
+tactics:
+  - CredentialAccess
+  - PrivilegeEscalation
+  - DefenseEvasion
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2026-06-15
+author: Silvio Di Benedetto
+legacyId: copilotai-8
+query: |
+  AlertInfo
+  | where Title has_any ("Jailbreak", "prompt injection", "credential theft")
+  | project Timestamp, AlertId, Title, Category, Severity,
+            ServiceSource, DetectionSource, AttackTechniques
+  | join kind=leftouter (
+      AlertEvidence
+      | project AlertId, EntityType, EntityValue
+    ) on AlertId

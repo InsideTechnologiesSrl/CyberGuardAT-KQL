@@ -1,0 +1,23 @@
+id: 1d6111b6-9eec-528b-90f1-260318bed7ec
+name: 'Critical Windows System Files Modified or Deleted'
+description: |
+  Modifications to critical system files (lsass.exe, svchost.exe, hosts, ntoskrnl.exe) in System32/SysWOW64 — tampering technique for persistence or network redirection (T1565.001 — Stored Data Manipulation).
+group: defender-for-endpoint
+tactics:
+  - Persistence
+  - DefenseEvasion
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: file-2
+query: |
+  DeviceFileEvents
+  | where ActionType in ("FileModified", "FileRenamed", "FileDeleted")
+  | where FolderPath has_any (@"C:\Windows\System32\", @"C:\Windows\SysWOW64\")
+  | where FileName in~ ("hosts", "lsass.exe", "svchost.exe", "ntoskrnl.exe", "winlogon.exe")
+  | extend AccountName = InitiatingProcessAccountName
+  | project Timestamp, DeviceName, AccountName, ActionType, FileName, FolderPath, InitiatingProcessFileName
+  | order by Timestamp desc

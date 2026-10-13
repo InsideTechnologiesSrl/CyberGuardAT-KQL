@@ -1,0 +1,21 @@
+id: f432632e-6e33-5b7f-8d0b-0d93540f3099
+name: 'Sensitive Files Modified in SharePoint'
+description: |
+  Modifications to files with names indicating sensitive content (contracts, budget, salary, M&A, confidential) — DLP monitoring for high-value documents (T1565 — Data Manipulation).
+group: sharepoint-onedrive
+tactics: []
+relevantTechniques: []
+tags:
+  - DataLoss
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: spo-6
+query: |
+  CloudAppEvents
+  | where Application == "Microsoft SharePoint Online"
+  | where ActionType in ("FileModified", "FileCheckedOut", "FileVersionsAllDeleted")
+  | where ObjectName has_any ("contratto", "offerta", "budget", "salary", "stipendi", "M&A", "confidential", "riservato")
+  | project Timestamp, AccountDisplayName, ObjectName, AdditionalFields, IPAddress, SiteUrl = tostring(AdditionalFields.SiteUrl)
+  | order by Timestamp desc

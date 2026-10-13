@@ -1,0 +1,21 @@
+id: 2e6bf02e-91ad-5ef1-9050-f7c7ed3b3111
+name: 'NSG Flow Logs — Complete Traffic Analysis'
+description: |
+  Parses AzureNetworkAnalytics_CL flow logs to surface direction, access decision, protocol, source/destination IPs and ports, and the matching NSG rule. Filter by DestIP to scope to a specific subnet.
+group: azure-network-security-groups
+tactics: []
+relevantTechniques: []
+tags:
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: nsg-2
+query: |
+  AzureNetworkAnalytics_CL
+  | where SubType_s == "FlowLog"
+  | extend Direction = case(FlowDirection_s == "O", "Outbound", FlowDirection_s == "I", "Inbound", FlowDirection_s)
+  | extend Access = case(FlowStatus_s == 'A', 'Allowed', FlowStatus_s == 'D', 'Denied', FlowStatus_s)
+  | extend Protocol = case(L4Protocol_s == "T", "TCP", L4Protocol_s == "U", "UDP", L4Protocol_s)
+  | project TimeGenerated, Direction, Access, SrcIP_s, DestIP_s, DestPort_d, Protocol, L7Protocol_s, NSGRule_s
+  | where DestIP_s contains "172.168.0." // replace with your target subnet

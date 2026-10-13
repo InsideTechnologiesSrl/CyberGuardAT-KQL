@@ -1,0 +1,17 @@
+id: 2c621f9c-5e71-5c5f-877a-67e284475035
+name: 'NSG Flow Logs — Filter by Specific Public IP'
+description: |
+  Returns all NSG flow log entries where the Public IP matches a specific address. Use during incident response to identify all traffic associated with a known malicious or suspicious IP.
+group: azure-network-security-groups
+tactics: []
+relevantTechniques: []
+tags:
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: nsg-3
+query: |
+  AzureNetworkAnalytics_CL
+  | where SubType_s == "FlowLog"
+  | where PublicIPs_s contains "62.180.229.43" // replace with the IP to investigate

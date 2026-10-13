@@ -1,0 +1,25 @@
+id: c885c2f6-0397-5ce5-95a5-807b60cf586e
+name: 'Scheduled Task sospetto creato da processo insolito'
+description: |
+  Finds scheduled tasks created by processes not typically responsible for this operation (PowerShell, cmd, wscript). Common persistence technique on compromised endpoints.
+group: defender-for-endpoint
+tactics:
+  - Persistence
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mde-4
+query: |
+  DeviceProcessEvents
+  | where TimeGenerated > ago(7d)
+  | where FileName == "schtasks.exe"
+  | where ProcessCommandLine has "/create"
+  | where InitiatingProcessFileName in~ (
+      "powershell.exe","cmd.exe","wscript.exe","cscript.exe",
+      "mshta.exe","rundll32.exe","regsvr32.exe"
+    )
+  | project TimeGenerated, DeviceName, AccountName,
+            InitiatingProcessFileName, ProcessCommandLine

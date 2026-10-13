@@ -1,0 +1,26 @@
+id: 10e786f7-9cb6-5219-beef-9a9629ba9d6a
+name: 'Malicious URLs from Emails — Blocklist Export'
+description: |
+  Deduplicated list of malicious URLs found in email campaigns — ready as a blocklist for proxy/firewall or as a Sentinel Watchlist IOC feed.
+group: defender-for-office-365
+tactics: []
+relevantTechniques: []
+tags:
+  - Phishing
+  - ThreatIntel
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mail-9
+query: |
+  EmailEvents
+  | where Timestamp > ago(7d)
+  | where ThreatTypes has_any ("Malware", "Phish")
+  | join kind=inner (
+      EmailUrlInfo
+      | project NetworkMessageId, Url, UrlDomain
+  ) on NetworkMessageId
+  | project NetworkMessageId, SenderFromAddress, RecipientEmailAddress, Subject, Url, UrlDomain, ThreatTypes, DeliveryAction
+  | distinct Url, UrlDomain, ThreatTypes, SenderFromAddress
+  | order by UrlDomain asc

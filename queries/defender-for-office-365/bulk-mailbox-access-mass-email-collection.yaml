@@ -1,0 +1,22 @@
+id: 6e77d944-db5c-5b3e-88e8-07d2fd215dc5
+name: 'Bulk Mailbox Access — Mass Email Collection'
+description: |
+  Detects a single account accessing more than 500 mailbox items in one hour — potential automated exfiltration via a non-managed client or OAuth token (T1114.002 — Remote Email Collection).
+group: defender-for-office-365
+tactics:
+  - Collection
+  - Exfiltration
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mdo-7
+query: |
+  CloudAppEvents
+  | where ActionType == "MailItemsAccessed"
+  | where Application == "Microsoft Exchange Online"
+  | summarize MailsAccessed = count() by AccountDisplayName, IPAddress, bin(Timestamp, 1h)
+  | where MailsAccessed > 500
+  | order by MailsAccessed desc

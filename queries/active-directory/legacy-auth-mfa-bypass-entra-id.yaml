@@ -1,0 +1,22 @@
+id: 331edfc3-ae4e-505f-b71d-160256421167
+name: 'Legacy Auth MFA Bypass (Entra ID)'
+description: |
+  Successful single-factor logins via legacy protocols (IMAP, POP3, SMTP Auth, EAS) that bypass MFA — commonly exploited in password spray attacks against Exchange Online (T1078.004 — Cloud Accounts).
+group: active-directory
+tactics:
+  - InitialAccess
+  - CredentialAccess
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: login-7
+query: |
+  SigninLogs
+  | where AuthenticationRequirement == "singleFactorAuthentication"
+  | where ClientAppUsed in ("Exchange ActiveSync", "IMAP4", "POP3", "SMTP Auth", "Authenticated SMTP")
+  | where ResultType == 0
+  | project TimeGenerated, UserPrincipalName, IPAddress, Location, ClientAppUsed, AppDisplayName
+  | order by TimeGenerated desc

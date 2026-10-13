@@ -1,0 +1,37 @@
+id: 7a22b017-fc97-5553-a85c-bc35929285a6
+name: 'File Server — File Events with Color-Coded Operations'
+description: |
+  Surfaces file server events (create, rename, delete) ingested via the M365 connector with color-coded operation labels. Filters out system and admin actors. Verify that your connector populates the Div and related custom fields.
+group: file-server
+tactics: []
+relevantTechniques: []
+tags:
+  - DataLoss
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: fs-1
+query: |
+  OfficeActivity
+  | where Div contains "T0Rbody"
+      and ActionUserType == "System"
+      and ActorUserType <> "Service"
+      and ActorUserType <> "Machine"
+      and TargetWindowsUsername !contains "id autority"
+      and ActorUsername !contains "admin"
+      and TargetFilePath !contains "uhls"
+      and EventProduct contains "M365"
+  | where TimeGenerated >= ago(2h)
+  | project ActorUsername, EventProduct, Div, EventEndTime,
+      EventResult = case(
+          EventResult contains 'Success', '✅ Success',
+          EventType contains 'Failure', '❌ Failure',
+          'none'),
+      EventType = case(
+          EventType contains 'FileCreated',  '📁 FileCreated',
+          EventType contains 'FileRenamed',  '📄 FileRenamed',
+          EventType contains 'FileDeleted',  '🗑 FileDeleted',
+          '❌ Unknown'),
+      TargetFileName, FilePath
+  | order by EventEndTime

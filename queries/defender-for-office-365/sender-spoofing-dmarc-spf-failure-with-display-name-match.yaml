@@ -1,0 +1,23 @@
+id: 74638b37-90dc-56ab-91ac-50554bcffce5
+name: 'Sender Spoofing — DMARC/SPF Failure with Display Name Match'
+description: |
+  Emails where the visible From address differs from the envelope sender and authentication checks fail — classic spoofing technique to impersonate trusted senders (T1566 — Phishing).
+group: defender-for-office-365
+tactics:
+  - InitialAccess
+relevantTechniques: []
+tags:
+  - Phishing
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mdo-8
+query: |
+  EmailEvents
+  | where Timestamp > ago(24h)
+  | where SenderFromAddress != SenderMailFromAddress
+  | where AuthenticationDetails has "dmarc=fail"
+      or AuthenticationDetails has "spf=fail"
+  | project Timestamp, SenderFromAddress, SenderMailFromAddress, RecipientEmailAddress, Subject, DeliveryAction, AuthenticationDetails
+  | order by Timestamp desc

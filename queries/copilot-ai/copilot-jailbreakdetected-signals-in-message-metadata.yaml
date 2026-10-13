@@ -1,0 +1,22 @@
+id: 45637dbb-6492-5497-b537-c3c4379d4ec8
+name: 'Copilot — JailbreakDetected signals in message metadata'
+description: |
+  Surfaces M365 Copilot interactions where the built-in safety system flagged a user prompt as a potential jailbreak attempt (JailbreakDetected == true). This is a detection signal, not a confirmed attack — false positives occur. Evaluate in context: a single flagged event from a curious user differs from repeated attempts by the same actor across multiple AppHost values. Sustained or escalating patterns warrant correlation with Azure AI alert queries and potential escalation.
+group: copilot-ai
+tactics:
+  - PrivilegeEscalation
+  - DefenseEvasion
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2026-06-15
+author: Silvio Di Benedetto
+legacyId: copilotai-3
+query: |
+  CopilotActivity
+  | extend Messages          = parse_json(LLMEventData.Messages)
+  | mv-expand msg            = Messages
+  | extend JailbreakDetected = tobool(msg.JailbreakDetected)
+  | where JailbreakDetected == true
+  | project TimeGenerated, ActorName, AppHost, JailbreakDetected

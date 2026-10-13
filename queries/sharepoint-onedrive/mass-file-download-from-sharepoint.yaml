@@ -1,0 +1,21 @@
+id: 8697883f-0a34-527f-bb38-9457b232ae43
+name: 'Mass File Download from SharePoint'
+description: |
+  More than 100 file downloads from SharePoint/OneDrive in one hour — typical of an insider threat or compromised account bulk-collecting documents before exfiltration (T1530 — Data from Cloud Storage).
+group: sharepoint-onedrive
+tactics:
+  - Exfiltration
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: spo-1
+query: |
+  CloudAppEvents
+  | where Application in ("Microsoft SharePoint Online", "Microsoft OneDrive")
+  | where ActionType == "FileDownloaded"
+  | summarize DownloadCount = count(), Files = make_set(ObjectName, 20) by AccountDisplayName, IPAddress, bin(Timestamp, 1h)
+  | where DownloadCount > 100
+  | order by DownloadCount desc

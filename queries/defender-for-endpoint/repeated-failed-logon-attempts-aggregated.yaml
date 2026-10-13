@@ -1,0 +1,22 @@
+id: 2f4e6e15-5191-53bc-9181-faf31c59c044
+name: 'Repeated Failed Logon Attempts (Aggregated)'
+description: |
+  Uses the LogonFailedAggregatedReport action type to surface devices with more than 10 unique failed logon events over 30 days. The aggregated report is less noisy than raw events and is useful for spotting persistent brute-force activity or misconfigured services.
+group: defender-for-endpoint
+tactics:
+  - CredentialAccess
+relevantTechniques: []
+tags:
+  - BruteForce
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mde-6
+query: |
+  DeviceLogonEvents
+  | where Timestamp > ago(30d)
+  | where ActionType == "LogonFailedAggregatedReport"
+  | extend n = toint(todynamic(AdditionalFields).uniqueEventsAggregated)
+  | where n > 10
+  | sort by n desc

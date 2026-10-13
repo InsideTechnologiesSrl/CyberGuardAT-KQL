@@ -1,0 +1,24 @@
+id: 8bc76d6a-c4d9-513f-8ff9-15bac84590da
+name: 'Known Hacking Tools Executed by Name'
+description: |
+  Execution of well-known post-exploitation tools (Mimikatz, BloodHound, Rubeus, Impacket, CrackMapExec, etc.) — near-certain true positives requiring immediate response (T1003 — OS Credential Dumping).
+group: defender-for-endpoint
+tactics:
+  - CredentialAccess
+  - LateralMovement
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: proc-3
+query: |
+  DeviceProcessEvents
+  | where FileName in~ (
+      "mimikatz.exe", "procdump.exe", "wce.exe", "fgdump.exe",
+      "pwdump.exe", "lazagne.exe", "sharphound.exe", "bloodhound.exe",
+      "rubeus.exe", "kerbrute.exe", "impacket.exe", "crackmapexec.exe"
+  )
+  | project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, FolderPath
+  | order by Timestamp desc

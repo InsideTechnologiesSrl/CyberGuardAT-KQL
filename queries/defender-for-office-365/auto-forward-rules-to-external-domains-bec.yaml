@@ -1,0 +1,22 @@
+id: ecb91ff8-9e39-500b-94b2-b39fdf5b17cc
+name: 'Auto-Forward Rules to External Domains (BEC)'
+description: |
+  Detects inbox or transport rules configured to silently forward email to external providers (Gmail, Yahoo, ProtonMail) — near-certain indicator of a compromised account used for BEC (T1114.003 — Email Forwarding Rule).
+group: defender-for-office-365
+tactics:
+  - Exfiltration
+  - Persistence
+relevantTechniques: []
+tags:
+  - BEC
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mdo-5
+query: |
+  CloudAppEvents
+  | where ActionType in ("Set-MailboxAutoReplyConfiguration", "New-InboxRule", "Set-InboxRule")
+  | where AdditionalFields has_any ("ForwardTo", "ForwardAsAttachmentTo", "RedirectTo")
+  | where AdditionalFields has_any ("gmail.com", "yahoo.com", "hotmail.com", "protonmail.com", "outlook.com")
+  | project Timestamp, AccountDisplayName, ActionType, AdditionalFields, IPAddress
+  | order by Timestamp desc

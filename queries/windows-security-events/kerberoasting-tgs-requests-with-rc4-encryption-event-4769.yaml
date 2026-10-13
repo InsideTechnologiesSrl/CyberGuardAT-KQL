@@ -1,0 +1,28 @@
+id: 195e802a-5ff7-5d15-97d9-aa82f04616f5
+name: 'Kerberoasting — TGS requests with RC4 encryption (Event 4769)'
+description: |
+  Detects potential Kerberoasting attacks: TGS requests using RC4-HMAC encryption (type 0x17), preferred by attackers because it is easier to crack offline than AES. Spikes in requests from a single IP are suspicious.
+group: windows-security-events
+tactics:
+  - CredentialAccess
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: win-1
+query: |
+  SecurityEvent
+  | where TimeGenerated > ago(1d)
+  | where EventID == 4769
+  | where EventData has "0x17"  // RC4-HMAC
+  | where ServiceName !endswith "$"       // escludi computer account
+  | where IpAddress !in ("127.0.0.1","::1")
+  | summarize
+      Requests = count(),
+      Accounts = make_set(Account, 5),
+      Services = make_set(ServiceName, 10)
+    by IpAddress, bin(TimeGenerated, 1h)
+  | where Requests > 5
+  | order by Requests desc

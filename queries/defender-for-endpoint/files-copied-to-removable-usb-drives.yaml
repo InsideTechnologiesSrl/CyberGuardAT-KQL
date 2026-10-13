@@ -1,0 +1,21 @@
+id: 0507650c-923f-5ef5-8858-e2e6225dc7e0
+name: 'Files Copied to Removable USB Drives'
+description: |
+  File copy or creation events targeting removable drive letters — classic insider threat data exfiltration vector via physical media (T1052.001 — Exfiltration Over Physical Medium: Exfiltration over USB).
+group: defender-for-endpoint
+tactics:
+  - Exfiltration
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: file-6
+query: |
+  DeviceFileEvents
+  | where ActionType == "FileCopied"
+      or (ActionType == "FileCreated" and (FolderPath startswith @"E:\" or FolderPath startswith @"F:\"))
+  | extend AccountName = InitiatingProcessAccountName
+  | project Timestamp, DeviceName, AccountName, ActionType, FileName, FolderPath, InitiatingProcessFileName
+  | order by Timestamp desc

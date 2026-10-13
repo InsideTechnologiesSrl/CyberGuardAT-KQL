@@ -1,0 +1,22 @@
+id: d46471c5-bc35-5989-9c68-66d223f495d7
+name: 'SharePoint Downloads via Suspicious User Agent (Script/Tool)'
+description: |
+  File downloads using HTTP library user agents (python-requests, curl, wget, go-http-client) instead of browsers — automated exfiltration via script with stolen OAuth tokens (T1530 — Data from Cloud Storage).
+group: sharepoint-onedrive
+tactics:
+  - Exfiltration
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: spo-7
+query: |
+  CloudAppEvents
+  | where Application == "Microsoft SharePoint Online"
+  | where ActionType == "FileDownloaded"
+  | extend UserAgent = tostring(AdditionalFields.UserAgent)
+  | where UserAgent has_any ("python-requests", "curl", "wget", "go-http-client", "scrapy", "libwww")
+  | project Timestamp, AccountDisplayName, ObjectName, UserAgent, IPAddress
+  | order by Timestamp desc

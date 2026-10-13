@@ -1,0 +1,21 @@
+id: 4649ae63-bfac-531a-b67e-59edecc75ca9
+name: 'LDAP Mass Enumeration — AD Reconnaissance'
+description: |
+  Detects high-volume LDAP queries against Active Directory, typical of post-compromise discovery tooling (BloodHound, ldapdomaindump) that maps the environment before lateral movement (T1087 — Account Discovery).
+group: defender-for-identity
+tactics:
+  - Discovery
+  - Reconnaissance
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mdi-1
+query: |
+  IdentityQueryEvents
+  | where QueryType == "Ldap"
+  | summarize QueryCount = count(), UniqueTargets = dcount(TargetAccountDisplayName) by AccountDisplayName, DeviceName, bin(Timestamp, 10m)
+  | where QueryCount > 200
+  | order by QueryCount desc

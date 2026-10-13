@@ -1,0 +1,19 @@
+id: 27057b03-948b-549c-8938-baa1ac65225d
+name: 'AD Group Membership Change — Specific Group Filter'
+description: |
+  Surfaces all AD group membership changes for a specific group (default: PowerBI). Replace the group name to monitor any target group in real time.
+group: defender-for-identity
+tactics:
+  - Persistence
+relevantTechniques: []
+tags:
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mdi-13
+query: |
+  IdentityDirectoryEvents
+  | where Application == "Active Directory"
+  | where ActionType == "Group Membership changed"
+  | where AdditionalFields contains "PowerBI" // replace with the group name to monitor

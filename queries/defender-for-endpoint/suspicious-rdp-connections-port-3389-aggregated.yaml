@@ -1,0 +1,22 @@
+id: 05116d48-0f9c-5e2b-a4df-b13d6eecf753
+name: 'Suspicious RDP Connections (Port 3389 Aggregated)'
+description: |
+  Surfaces devices with more than 10 aggregated inbound or outbound RDP connections on port 3389. Uses the AggregatedReport action type to reduce noise while still flagging endpoints with unusual Remote Desktop activity, a common ransomware entry vector.
+group: defender-for-endpoint
+tactics:
+  - LateralMovement
+  - InitialAccess
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mde-7
+query: |
+  DeviceNetworkEvents
+  | where Timestamp > ago(1d)
+  | where ActionType endswith "AggregatedReport" and RemotePort == "3389"
+  | extend n = toint(todynamic(AdditionalFields).uniqueEventsAggregated)
+  | where n > 10
+  | sort by n desc

@@ -1,0 +1,20 @@
+id: f219f278-e3bf-582f-a791-bcc53a6b887e
+name: 'All Email from a Specific Sender Domain'
+description: |
+  Aggregated view of all email from a suspicious domain — useful when investigating a campaign from an entire infrastructure rather than a single address.
+group: defender-for-office-365
+tactics: []
+relevantTechniques: []
+tags:
+  - Phishing
+  - BEC
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mail-2
+query: |
+  EmailEvents
+  | where SenderFromDomain =~ "suspicious-domain.com" // replace with the domain to investigate
+  | summarize EmailCount = count(), Recipients = make_set(RecipientEmailAddress), Subjects = make_set(Subject, 10) by SenderFromAddress, SenderFromDomain, DeliveryAction
+  | order by EmailCount desc

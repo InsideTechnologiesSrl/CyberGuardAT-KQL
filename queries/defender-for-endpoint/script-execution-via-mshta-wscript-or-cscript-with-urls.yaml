@@ -1,0 +1,21 @@
+id: 62f8047e-bd76-584d-83c3-8ad14341b703
+name: 'Script Execution via mshta, wscript, or cscript with URLs'
+description: |
+  mshta.exe, wscript.exe, or cscript.exe invoked with HTA/VBS/JS files or remote URLs — common first-stage dropper vector distributed via phishing attachments (T1059.005 — Visual Basic).
+group: defender-for-endpoint
+tactics:
+  - Execution
+  - InitialAccess
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: proc-6
+query: |
+  DeviceProcessEvents
+  | where FileName in~ ("mshta.exe", "wscript.exe", "cscript.exe")
+  | where ProcessCommandLine has_any (".hta", ".vbs", ".js", "http://", "https://", "ftp://")
+  | project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine, InitiatingProcessFileName
+  | order by Timestamp desc

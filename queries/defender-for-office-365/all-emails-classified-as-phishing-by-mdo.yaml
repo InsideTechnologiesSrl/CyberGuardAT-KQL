@@ -1,0 +1,19 @@
+id: 798461ef-2b4b-5888-a037-e27b3440178f
+name: 'All Emails Classified as Phishing by MDO'
+description: |
+  Phishing emails detected by MDO — assess campaign volume, which users were targeted, and how many reached inboxes despite detection.
+group: defender-for-office-365
+tactics: []
+relevantTechniques: []
+tags:
+  - Phishing
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mail-5
+query: |
+  EmailEvents
+  | where ThreatTypes has "Phish"
+  | project Timestamp, SenderFromAddress, SenderFromDomain, RecipientEmailAddress, Subject, DeliveryAction, DeliveryLocation, ThreatTypes, DetectionMethods
+  | order by Timestamp desc

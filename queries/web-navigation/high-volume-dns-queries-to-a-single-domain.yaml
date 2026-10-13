@@ -1,0 +1,22 @@
+id: aca06c6f-6afc-5bc0-9ac1-33a453ecea42
+name: 'High-Volume DNS Queries to a Single Domain'
+description: |
+  More than 500 DNS queries to the same domain in one hour — DNS tunneling C2 pattern where commands are hidden in DNS query subdomains at high frequency (T1071.004 — DNS).
+group: web-navigation
+tactics:
+  - CommandAndControl
+  - Exfiltration
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: web-8
+query: |
+  DeviceNetworkEvents
+  | where ActionType == "DnsQueryResponse"
+  | extend AccountName = InitiatingProcessAccountName
+  | summarize QueryCount = count() by DeviceName, AccountName, RemoteUrl, bin(Timestamp, 1h)
+  | where QueryCount > 500
+  | order by QueryCount desc

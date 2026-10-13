@@ -1,0 +1,23 @@
+id: 7e5bdbcc-686f-5d77-a379-c565f8f1e20b
+name: 'Mass File Rename — Ransomware Early Indicator'
+description: |
+  Detects a high volume of file renames within 10-minute windows — an early ransomware indicator as files are renamed in bulk during the encryption phase (T1486 — Data Encrypted for Impact).
+group: defender-for-endpoint
+tactics:
+  - Impact
+relevantTechniques: []
+tags:
+  - Ransomware
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mde-16
+query: |
+  DeviceFileEvents
+  | where ActionType == "FileRenamed"
+  | where Timestamp > ago(1h)
+  | extend AccountName = InitiatingProcessAccountName
+  | summarize RenamedFiles = count(), Extensions = make_set(tostring(split(FileName, ".")[-1])) by DeviceName, AccountName, bin(Timestamp, 10m)
+  | where RenamedFiles > 100
+  | order by RenamedFiles desc

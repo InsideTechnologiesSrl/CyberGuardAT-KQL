@@ -1,0 +1,23 @@
+id: 6cd3be7f-84b0-5624-9778-49e0c8c1a1f3
+name: 'Versioning Disabled on SharePoint Libraries'
+description: |
+  Disabling versioning on SharePoint document libraries removes the ability to recover from malicious modifications or ransomware — sabotage of resilience controls (T1485 — Data Destruction).
+group: sharepoint-onedrive
+tactics:
+  - Impact
+  - DefenseEvasion
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: spo-9
+query: |
+  CloudAppEvents
+  | where Application == "Microsoft SharePoint Online"
+  | where ActionType == "ListUpdated"
+  | where AdditionalFields has "EnableVersioning"
+      and AdditionalFields has "false"
+  | project Timestamp, AccountDisplayName, AdditionalFields, IPAddress, SiteUrl = tostring(AdditionalFields.SiteUrl)
+  | order by Timestamp desc

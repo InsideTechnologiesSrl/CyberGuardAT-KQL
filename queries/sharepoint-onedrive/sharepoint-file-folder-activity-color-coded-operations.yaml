@@ -1,0 +1,32 @@
+id: 382f2aa6-b5bb-5153-8944-07424d547194
+name: 'SharePoint File & Folder Activity (Color-Coded Operations)'
+description: |
+  Complete view of SharePoint file and folder events over 7 days with color-coded operation labels. Covers create, modify, delete, access, and upload events across files and folders, including the managing device.
+group: sharepoint-onedrive
+tactics:
+  - Exfiltration
+relevantTechniques: []
+tags:
+  - DataLoss
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: spo-11
+query: |
+  OfficeActivity
+  | where EventSource == "SharePoint"
+  | where ItemType == "File" or ItemType == "Folder"
+  | where TimeGenerated > ago(7d)
+  | project TimeGenerated, UserId, OfficeWorkload, Site_Url, SourceFileName, SourceFileExtension,
+      Operation = case(
+          Operation contains 'FolderCreated', '📁 FolderCreated',
+          Operation contains 'FolderModified', '📁 FolderModified',
+          Operation contains 'FolderDeleted', '❌ FolderDeleted',
+          Operation contains 'FileAccessed', '📁 FileAccessed',
+          Operation contains 'FileModified', '📁 FileModified',
+          Operation contains 'FileDeleted', '❌ FileDeleted',
+          Operation contains 'FileUploaded', '📁 FileUploaded',
+          'other'
+      ), IsManagedDevice
+  | order by TimeGenerated

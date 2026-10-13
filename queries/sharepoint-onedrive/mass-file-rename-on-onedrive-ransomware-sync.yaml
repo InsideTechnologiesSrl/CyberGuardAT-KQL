@@ -1,0 +1,22 @@
+id: 712b2e79-9bcd-5b04-a88a-7164f2cba151
+name: 'Mass File Rename on OneDrive (Ransomware Sync)'
+description: |
+  OneDrive syncing ransomware encryptions from a local device — early detection via high rename volume before all cloud versions are overwritten (T1486 — Data Encrypted for Impact).
+group: sharepoint-onedrive
+tactics:
+  - Impact
+relevantTechniques: []
+tags:
+  - Ransomware
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: spo-10
+query: |
+  CloudAppEvents
+  | where Application == "Microsoft OneDrive"
+  | where ActionType == "FileRenamed"
+  | summarize RenamedCount = count(), NewExtensions = make_set(tostring(split(ObjectName, ".")[-1])) by AccountDisplayName, bin(Timestamp, 10m)
+  | where RenamedCount > 50
+  | order by RenamedCount desc

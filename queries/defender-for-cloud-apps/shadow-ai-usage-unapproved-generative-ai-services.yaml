@@ -1,0 +1,26 @@
+id: cec6481b-1b56-5f54-895f-f35d7ff5fd6e
+name: 'Shadow AI Usage (Unapproved Generative AI Services)'
+description: |
+  Access to generative AI services not approved by policy — risk of data leakage via prompts containing confidential data, source code, or customer information (Shadow AI / T1567).
+group: defender-for-cloud-apps
+tactics:
+  - Exfiltration
+relevantTechniques: []
+tags:
+  - DataLoss
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: cloud-4
+query: |
+  CloudAppEvents
+  | where Application in (
+      "ChatGPT", "OpenAI", "Google Bard", "Google Gemini",
+      "Perplexity AI", "Claude", "Mistral AI", "Cohere",
+      "Hugging Face", "Character.AI", "Poe", "Jasper",
+      "Copy.ai", "Writesonic", "Midjourney", "Stable Diffusion Online"
+  )
+  | where ActionType in ("Login", "Upload", "FileUploaded", "QuerySent", "MessageSent")
+  | project Timestamp, AccountDisplayName, Application, ActionType, ObjectName, IPAddress, CountryCode
+  | order by Timestamp desc

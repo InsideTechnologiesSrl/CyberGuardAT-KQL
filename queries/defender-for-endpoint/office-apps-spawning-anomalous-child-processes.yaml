@@ -1,0 +1,21 @@
+id: 39d87008-2087-5e07-8791-c9945de19cf2
+name: 'Office Apps Spawning Anomalous Child Processes'
+description: |
+  Detects Office applications (Word, Excel, Outlook) launching shell interpreters as child processes — a strong indicator of malicious macros or armed documents attempting to execute code (T1566.001 — Phishing: Spearphishing Attachment).
+group: defender-for-endpoint
+tactics:
+  - InitialAccess
+  - Execution
+relevantTechniques: []
+tags:
+  - Phishing
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mde-8
+query: |
+  DeviceProcessEvents
+  | where InitiatingProcessFileName in~ ("winword.exe", "excel.exe", "outlook.exe", "mspub.exe")
+  | where FileName in~ ("cmd.exe", "powershell.exe", "wscript.exe", "cscript.exe", "mshta.exe", "regsvr32.exe", "rundll32.exe")
+  | project Timestamp, DeviceName, AccountName, InitiatingProcessFileName, FileName, ProcessCommandLine
+  | order by Timestamp desc

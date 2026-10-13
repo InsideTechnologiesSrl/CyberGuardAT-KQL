@@ -1,0 +1,19 @@
+id: dab30abf-b495-5902-8414-3942cbdb3a65
+name: 'Email Keyword Search by Subject'
+description: |
+  Finds emails containing specified keywords in the subject — locate all variants of a known phishing campaign or investigate a user-reported suspicious subject line.
+group: defender-for-office-365
+tactics: []
+relevantTechniques: []
+tags:
+  - Phishing
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mail-3
+query: |
+  EmailEvents
+  | where Subject has_any ("fattura", "pagamento urgente", "verifica account", "reset password", "invoice", "wire transfer", "urgent payment")
+  | project Timestamp, SenderFromAddress, SenderFromDomain, RecipientEmailAddress, Subject, DeliveryAction, ThreatTypes
+  | order by Timestamp desc

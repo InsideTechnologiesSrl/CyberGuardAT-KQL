@@ -1,0 +1,26 @@
+id: acd70806-db69-518d-9a20-842acf99d8c3
+name: 'Nuovo ruolo Owner/Contributor assegnato'
+description: |
+  Detects the assignment of Owner or Contributor roles at the subscription or resource group level. This type of privilege escalation is a critical signal of a compromised account or misconfigured IAM.
+group: azure-activity
+tactics:
+  - PrivilegeEscalation
+relevantTechniques: []
+tags:
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: az-1
+query: |
+  AzureActivity
+  | where TimeGenerated > ago(7d)
+  | where OperationNameValue == "MICROSOFT.AUTHORIZATION/ROLEASSIGNMENTS/WRITE"
+  | where ActivityStatusValue == "Success"
+  | extend Props = todynamic(Properties)
+  | where tostring(Props.requestbody) has_any (
+      "8e3af657-a8ff-443c-a75c-2fe8c4bcb635",  // Owner
+      "b24988ac-6180-42a0-ab88-20f7382dd24c"   // Contributor
+    )
+  | project TimeGenerated, Caller, CallerIpAddress,
+            ResourceGroup, SubscriptionId

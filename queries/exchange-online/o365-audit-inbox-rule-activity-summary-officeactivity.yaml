@@ -1,0 +1,20 @@
+id: 136296b3-c544-59c3-81f4-2444e0783b3c
+name: 'O365 Audit — Inbox Rule Activity Summary (OfficeActivity)'
+description: |
+  Aggregates inbox rule modification operations grouped by user, operation type, and source IP.
+group: exchange-online
+tactics:
+  - Exfiltration
+relevantTechniques: []
+tags:
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: o365-8
+query: |
+  OfficeActivity
+  | where TimeGenerated > ago(7d)
+  | where Operation in ("New-InboxRule","Set-InboxRule","Set-Mailbox")
+  | summarize Count = count() by UserId, Operation, ClientIP
+  | sort by Count desc

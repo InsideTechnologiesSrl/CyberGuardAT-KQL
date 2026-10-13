@@ -1,0 +1,22 @@
+id: 984a3958-0db8-57a4-94be-bb532a036f5a
+name: 'Application Config Files Modified'
+description: |
+  Modifications to application configuration files (web.config, appsettings.json, .env, wp-config.php) — used to inject C2 connections, change DB credentials, or disable security controls (T1565 — Data Manipulation).
+group: defender-for-endpoint
+tactics:
+  - Persistence
+  - DefenseEvasion
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: file-7
+query: |
+  DeviceFileEvents
+  | where ActionType in ("FileModified", "FileCreated")
+  | where FileName in~ ("web.config", "appsettings.json", "config.xml", ".env", "wp-config.php", "settings.py")
+  | extend AccountName = InitiatingProcessAccountName
+  | project Timestamp, DeviceName, AccountName, FileName, FolderPath, InitiatingProcessFileName
+  | order by Timestamp desc

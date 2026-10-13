@@ -1,0 +1,22 @@
+id: 04a3f631-6b70-5a0c-ac9f-4050967a6b8f
+name: 'PsExec / Remote Admin Tool Execution'
+description: |
+  Detects execution of PsExec and similar remote administration tools commonly used for lateral movement over SMB admin shares (T1021.002 — Remote Services: SMB/Windows Admin Shares).
+group: defender-for-endpoint
+tactics:
+  - LateralMovement
+  - Execution
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mde-14
+query: |
+  DeviceProcessEvents
+  | where FileName in~ ("psexec.exe", "psexec64.exe", "paexec.exe", "remcom.exe", "csexec.exe")
+      or ProcessCommandLine has @"\\admin$"
+      or ProcessCommandLine has @"\\ipc$"
+  | project Timestamp, DeviceName, AccountName, FileName, ProcessCommandLine
+  | order by Timestamp desc

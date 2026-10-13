@@ -1,0 +1,26 @@
+id: 06f55205-46fa-5a6e-9a9d-9dda68551ea7
+name: 'Veeam Backup Job Status (Syslog)'
+description: |
+  Parses Veeam Backup & Replication syslog messages to surface backup job outcomes with color-coded status (success ✅, warning ⚠️, failure ❌). Update the Computer filter to match your Veeam server hostname.
+group: veeam
+tactics: []
+relevantTechniques: []
+tags:
+  - Availability
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: veeam-1
+query: |
+  Syslog
+  | where Computer contains "tck01" // replace with your Veeam server hostname
+  | extend BackupStatus = iff(SyslogMessage contains "has been completed" and SeverityLevel == "info", "✅",
+          iff(SyslogMessage contains "has been completed" and SeverityLevel == "warn", "⚠️",
+              iff(SyslogMessage contains "has not been completed" and SeverityLevel == "error", "❌", "⚠️")))
+  | extend SeverityLabel = case(
+      SeverityLevel contains "info",  "✅ Success",
+      SeverityLevel contains "error", "❌ Failure",
+      'none')
+  | project EventTime, BackupStatus, SeverityLevel, SeverityLabel, SyslogMessage
+  | sort by EventTime desc

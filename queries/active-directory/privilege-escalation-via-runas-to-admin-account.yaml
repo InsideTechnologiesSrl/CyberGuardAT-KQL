@@ -1,0 +1,22 @@
+id: 6b654d74-eafc-5e96-85af-a69373d4e18c
+name: 'Privilege Escalation via Runas to Admin Account'
+description: |
+  Explicit use of runas.exe to execute processes as a privileged account from a standard user — potential unauthorized escalation attempt (T1548 — Abuse Elevation Control Mechanism).
+group: active-directory
+tactics:
+  - PrivilegeEscalation
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: login-9
+query: |
+  DeviceProcessEvents
+  | where FileName in~ ("runas.exe")
+  | where ProcessCommandLine has "/user:"
+  | extend TargetUser = extract(@"/user:(\S+)", 1, ProcessCommandLine)
+  | where TargetUser has_any ("admin", "administrator", "domain")
+  | project Timestamp, DeviceName, AccountName, TargetUser, ProcessCommandLine
+  | order by Timestamp desc

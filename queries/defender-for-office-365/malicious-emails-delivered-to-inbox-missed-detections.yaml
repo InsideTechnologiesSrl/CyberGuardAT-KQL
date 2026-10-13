@@ -1,0 +1,22 @@
+id: 8aa8a1ef-32ef-5e5e-a0a3-e0a4e0c9dfa5
+name: 'Malicious Emails Delivered to Inbox (Missed Detections)'
+description: |
+  Malware, phishing, or spam that bypassed filters and reached user inboxes — requires MDO policy review and potential user remediation.
+group: defender-for-office-365
+tactics: []
+relevantTechniques: []
+tags:
+  - Phishing
+  - Malware
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mail-6
+query: |
+  EmailEvents
+  | where ThreatTypes has_any ("Malware", "Phish", "Spam")
+  | where DeliveryAction == "Delivered"
+  | where DeliveryLocation in ("Inbox", "Inbox/folder")
+  | project Timestamp, SenderFromAddress, RecipientEmailAddress, Subject, ThreatTypes, DetectionMethods, DeliveryAction, DeliveryLocation
+  | order by Timestamp desc

@@ -1,0 +1,25 @@
+id: aec31fe2-5a76-57d4-a936-a44ba91c2db0
+name: 'Access to Unauthorized Anonymous File Sharing Services'
+description: |
+  Connections to anonymous file sharing sites (WeTransfer, gofile.io, anonfiles, etc.) that are often used for exfiltration since they require no authentication and are rarely blocked by proxies (T1567 — Exfiltration Over Web Service).
+group: web-navigation
+tactics:
+  - Exfiltration
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: web-5
+query: |
+  DeviceNetworkEvents
+  | where ActionType == "ConnectionSuccess"
+  | where RemoteUrl has_any (
+      "wetransfer.com", "sendspace.com", "filedropper.com",
+      "anonfiles.com", "upload.ee", "gofile.io",
+      "temp.sh", "0x0.st", "file.io"
+  )
+  | extend AccountName = InitiatingProcessAccountName
+  | project Timestamp, DeviceName, AccountName, RemoteUrl, InitiatingProcessFileName
+  | order by Timestamp desc

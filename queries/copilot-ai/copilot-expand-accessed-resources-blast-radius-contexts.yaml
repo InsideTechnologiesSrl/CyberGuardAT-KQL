@@ -1,0 +1,23 @@
+id: 27138d1c-dcf2-54d4-96df-0744fc6ae5a8
+name: 'Copilot — Expand accessed resources (blast-radius / Contexts)'
+description: |
+  Expands the Contexts array inside LLMEventData to enumerate every resource M365 Copilot accessed during each interaction. Each row is a single resource (file, email, calendar item, etc.) with its identifier and type. Use this to determine the blast radius of an interaction: which data sources were referenced. Cross-reference resource identifiers with DLP or data classification systems to assess sensitivity.
+group: copilot-ai
+tactics:
+  - Collection
+  - Exfiltration
+relevantTechniques: []
+tags:
+  - Investigation
+version: 1.0.0
+added: 2026-06-15
+author: Silvio Di Benedetto
+legacyId: copilotai-2
+query: |
+  CopilotActivity
+  | extend Contexts = parse_json(LLMEventData.Contexts)
+  | mv-expand ctx = Contexts
+  | extend ResourceId   = tostring(ctx.Id),
+           ResourceType = tostring(ctx.Type)
+  | project TimeGenerated, ActorName, AppHost, ResourceId, ResourceType
+  | order by TimeGenerated desc

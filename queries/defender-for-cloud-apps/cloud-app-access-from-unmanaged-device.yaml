@@ -1,0 +1,22 @@
+id: df0d07c1-c935-552d-9ad1-28aed9fbf88c
+name: 'Cloud App Access from Unmanaged Device'
+description: |
+  Access to unapproved cloud services from a device not enrolled in Intune — high-risk combination: corporate data transiting outside IT-controlled infrastructure (T1078.004 — Valid Accounts: Cloud Accounts).
+group: defender-for-cloud-apps
+tactics: []
+relevantTechniques: []
+tags:
+  - DataLoss
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: cloud-6
+query: |
+  CloudAppEvents
+  | where Application in ("Dropbox", "Box", "Google Drive", "ChatGPT", "OpenAI", "WeTransfer")
+  | where AdditionalFields has "UnmanagedDevice"
+      or AdditionalFields has "Compliant:No"
+      or AdditionalFields has "ManagedDevice:No"
+  | project Timestamp, AccountDisplayName, Application, ActionType, IPAddress, CountryCode, AdditionalFields
+  | order by Timestamp desc

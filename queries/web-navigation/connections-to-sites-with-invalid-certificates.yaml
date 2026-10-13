@@ -1,0 +1,23 @@
+id: d620e4a2-8c04-57dc-83ba-75968df3b4cc
+name: 'Connections to Sites with Invalid Certificates'
+description: |
+  Failed connections due to certificate errors (expired, self-signed, invalid CA) — often indicative of C2 proxies or phishing sites with cheap or improperly configured HTTPS (T1071.001 — Web Protocols).
+group: web-navigation
+tactics:
+  - CommandAndControl
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: web-2
+query: |
+  DeviceNetworkEvents
+  | where ActionType == "ConnectionFailed"
+  | where AdditionalFields has "CertificateError"
+      or AdditionalFields has "SSL_ERROR"
+      or AdditionalFields has "CERT_AUTHORITY_INVALID"
+  | extend AccountName = InitiatingProcessAccountName
+  | project Timestamp, DeviceName, AccountName, RemoteUrl, RemoteIP, AdditionalFields, InitiatingProcessFileName
+  | order by Timestamp desc

@@ -1,0 +1,21 @@
+id: a62f467f-ac94-5451-af84-080ef6214a17
+name: 'Unexpected Addition to Privileged AD Groups'
+description: |
+  Detects membership changes to critical Active Directory groups (Domain Admins, Enterprise Admins, etc.) — unauthorized escalation technique used by attackers to gain persistent privileged access (T1098 — Account Manipulation).
+group: defender-for-identity
+tactics:
+  - PrivilegeEscalation
+  - Persistence
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mdi-6
+query: |
+  IdentityDirectoryEvents
+  | where ActionType == "Group Membership changed"
+  | where AdditionalFields has_any ("Domain Admins", "Enterprise Admins", "Schema Admins", "Administrators", "Account Operators")
+  | project Timestamp, AccountDisplayName, TargetAccountDisplayName, AdditionalFields, DeviceName
+  | order by Timestamp desc

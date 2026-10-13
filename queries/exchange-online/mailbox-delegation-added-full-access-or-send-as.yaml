@@ -1,0 +1,20 @@
+id: 2733727d-e0f4-5d74-86b6-6cc4651e16f5
+name: 'Mailbox Delegation Added — Full Access or Send-As'
+description: |
+  Detects Add-MailboxPermission and Add-RecipientPermission operations — attackers use this to silently read a victim's email without changing the password.
+group: exchange-online
+tactics:
+  - Persistence
+relevantTechniques: []
+tags:
+  - BEC
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: o365-4
+query: |
+  CloudAppEvents
+  | where Application == "Microsoft Exchange Online"
+  | where ActionType in ("Add-MailboxPermission", "Add-RecipientPermission")
+  | project Timestamp, AccountDisplayName, ActionType, RawEventData

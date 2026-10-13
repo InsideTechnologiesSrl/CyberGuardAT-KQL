@@ -1,0 +1,24 @@
+id: f164ccf8-dc0e-5b0f-816c-2bc920b8191d
+name: 'Cloud App Access from Unexpected Country'
+description: |
+  Access to cloud apps from countries outside the approved policy list — potential compromised account using valid credentials bypassing corporate infrastructure. Adapt the country list.
+group: defender-for-cloud-apps
+tactics:
+  - InitialAccess
+  - Exfiltration
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: cloud-7
+query: |
+  CloudAppEvents
+  | where Application in (
+      "Dropbox", "Box", "Google Drive", "Slack",
+      "ChatGPT", "OpenAI", "WeTransfer", "Trello", "Notion"
+  )
+  | where CountryCode !in ("IT", "US", "GB", "DE", "FR") // adapt to your policy
+  | project Timestamp, AccountDisplayName, Application, ActionType, IPAddress, CountryCode, ISP
+  | order by Timestamp desc

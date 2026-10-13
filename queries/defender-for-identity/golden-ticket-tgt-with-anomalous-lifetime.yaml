@@ -1,0 +1,23 @@
+id: 80ec2d81-7174-5e0e-a9c6-5178de950738
+name: 'Golden Ticket — TGT with Anomalous Lifetime'
+description: |
+  Kerberos tickets with a lifetime exceeding company policy (typically 8–10h) may indicate a Golden Ticket forged with compromised KRBTGT credentials, granting unlimited access (T1558.001).
+group: defender-for-identity
+tactics:
+  - CredentialAccess
+  - Persistence
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mdi-4
+query: |
+  IdentityLogonEvents
+  | where LogonType == "Network"
+  | where Protocol == "Kerberos"
+  | extend TicketLifetime = todouble(AdditionalFields.TicketLifetimeHours)
+  | where TicketLifetime > 10
+  | project Timestamp, AccountDisplayName, DeviceName, DestinationDeviceName, TicketLifetime
+  | order by TicketLifetime desc

@@ -1,0 +1,24 @@
+id: dd684869-10a0-53b4-bc94-3233535fa892
+name: 'Mail Rule Creation/Modification — Broad Coverage (CloudAppEvents)'
+description: |
+  Catch-all hunting query over all inbox and transport rule operations via CloudAppEvents. Useful to spot any rule manipulation activity.
+group: exchange-online
+tactics:
+  - Exfiltration
+  - Persistence
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: o365-7
+query: |
+  let action_types = pack_array(
+      "New-InboxRule","UpdateInboxRules","Set-InboxRule",
+      "Set-Mailbox","New-TransportRule","Set-TransportRule"
+  );
+  CloudAppEvents
+  | where Timestamp > ago(7d)
+  | where ActionType in (action_types)
+  | project Timestamp, AccountDisplayName, ActionType, IPAddress, CountryCode

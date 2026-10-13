@@ -1,0 +1,23 @@
+id: 76c21eca-1e62-53db-a997-fba4a4d3589c
+name: 'RDP Logons from Unauthorized Public IPs'
+description: |
+  Surfaces successful Remote Desktop logons originating from public IPs not in the approved whitelist (VPN, jump hosts) — one of the most common ransomware entry vectors (T1021.001 — Remote Desktop Protocol).
+group: active-directory
+tactics:
+  - InitialAccess
+  - LateralMovement
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: login-3
+query: |
+  DeviceLogonEvents
+  | where LogonType == "RemoteInteractive"
+  | where ActionType == "LogonSuccess"
+  | where RemoteIPType == "Public"
+  | where RemoteIP !in ("0.0.0.0")
+  | project Timestamp, AccountName, DeviceName, RemoteIP, RemoteIPType
+  | order by Timestamp desc

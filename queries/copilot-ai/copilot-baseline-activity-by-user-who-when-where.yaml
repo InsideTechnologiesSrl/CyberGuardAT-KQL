@@ -1,0 +1,20 @@
+id: 2b3a8724-8f91-5b02-b494-5588a5a9a1ca
+name: 'Copilot — Baseline activity by user (Who / When / Where)'
+description: |
+  Returns a chronological view of all M365 Copilot activity for a specific user, including which application hosted the interaction and when it occurred. Use this as the starting point to establish the time window and application scope under investigation. Multiple AppHost values indicate usage spanning several workloads. Narrow the time range and pivot to resource-expansion queries to determine what Copilot accessed.
+group: copilot-ai
+tactics:
+  - InitialAccess
+relevantTechniques: []
+tags:
+  - Investigation
+  - Hunting
+version: 1.0.0
+added: 2026-06-15
+author: Silvio Di Benedetto
+legacyId: copilotai-1
+query: |
+  CopilotActivity
+  | where ActorName == "user@domain.com"   // replace with target UPN
+  | project TimeGenerated, ActorName, AppHost, RecordType, OrganizationId
+  | order by TimeGenerated desc

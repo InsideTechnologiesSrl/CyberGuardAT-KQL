@@ -1,0 +1,22 @@
+id: 3cb9fbd0-507d-5e4f-b22e-07753f149b48
+name: 'Fortinet — CPU & Memory Utilization Over Time'
+description: |
+  Extracts CPU percentage and memory usage values from Fortinet syslog messages (event class 40704 — performance) and renders them as a time chart. Useful for capacity monitoring and spike detection.
+group: fortinet-fortigate
+tactics: []
+relevantTechniques: []
+tags:
+  - Performance
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: fw-2
+query: |
+  CommonSecurityLog
+  | where Computer contains "fw01" // replace with your firewall hostname
+  | where DeviceEventClassID contains "40704"
+  | extend CPU = toint(extract("average CPU: (\\d+)", 1, Message))
+  | extend Memory = toint(extract("memory:\\s+(\\d+)", 1, Message))
+  | project TimeGenerated, CPU, Memory
+  | render timechart

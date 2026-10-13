@@ -1,0 +1,22 @@
+id: bc3d73ff-7e96-5a89-8694-91c8222f0f04
+name: 'Single Message Timeline (Trace by NetworkMessageId)'
+description: |
+  Full forensic reconstruction of a single email — all associated events (headers, attachments, URLs, delivery outcome) in one query. Replace the placeholder ID.
+group: defender-for-office-365
+tactics: []
+relevantTechniques: []
+tags:
+  - Phishing
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mail-10
+query: |
+  let MsgId = "<NetworkMessageId_to_investigate>"; // replace with the NetworkMessageId
+  union
+  (EmailEvents | where NetworkMessageId == MsgId | extend EventType = "EmailEvent"),
+  (EmailAttachmentInfo | where NetworkMessageId == MsgId | extend EventType = "Attachment"),
+  (EmailUrlInfo | where NetworkMessageId == MsgId | extend EventType = "Url")
+  | project Timestamp, EventType, SenderFromAddress, RecipientEmailAddress, Subject, FileName, FileType, SHA256, Url, ThreatTypes, DeliveryAction, DeliveryLocation
+  | order by Timestamp asc

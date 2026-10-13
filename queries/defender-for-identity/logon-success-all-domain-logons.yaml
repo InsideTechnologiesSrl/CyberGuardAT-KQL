@@ -1,0 +1,21 @@
+id: 41ad9fef-710e-5b04-aafc-bcee4ddbe6d6
+name: 'Logon Success — All Domain Logons'
+description: |
+  Aggregates all successful identity logons in the domain, grouped by user, logon type, device, and DC. Useful as a baseline of normal logon activity to detect anomalies and unauthorized access.
+group: defender-for-identity
+tactics: []
+relevantTechniques: []
+tags:
+  - Authentication
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mdi-11
+query: |
+  IdentityLogonEvents
+  | where ActionType == "LogonSuccess"
+  | extend DomainName = substring(DestinationDeviceName, indexof(DestinationDeviceName, '.') + 1)
+  | where DomainName contains "insidetechnologies.lcl" // replace with your domain
+  | summarize NumberOfEntries = count() by TimeGenerated, LogonType, ActionType, AccountDisplayName, DomainName, AccountSid, IPAddress, DeviceName, DC = DestinationDeviceName
+  | sort by AccountDisplayName

@@ -1,0 +1,26 @@
+id: 5111fd67-37a8-55fe-966a-35f04e9f5f8e
+name: 'Disk Read/Write Throughput Over Time (Perf)'
+description: |
+  Tracks average disk read and write throughput in MB/sec for logical disks. Side-by-side view of both metrics helps identify I/O bottlenecks or unusual storage activity.
+group: windows-performance
+tactics: []
+relevantTechniques: []
+tags:
+  - Performance
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: perf-3
+query: |
+  Perf
+  | where (ObjectName == "LogicalDisk" and CounterName == "Disk Read Bytes/sec")
+      or (ObjectName == "LogicalDisk" and CounterName == "Disk Write Bytes/sec")
+  | extend Metric = case(
+      CounterName == "Disk Read Bytes/sec",  "Disk Read (MB/sec)",
+      CounterName == "Disk Write Bytes/sec", "Disk Write (MB/sec)",
+      "Other"
+  )
+  | extend CounterValue_MB = CounterValue / pow(1024, 2) // convert bytes to megabytes
+  | summarize AvgValue = avg(CounterValue_MB) by bin(TimeGenerated, 1m), Metric, Computer
+  | order by TimeGenerated asc

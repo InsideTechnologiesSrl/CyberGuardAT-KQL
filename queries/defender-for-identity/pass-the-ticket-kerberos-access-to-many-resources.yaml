@@ -1,0 +1,21 @@
+id: 33e7f330-c564-57ba-9dc8-7315b9f24a7b
+name: 'Pass-the-Ticket — Kerberos Access to Many Resources'
+description: |
+  An account accessing more than 10 distinct resources via Kerberos within 30 minutes is a strong indicator of lateral movement using reused or forged tickets (T1550.003 — Use Alternate Authentication Material: Pass the Ticket).
+group: defender-for-identity
+tactics:
+  - LateralMovement
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mdi-9
+query: |
+  IdentityLogonEvents
+  | where Protocol == "Kerberos"
+  | where ActionType == "LogonSuccess"
+  | summarize DistinctServices = dcount(DestinationDeviceName), ServiceList = make_set(DestinationDeviceName) by AccountDisplayName, bin(Timestamp, 30m)
+  | where DistinctServices > 10
+  | order by DistinctServices desc

@@ -1,0 +1,21 @@
+id: 16bf0d8d-0ed2-55a3-a9b4-31e3fa3ce96d
+name: 'Mass Email Deletion — possibile preparazione a ransomware'
+description: |
+  Identifies users deleting an unusually high number of emails in a short time. May indicate ransomware clearing mailboxes, deliberate sabotage, or a compromised account.
+group: exchange-online
+tactics:
+  - Impact
+relevantTechniques: []
+tags:
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: o365-2
+query: |
+  OfficeActivity
+  | where TimeGenerated > ago(1h)
+  | where Operation in ("HardDelete","SoftDelete","MoveToDeletedItems")
+  | summarize DeletedCount = count(), FolderList = make_set(Folder, 5), IPList = make_set(ClientIP, 3) by UserId, bin(TimeGenerated, 1h)
+  | where DeletedCount > 200
+  | order by DeletedCount desc

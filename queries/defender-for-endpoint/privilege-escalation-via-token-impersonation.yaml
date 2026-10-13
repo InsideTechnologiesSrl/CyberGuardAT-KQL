@@ -1,0 +1,21 @@
+id: b6613fb3-4002-59fb-bd2a-1ae9e9c63dae
+name: 'Privilege Escalation via Token Impersonation'
+description: |
+  Detects token impersonation events involving SeImpersonatePrivilege or SeDebugPrivilege — used to escalate to SYSTEM or other privileged contexts post-compromise (T1134 — Access Token Manipulation).
+group: defender-for-endpoint
+tactics:
+  - PrivilegeEscalation
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mde-15
+query: |
+  DeviceEvents
+  | where ActionType == "TokenImpersonation"
+  | where AdditionalFields has "SeImpersonatePrivilege"
+      or AdditionalFields has "SeDebugPrivilege"
+  | project Timestamp, DeviceName, AccountName, InitiatingProcessFileName, InitiatingProcessCommandLine, AdditionalFields
+  | order by Timestamp desc

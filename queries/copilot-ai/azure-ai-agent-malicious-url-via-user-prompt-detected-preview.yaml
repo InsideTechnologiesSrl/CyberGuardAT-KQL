@@ -1,0 +1,21 @@
+id: a3298ecb-0d05-58b6-807f-e193a4901203
+name: 'Azure AI Agent — Malicious URL via user prompt detected (preview)'
+description: |
+  Identifies Defender for Cloud AI agent alerts where a phishing or malicious URL was provided to an AI agent through a user prompt. High severity. The agent may follow the URL as part of tool use, enabling data exfiltration or redirection attacks. Preview signal. Review Entities for the user and resource involved and block the actor if confirmed malicious.
+group: copilot-ai
+tactics:
+  - Collection
+  - Exfiltration
+  - InitialAccess
+relevantTechniques: []
+tags: []
+version: 1.0.0
+added: 2026-06-15
+author: Silvio Di Benedetto
+legacyId: copilotai-13
+query: |
+  SecurityAlert
+  | where AlertType in ("AI.Azure_Agentic_MaliciousUrl.UserPrompt")
+         or AlertName in ("AI.Azure_Agentic_MaliciousUrl.UserPrompt")
+  | project TimeGenerated, AlertName, AlertType, Severity,
+            Description, Entities, ExtendedProperties

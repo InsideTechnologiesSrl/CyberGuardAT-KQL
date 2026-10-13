@@ -1,0 +1,24 @@
+id: 0adcfef9-00f8-5584-a7ec-dbf958b19769
+name: 'Privileged Role Assignment in Entra ID'
+description: |
+  Every assignment of a high-privilege Entra ID role should be correlated with a change management ticket — unplanned assignments are a common persistence technique (T1098.003).
+group: defender-for-cloud-apps
+tactics:
+  - Persistence
+  - PrivilegeEscalation
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: grp-9
+query: |
+  AuditLogs
+  | where OperationName == "Add member to role."
+  | extend AssignedBy = tostring(InitiatedBy.user.userPrincipalName)
+  | extend TargetUser = tostring(TargetResources[0].userPrincipalName)
+  | extend RoleName = tostring(TargetResources[0].displayName)
+  | where RoleName has_any ("Global Administrator", "Security Administrator", "Exchange Administrator", "SharePoint Administrator")
+  | project TimeGenerated, AssignedBy, TargetUser, RoleName
+  | order by TimeGenerated desc

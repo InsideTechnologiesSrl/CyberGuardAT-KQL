@@ -1,0 +1,22 @@
+id: f99e0eb6-bea5-5b7f-8886-21148ada8f7d
+name: 'Scheduled Tasks Created by Non-System Accounts'
+description: |
+  schtasks.exe or at.exe creating new tasks from non-system accounts — classic post-compromise persistence mechanism to ensure malware re-executes after reboot (T1053.005 — Scheduled Task).
+group: defender-for-endpoint
+tactics:
+  - Persistence
+  - Execution
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: proc-8
+query: |
+  DeviceProcessEvents
+  | where FileName in~ ("schtasks.exe", "at.exe")
+  | where ProcessCommandLine has "/create" or ProcessCommandLine has "-create"
+  | where AccountName !in~ ("SYSTEM", "LOCAL SERVICE", "NETWORK SERVICE")
+  | project Timestamp, DeviceName, AccountName, ProcessCommandLine, InitiatingProcessFileName
+  | order by Timestamp desc

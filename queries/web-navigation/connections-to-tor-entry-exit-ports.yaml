@@ -1,0 +1,22 @@
+id: 47ad0690-9323-5940-a77c-ab130f70157c
+name: 'Connections to Tor Entry/Exit Ports'
+description: |
+  Outbound connections on Tor standard ports (9050, 9051, 9150, 9001, 9030) — used to anonymize C2 traffic, bypass DLP, and make exfiltration untraceable (T1090.003 — Multi-hop Proxy).
+group: web-navigation
+tactics:
+  - CommandAndControl
+  - Exfiltration
+  - DefenseEvasion
+relevantTechniques: []
+tags: []
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: web-10
+query: |
+  DeviceNetworkEvents
+  | where ActionType == "ConnectionSuccess"
+  | where RemotePort in (9050, 9051, 9150, 9001, 9030)
+  | extend AccountName = InitiatingProcessAccountName
+  | project Timestamp, DeviceName, AccountName, RemoteIP, RemotePort, InitiatingProcessFileName
+  | order by Timestamp desc

@@ -1,0 +1,30 @@
+id: 6774698a-00a1-58bc-97b4-3c65f81bfea8
+name: 'LOLBIN — Living Off the Land Binaries sospetti'
+description: |
+  Detects the use of legitimate Windows binaries (certutil, mshta, wscript, regsvr32, rundll32) with arguments typical of remote download or execution, a classic technique to evade AV/EDR solutions.
+group: defender-for-endpoint
+tactics:
+  - DefenseEvasion
+  - Execution
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mde-2
+query: |
+  let lolbins = dynamic([
+      "certutil.exe","mshta.exe","wscript.exe","cscript.exe",
+      "regsvr32.exe","rundll32.exe","msiexec.exe","bitsadmin.exe"
+  ]);
+  let suspicious_args = dynamic([
+      "http","ftp","\\","urlcache","download",
+      "scrobj","javascript","vbscript"
+  ]);
+  DeviceProcessEvents
+  | where TimeGenerated > ago(1d)
+  | where FileName in~ (lolbins)
+  | where ProcessCommandLine has_any (suspicious_args)
+  | project TimeGenerated, DeviceName, AccountName,
+            FileName, ProcessCommandLine, InitiatingProcessFileName

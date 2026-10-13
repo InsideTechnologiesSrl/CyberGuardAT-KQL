@@ -1,0 +1,97 @@
+[
+  {
+    "key": "entra-id",
+    "name": "Microsoft Entra",
+    "color": "#4db8d9"
+  },
+  {
+    "key": "azure-activity",
+    "name": "Azure Activity",
+    "color": "#a371f7"
+  },
+  {
+    "key": "azure-application-gateway",
+    "name": "Azure Application Gateway / WAF",
+    "color": "#f77f00"
+  },
+  {
+    "key": "azure-network-security-groups",
+    "name": "Azure Network Security Groups",
+    "color": "#4895ef"
+  },
+  {
+    "key": "exchange-online",
+    "name": "Microsoft 365 Exchange Online",
+    "color": "#3fb950"
+  },
+  {
+    "key": "sharepoint-onedrive",
+    "name": "Microsoft 365 SharePoint / OneDrive",
+    "color": "#0ea5e9"
+  },
+  {
+    "key": "defender-for-endpoint",
+    "name": "Microsoft Defender for Endpoint",
+    "color": "#ffa657"
+  },
+  {
+    "key": "defender-for-office-365",
+    "name": "Microsoft Defender for Office 365",
+    "color": "#ec4899"
+  },
+  {
+    "key": "defender-for-identity",
+    "name": "Microsoft Defender for Identity",
+    "color": "#f97316"
+  },
+  {
+    "key": "defender-for-cloud-apps",
+    "name": "Microsoft Defender for Cloud Apps",
+    "color": "#7c3aed"
+  },
+  {
+    "key": "web-navigation",
+    "name": "Web Navigation",
+    "color": "#f43f5e"
+  },
+  {
+    "key": "active-directory",
+    "name": "Active Directory",
+    "color": "#8b5cf6"
+  },
+  {
+    "key": "network-dns",
+    "name": "Network / DNS",
+    "color": "#56d364"
+  },
+  {
+    "key": "file-server",
+    "name": "File Server",
+    "color": "#f4a261"
+  },
+  {
+    "key": "windows-security-events",
+    "name": "Windows Security Events",
+    "color": "#fec010"
+  },
+  {
+    "key": "windows-performance",
+    "name": "Windows Performance",
+    "color": "#43aa8b"
+  },
+  {
+    "key": "fortinet-fortigate",
+    "name": "Fortinet FortiGate",
+    "color": "#ef233c"
+  },
+  {
+    "key": "veeam",
+    "name": "Veeam Data Platform",
+    "color": "#00b4d8"
+  },
+  {
+    "key": "copilot-ai",
+    "name": "AI / Copilot 365",
+    "color": "#818cf8"
+  }
+]

@@ -1,0 +1,25 @@
+id: a43439b5-afd0-52ba-857d-6253d13090fe
+name: 'Executable or Macro-Enabled Attachments Delivered'
+description: |
+  Surfaces emails with potentially dangerous attachments (exe, dll, ps1, docm, xlsm, etc.) that were successfully delivered to user inboxes, requiring manual triage to identify missed detections.
+group: defender-for-office-365
+tactics:
+  - InitialAccess
+relevantTechniques: []
+tags:
+  - Phishing
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: mdo-2
+query: |
+  EmailAttachmentInfo
+  | where Timestamp > ago(24h)
+  | where FileType in~ ("exe", "dll", "bat", "vbs", "js", "ps1", "docm", "xlsm", "xlam", "pptm")
+  | join kind=inner (
+      EmailEvents
+      | where DeliveryAction == "Delivered"
+  ) on NetworkMessageId
+  | project Timestamp, SenderFromAddress, RecipientEmailAddress, Subject, FileName, FileType, SHA256
+  | order by Timestamp desc

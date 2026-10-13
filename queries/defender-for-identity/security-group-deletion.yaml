@@ -1,0 +1,19 @@
+id: 949aa009-0347-5a54-b458-c1654e324fd9
+name: 'Security Group Deletion'
+description: |
+  Deletion of security groups can remove access policies or protections — a high-impact action that should require formal change approval (T1531 — Account Access Removal).
+group: defender-for-identity
+tactics:
+  - Impact
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: grp-4
+query: |
+  IdentityDirectoryEvents
+  | where ActionType == "Group deleted"
+  | project Timestamp, AccountDisplayName, TargetAccountDisplayName, AdditionalFields
+  | order by Timestamp desc

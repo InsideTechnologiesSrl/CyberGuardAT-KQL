@@ -1,0 +1,23 @@
+id: 699bc9cb-f28a-5b27-aedb-c75ceda5f507
+name: 'Paste Sites Accessed by Non-Browser Processes'
+description: |
+  Access to Pastebin, GitHub Gist, or similar paste sites from non-browser processes (PowerShell, cmd) — technique to download C2 configs or payloads from trusted-looking services (T1102 — Web Service).
+group: web-navigation
+tactics:
+  - CommandAndControl
+  - Execution
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: web-6
+query: |
+  DeviceNetworkEvents
+  | where ActionType == "ConnectionSuccess"
+  | where RemoteUrl has_any ("pastebin.com", "gist.github.com", "paste.ee", "hastebin.com", "dpaste.com")
+  | where InitiatingProcessFileName !in~ ("chrome.exe", "msedge.exe", "firefox.exe", "iexplore.exe")
+  | extend AccountName = InitiatingProcessAccountName
+  | project Timestamp, DeviceName, AccountName, RemoteUrl, InitiatingProcessFileName, RemoteIP
+  | order by Timestamp desc

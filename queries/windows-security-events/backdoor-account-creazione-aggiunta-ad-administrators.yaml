@@ -1,0 +1,31 @@
+id: 8aaa8793-df6c-55cf-9093-3765e1dbc25a
+name: 'Backdoor Account — creazione + aggiunta ad Administrators'
+description: |
+  Correlates Event 4720 (account created) and Event 4732 (added to Administrators group) on the same computer within a 5-minute window. Classic persistence technique for creating an elevated backdoor account.
+group: windows-security-events
+tactics:
+  - Persistence
+  - PrivilegeEscalation
+relevantTechniques: []
+tags:
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: win-2
+query: |
+  let created = SecurityEvent
+      | where TimeGenerated > ago(1d)
+      | where EventID == 4720
+      | project CreatedAt = TimeGenerated, NewAccount = TargetAccount,
+                Computer, SubjectAccount;
+  let added = SecurityEvent
+      | where TimeGenerated > ago(1d)
+      | where EventID == 4732
+      | where TargetUserName == "Administrators"
+      | project AddedAt = TimeGenerated, AddedAccount = MemberName, Computer;
+  created
+  | join kind=inner added on Computer
+  | where AddedAccount has NewAccount
+  | where AddedAt between (CreatedAt .. (CreatedAt + 5m))
+  | project CreatedAt, Computer, NewAccount, SubjectAccount, AddedAt

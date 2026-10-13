@@ -1,0 +1,25 @@
+id: eaccaabd-b23d-5779-9b58-2c0c4c7cfa29
+name: 'Cross-User File Access (Privilege Abuse)'
+description: |
+  A user reading files under another user's profile directory — may indicate elevated privilege abuse or a compromised admin account browsing sensitive data (T1083 — File and Directory Discovery).
+group: defender-for-endpoint
+tactics:
+  - Discovery
+  - PrivilegeEscalation
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: file-9
+query: |
+  DeviceFileEvents
+  | where ActionType == "FileRead"
+  | where FolderPath has @"C:\Users\"
+  | extend PathOwner = tostring(split(FolderPath, @"\")[2])
+  | extend AccountName = InitiatingProcessAccountName
+  | where PathOwner != AccountName
+  | where PathOwner !in~ ("Public", "Default", "All Users")
+  | project Timestamp, DeviceName, AccountName, PathOwner, FileName, FolderPath, InitiatingProcessFileName
+  | order by Timestamp desc

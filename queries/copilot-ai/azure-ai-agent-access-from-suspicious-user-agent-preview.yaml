@@ -1,0 +1,21 @@
+id: 2ab028e7-d823-5f5c-9608-c89ba1f89bb3
+name: 'Azure AI Agent — Access from suspicious user agent (preview)'
+description: |
+  Surfaces Defender for Cloud AI agent alerts where the HTTP user-agent string is suspicious — for example, automated tooling, scrapers, or known attack frameworks. High severity. Preview signal. Suspicious user agents accessing AI agents may indicate automated abuse, credential stuffing, or reconnaissance. Review ExtendedProperties for the raw user-agent string.
+group: copilot-ai
+tactics:
+  - Execution
+  - DefenseEvasion
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2026-06-15
+author: Silvio Di Benedetto
+legacyId: copilotai-16
+query: |
+  SecurityAlert
+  | where AlertType in ("AI.Azure_Agentic_AccessFromSuspiciousUserAgent")
+         or AlertName in ("AI.Azure_Agentic_AccessFromSuspiciousUserAgent")
+  | project TimeGenerated, AlertName, AlertType, Severity,
+            Description, Entities, ExtendedProperties

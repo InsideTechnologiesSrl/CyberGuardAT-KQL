@@ -1,0 +1,28 @@
+id: 6bd77390-d950-5058-a0a5-6c542c661329
+name: 'First-Time Device Logon for an Account'
+description: |
+  Identifies users logging into a device they have never used in the past 30 days — potential lateral movement or use of stolen credentials on an unfamiliar host.
+group: active-directory
+tactics:
+  - LateralMovement
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: login-2
+query: |
+  let BaselineEnd = ago(1d);
+  let BaselineDevices =
+      DeviceLogonEvents
+      | where Timestamp between (ago(30d) .. BaselineEnd)
+      | where ActionType == "LogonSuccess"
+      | distinct AccountName, KnownDevice = DeviceName;
+  DeviceLogonEvents
+  | where Timestamp > BaselineEnd
+  | where ActionType == "LogonSuccess"
+  | join kind=leftouter BaselineDevices on $left.AccountName == $right.AccountName and $left.DeviceName == $right.KnownDevice
+  | where isempty(KnownDevice)
+  | project Timestamp, AccountName, DeviceName, LogonType, RemoteIP
+  | order by Timestamp desc

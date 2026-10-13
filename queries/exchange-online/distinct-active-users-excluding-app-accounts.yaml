@@ -1,0 +1,17 @@
+id: 8c9b5ccd-6d35-51ca-bf89-21b263a7ba6e
+name: 'Distinct Active Users (Excluding App Accounts)'
+description: |
+  Lists distinct user accounts that have generated OfficeActivity events, excluding service/app accounts.
+group: exchange-online
+tactics: []
+relevantTechniques: []
+tags:
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: o365-11
+query: |
+  OfficeActivity
+  | where UserId !contains "app@sharepoint"
+  | distinct UserId

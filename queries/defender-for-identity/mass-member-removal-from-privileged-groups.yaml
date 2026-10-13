@@ -1,0 +1,21 @@
+id: bbac594e-19cb-5fc2-b0ba-e0b36e02ffef
+name: 'Mass Member Removal from Privileged Groups'
+description: |
+  Bulk removal of administrators from critical groups — sabotage tactic or preparation for an attack that reduces the number of active defenders (T1531 — Account Access Removal).
+group: defender-for-identity
+tactics:
+  - Impact
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: grp-5
+query: |
+  IdentityDirectoryEvents
+  | where ActionType == "Group Membership changed"
+  | where AdditionalFields has "removed"
+  | where AdditionalFields has_any ("Domain Admins", "Global Administrators", "IT Security")
+  | project Timestamp, AccountDisplayName, TargetAccountDisplayName, AdditionalFields
+  | order by Timestamp desc

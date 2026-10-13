@@ -1,0 +1,24 @@
+id: ca3bd697-1c80-5158-a014-5282ae6ace6d
+name: 'Anomalous Parent-Child Process Chain (Process Injection)'
+description: |
+  Critical system processes (svchost, lsass, winlogon) spawning unexpected children — indicator of process injection or process hollowing where attacker code runs inside a trusted host (T1055 — Process Injection).
+group: defender-for-endpoint
+tactics:
+  - DefenseEvasion
+  - PrivilegeEscalation
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: proc-2
+query: |
+  DeviceProcessEvents
+  | where InitiatingProcessFileName in~ ("svchost.exe", "lsass.exe", "winlogon.exe", "csrss.exe", "smss.exe")
+  | where FileName !in~ (
+      "conhost.exe", "WerFault.exe", "wermgr.exe",
+      "WmiPrvSE.exe", "taskhost.exe", "taskhostw.exe"
+  )
+  | project Timestamp, DeviceName, AccountName, InitiatingProcessFileName, FileName, ProcessCommandLine
+  | order by Timestamp desc

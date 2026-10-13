@@ -1,0 +1,22 @@
+id: 59db3b91-fd01-547d-a2fe-c8c36474ffdb
+name: 'Mass File Deletion from SharePoint/OneDrive'
+description: |
+  More than 50 files deleted from cloud storage in one hour — deliberate sabotage or ransomware also targeting OneDrive-synced files (T1485 — Data Destruction).
+group: sharepoint-onedrive
+tactics:
+  - Impact
+relevantTechniques: []
+tags:
+  - Ransomware
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: spo-3
+query: |
+  CloudAppEvents
+  | where Application in ("Microsoft SharePoint Online", "Microsoft OneDrive")
+  | where ActionType == "FileDeleted"
+  | summarize DeletedCount = count(), Files = make_set(ObjectName, 10) by AccountDisplayName, bin(Timestamp, 1h)
+  | where DeletedCount > 50
+  | order by DeletedCount desc

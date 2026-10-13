@@ -1,0 +1,31 @@
+id: 166e73d0-bed6-5d7c-adee-e81f7307a05e
+name: 'Pass-the-Hash — Logon NTLM anomali verso workstation'
+description: |
+  Identifies network logons using NTLM authentication (Logon Type 3) to workstations: in a properly configured Kerberos environment these should not occur between clients. Indicator of pass-the-hash or weak credentials.
+group: windows-security-events
+tactics:
+  - LateralMovement
+  - CredentialAccess
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: win-3
+query: |
+  SecurityEvent
+  | where TimeGenerated > ago(1d)
+  | where EventID == 4624
+  | where LogonType == 3
+  | where AuthenticationPackageName == "NTLM"
+  | where TargetUserName !endswith "$"
+  | where WorkstationName !in ("", "-")
+  | where not(IpAddress in ("127.0.0.1","::1"))
+  | summarize
+      NTLMLogins = count(),
+      Sources    = make_set(IpAddress, 10),
+      Targets    = make_set(Computer, 10)
+    by TargetUserName, bin(TimeGenerated, 1h)
+  | where NTLMLogins > 5
+  | order by NTLMLogins desc

@@ -1,0 +1,22 @@
+id: a863e34c-a903-581a-b314-e0887af32414
+name: 'Resource Group Deletion — cancellazioni massicce'
+description: |
+  Detects successfully completed resource group deletion operations. Deleting entire RGs may indicate destructive post-compromise activity or serious operational errors.
+group: azure-activity
+tactics:
+  - Impact
+relevantTechniques: []
+tags:
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: az-3
+query: |
+  AzureActivity
+  | where TimeGenerated > ago(30d)
+  | where OperationNameValue == "MICROSOFT.RESOURCES/SUBSCRIPTIONS/RESOURCEGROUPS/DELETE"
+  | where ActivityStatusValue == "Succeeded"
+  | project TimeGenerated, Caller, CallerIpAddress,
+            ResourceGroup, SubscriptionId
+  | order by TimeGenerated desc

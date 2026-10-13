@@ -1,0 +1,21 @@
+id: 0c524b44-9996-53b7-af46-8b25235f8335
+name: 'SharePoint File Uploads by Filename (14 days)'
+description: |
+  Ranks most frequently uploaded filenames on SharePoint over 14 days, sorted by volume. Identifies specific files or file patterns being repeatedly uploaded.
+group: sharepoint-onedrive
+tactics:
+  - Exfiltration
+relevantTechniques: []
+tags:
+  - Investigation
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: spo-14
+query: |
+  OfficeActivity
+  | where EventSource == "SharePoint"
+      and Operation == "FileUploaded"
+      and TimeGenerated > ago(14d)
+  | summarize AggregatedValue = count() by SourceFileName
+  | sort by AggregatedValue desc

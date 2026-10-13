@@ -1,0 +1,20 @@
+id: 9d4d5f4e-1357-5f11-a323-fa3a82ad7e31
+name: 'Processes Launched from Temp or User Folders'
+description: |
+  Executables launched from Temp, AppData, or public user folders — staging pattern used by malware that avoids monitored system directories during initial execution (T1204.002 — Malicious File).
+group: defender-for-endpoint
+tactics:
+  - Execution
+relevantTechniques: []
+tags:
+  - Hunting
+version: 1.0.0
+added: 2025-01-01
+author: Silvio Di Benedetto
+legacyId: proc-1
+query: |
+  DeviceProcessEvents
+  | where FolderPath has_any (@"C:\Temp\", @"C:\Windows\Temp\", @"C:\Users\Public\", @"\AppData\Local\Temp\")
+  | where FileName endswith ".exe"
+  | project Timestamp, DeviceName, AccountName, FileName, FolderPath, ProcessCommandLine, InitiatingProcessFileName
+  | order by Timestamp desc
