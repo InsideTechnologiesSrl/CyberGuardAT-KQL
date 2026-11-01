@@ -1,5 +1,5 @@
 {
- "version": "19.2",
+ "version": "20.0",
  "tactics": [
   {
    "id": "TA0043",
@@ -4085,6 +4085,12 @@
     "ResourceDevelopment"
    ]
   },
+  "T1608.007": {
+   "name": "AI Result Poisoning",
+   "tactics": [
+    "ResourceDevelopment"
+   ]
+  },
   "T1609": {
    "name": "Container Administration Command",
    "tactics": [
@@ -4387,6 +4393,12 @@
     "DefenseImpairment"
    ]
   },
+  "T1685.007": {
+   "name": "Impair Autonomous Defenses",
+   "tactics": [
+    "DefenseImpairment"
+   ]
+  },
   "T1686": {
    "name": "Disable or Modify System Firewall",
    "tactics": [
@@ -4433,6 +4445,48 @@
    "name": "Prevent Command History Logging",
    "tactics": [
     "DefenseImpairment"
+   ]
+  },
+  "T1696": {
+   "name": "Anti-Automation Evasion",
+   "tactics": [
+    "Stealth"
+   ]
+  },
+  "T1696.001": {
+   "name": "Automate CAPTCHA Completion",
+   "tactics": [
+    "Stealth"
+   ]
+  },
+  "T1696.002": {
+   "name": "Avoid CAPTCHA",
+   "tactics": [
+    "Stealth"
+   ]
+  },
+  "T1697": {
+   "name": "Steal Application Specific Passwords",
+   "tactics": [
+    "CredentialAccess"
+   ]
+  },
+  "T1698": {
+   "name": "Indirect Prompt Injection",
+   "tactics": [
+    "Execution"
+   ]
+  },
+  "T1699": {
+   "name": "Direct Prompt Injection",
+   "tactics": [
+    "Execution"
+   ]
+  },
+  "T1700": {
+   "name": "AI-Enabled Exfiltration",
+   "tactics": [
+    "Exfiltration"
    ]
   }
  }
