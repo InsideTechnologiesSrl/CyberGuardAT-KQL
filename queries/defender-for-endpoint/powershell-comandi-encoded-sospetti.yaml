@@ -1,5 +1,5 @@
 id: 419d1be7-8825-5fe3-9e8c-800371f3e862
-name: 'PowerShell — Comandi encoded sospetti'
+name: 'PowerShell — Suspicious encoded commands'
 description: |
   Detects PowerShell executions using the -EncodedCommand flag or equivalent abbreviations, commonly used to obfuscate malicious payloads and bypass keyword-based detection rules.
 group: defender-for-endpoint

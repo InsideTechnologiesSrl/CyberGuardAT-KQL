@@ -1,5 +1,5 @@
 id: cf428b77-2489-599f-9b4b-127dfc8becdd
-name: 'Mail Forwarding Rule verso dominio esterno'
+name: 'Mail forwarding rule to an external domain'
 description: |
   Detects the creation of email forwarding rules pointing to addresses outside the organization — a very common exfiltration technique.
 group: exchange-online

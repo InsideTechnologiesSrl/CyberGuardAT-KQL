@@ -1,5 +1,5 @@
 id: 8aaa8793-df6c-55cf-9093-3765e1dbc25a
-name: 'Backdoor Account — creazione + aggiunta ad Administrators'
+name: 'Backdoor account — Created and added to Administrators'
 description: |
   Correlates Event 4720 (account created) and Event 4732 (added to Administrators group) on the same computer within a 5-minute window. Classic persistence technique for creating an elevated backdoor account.
 group: windows-security-events

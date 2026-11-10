@@ -1,5 +1,5 @@
 id: c885c2f6-0397-5ce5-95a5-807b60cf586e
-name: 'Scheduled Task sospetto creato da processo insolito'
+name: 'Suspicious scheduled task created by an unusual process'
 description: |
   Finds scheduled tasks created by processes not typically responsible for this operation (PowerShell, cmd, wscript). Common persistence technique on compromised endpoints.
 group: defender-for-endpoint

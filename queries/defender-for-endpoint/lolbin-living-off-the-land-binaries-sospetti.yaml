@@ -1,5 +1,5 @@
 id: 6774698a-00a1-58bc-97b4-3c65f81bfea8
-name: 'LOLBIN — Living Off the Land Binaries sospetti'
+name: 'LOLBIN — Suspicious Living Off the Land Binaries'
 description: |
   Detects the use of legitimate Windows binaries (certutil, mshta, wscript, regsvr32, rundll32) with arguments typical of remote download or execution, a classic technique to evade AV/EDR solutions.
 group: defender-for-endpoint

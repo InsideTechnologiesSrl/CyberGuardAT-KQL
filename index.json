@@ -392,7 +392,7 @@
     },
     {
       "id": "acd70806-db69-518d-9a20-842acf99d8c3",
-      "name": "Nuovo ruolo Owner/Contributor assegnato",
+      "name": "New Owner/Contributor role assigned",
       "description": "Detects the assignment of Owner or Contributor roles at the subscription or resource group level. This type of privilege escalation is a critical signal of a compromised account or misconfigured IAM.",
       "group": "azure-activity",
       "tactics": [
@@ -1735,7 +1735,7 @@
     },
     {
       "id": "6774698a-00a1-58bc-97b4-3c65f81bfea8",
-      "name": "LOLBIN — Living Off the Land Binaries sospetti",
+      "name": "LOLBIN — Suspicious Living Off the Land Binaries",
       "description": "Detects the use of legitimate Windows binaries (certutil, mshta, wscript, regsvr32, rundll32) with arguments typical of remote download or execution, a classic technique to evade AV/EDR solutions.",
       "group": "defender-for-endpoint",
       "tactics": [
@@ -1946,7 +1946,7 @@
     },
     {
       "id": "419d1be7-8825-5fe3-9e8c-800371f3e862",
-      "name": "PowerShell — Comandi encoded sospetti",
+      "name": "PowerShell — Suspicious encoded commands",
       "description": "Detects PowerShell executions using the -EncodedCommand flag or equivalent abbreviations, commonly used to obfuscate malicious payloads and bypass keyword-based detection rules.",
       "group": "defender-for-endpoint",
       "tactics": [
@@ -2132,7 +2132,7 @@
     },
     {
       "id": "c885c2f6-0397-5ce5-95a5-807b60cf586e",
-      "name": "Scheduled Task sospetto creato da processo insolito",
+      "name": "Suspicious scheduled task created by an unusual process",
       "description": "Finds scheduled tasks created by processes not typically responsible for this operation (PowerShell, cmd, wscript). Common persistence technique on compromised endpoints.",
       "group": "defender-for-endpoint",
       "tactics": [
@@ -3466,7 +3466,7 @@
     },
     {
       "id": "e46a9487-07d7-5ecd-86b2-1d32b0aa3088",
-      "name": "Credenziale aggiunta a Service Principal",
+      "name": "Credential added to a service principal",
       "description": "Monitors the addition of new credentials (passwords or certificates) to Service Principals and App Registrations. Common persistence technique: the attacker adds their own key to maintain access even after password rotation.",
       "group": "entra-id",
       "tactics": [
@@ -3492,7 +3492,7 @@
     },
     {
       "id": "ff76cd84-6b90-5534-9fd8-53d8a6dd11f5",
-      "name": "MFA Fatigue — Push MFA rifiutate ripetutamente",
+      "name": "MFA Fatigue — Repeatedly denied MFA pushes",
       "description": "Identifies users who have received more than 5 denied MFA push notifications within 1 hour. Used in MFA fatigue/push bombing attacks: the attacker floods the user with requests to wear them down until they accept.",
       "group": "entra-id",
       "tactics": [
@@ -3684,7 +3684,7 @@
     },
     {
       "id": "cf428b77-2489-599f-9b4b-127dfc8becdd",
-      "name": "Mail Forwarding Rule verso dominio esterno",
+      "name": "Mail forwarding rule to an external domain",
       "description": "Detects the creation of email forwarding rules pointing to addresses outside the organization — a very common exfiltration technique.",
       "group": "exchange-online",
       "tactics": [
@@ -3964,7 +3964,7 @@
     },
     {
       "id": "5f1a11de-9452-502a-9ba0-123d46730864",
-      "name": "Beaconing — connessioni periodiche verso stesso IP esterno",
+      "name": "Beaconing — Periodic connections to the same external IP",
       "description": "Detects hosts making very frequent connections to the same external IP over a 24-hour period. Typical pattern of C2 malware with a fixed beacon interval: high connection frequency to a single destination.",
       "group": "network-dns",
       "tactics": [
@@ -4728,7 +4728,7 @@
     },
     {
       "id": "8aaa8793-df6c-55cf-9093-3765e1dbc25a",
-      "name": "Backdoor Account — creazione + aggiunta ad Administrators",
+      "name": "Backdoor account — Created and added to Administrators",
       "description": "Correlates Event 4720 (account created) and Event 4732 (added to Administrators group) on the same computer within a 5-minute window. Classic persistence technique for creating an elevated backdoor account.",
       "group": "windows-security-events",
       "tactics": [
@@ -4780,7 +4780,7 @@
     },
     {
       "id": "166e73d0-bed6-5d7c-adee-e81f7307a05e",
-      "name": "Pass-the-Hash — Logon NTLM anomali verso workstation",
+      "name": "Pass-the-Hash — Anomalous NTLM logons to workstations",
       "description": "Identifies network logons using NTLM authentication (Logon Type 3) to workstations: in a properly configured Kerberos environment these should not occur between clients. Indicator of pass-the-hash or weak credentials.",
       "group": "windows-security-events",
       "tactics": [

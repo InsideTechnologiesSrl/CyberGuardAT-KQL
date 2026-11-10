@@ -1,5 +1,5 @@
 id: e46a9487-07d7-5ecd-86b2-1d32b0aa3088
-name: 'Credenziale aggiunta a Service Principal'
+name: 'Credential added to a service principal'
 description: |
   Monitors the addition of new credentials (passwords or certificates) to Service Principals and App Registrations. Common persistence technique: the attacker adds their own key to maintain access even after password rotation.
 group: entra-id

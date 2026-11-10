@@ -1,5 +1,5 @@
 id: ff76cd84-6b90-5534-9fd8-53d8a6dd11f5
-name: 'MFA Fatigue — Push MFA rifiutate ripetutamente'
+name: 'MFA Fatigue — Repeatedly denied MFA pushes'
 description: |
   Identifies users who have received more than 5 denied MFA push notifications within 1 hour. Used in MFA fatigue/push bombing attacks: the attacker floods the user with requests to wear them down until they accept.
 group: entra-id

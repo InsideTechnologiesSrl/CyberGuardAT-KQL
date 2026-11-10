@@ -1,5 +1,5 @@
 id: 166e73d0-bed6-5d7c-adee-e81f7307a05e
-name: 'Pass-the-Hash — Logon NTLM anomali verso workstation'
+name: 'Pass-the-Hash — Anomalous NTLM logons to workstations'
 description: |
   Identifies network logons using NTLM authentication (Logon Type 3) to workstations: in a properly configured Kerberos environment these should not occur between clients. Indicator of pass-the-hash or weak credentials.
 group: windows-security-events
